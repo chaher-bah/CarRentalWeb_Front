@@ -103,5 +103,20 @@
     box-shadow: 0 10px 15px 0 rgba(255, 83, 48, 0.6);
     background-color: #fa4226;
   }
-    
+
+  @media (max-width: 950px) {
+    .contact-div {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  }
+  
+  
+  @media (max-width: 950px) {
+    .contact-div__text {
+      margin: 0 auto;
+      margin-bottom: 1rem;
+    }
+  }
+      
   

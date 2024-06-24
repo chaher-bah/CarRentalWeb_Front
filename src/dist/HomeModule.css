@@ -82,6 +82,9 @@
   .mobile-navbar__buttons > a{
     text-decoration: none;
   }
+  .navbar__img img{
+    width: 9rem;
+  }
 }
   
   .navbar__buttons__sign-in {
@@ -113,7 +116,7 @@
   }
   
   .mobile-menu {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     display: none;
     cursor: pointer;
     transition: all 0.3s;
@@ -138,7 +141,7 @@
     top: 0;
     left: -100%;
     background-color: #FFFBE9;
-    z-index: 199;
+    z-index: 9999999;
     justify-content: center;
     align-items: center;
     transition: all 0.5s ease-in-out;
@@ -229,18 +232,19 @@
     .home-content__text {
       text-align: center;
       align-items: center;
+      margin-top: 11rem;
     }
   }
   
   .home-content__text h4 {
     font-size: 2.2rem;
-    font-family: "Rubik", sans-serif;
+    font-family: "Roboto", sans-serif;
     color: #010103;
   }
   
   .home-content__text h1 {
     font-size: 5.2rem;
-    font-family: "Poppins", sans-serif;
+    font-family: "Ubuntu", sans-serif;
     font-weight: 700;
     color: #010103;
     line-height: 1.2;
@@ -254,7 +258,7 @@
   
   .home-content__text p {
     font-size: 1.6rem;
-    font-family: "Rubik", sans-serif;
+    font-family: "Roboto", sans-serif;
     line-height: 1.6;
     color: #706f7b;
     margin-bottom: 4rem;
@@ -264,12 +268,14 @@
     display: flex;
     gap: 2rem;
     font-size: 1.6rem;
-    font-family: "Rubik", sans-serif;
+    font-family: "Roboto", sans-serif;
   }
   
   @media (max-width: 450px) {
     .home-content__text__btns {
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
   }
   
@@ -293,6 +299,7 @@
   @media (max-width: 450px) {
     .home-content__text__btns__reservation {
       padding: 1.8rem 8rem;
+      font-size: 2rem;
     }
   }
   

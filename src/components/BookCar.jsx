@@ -21,48 +21,48 @@ function BookCar() {
   const [dropTime, setDropTime] = useState("");
   const [carImg, setCarImg] = useState("");
 
-  // modal infos
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [age, setAge] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [Cin, setCin] = useState("");
+  // // modal infos
+  // const [name, setName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [age, setAge] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [city, setCity] = useState("");
+  // const [Cin, setCin] = useState("");
 
-  // taking value of modal inputs
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
+  // // taking value of modal inputs
+  // const handleName = (e) => {
+  //   setName(e.target.value);
+  // };
 
-  const handleLastName = (e) => {
-    setLastName(e.target.value);
-  };
+  // const handleLastName = (e) => {
+  //   setLastName(e.target.value);
+  // };
 
-  const handlePhone = (e) => {
-    setPhone(e.target.value);
-  };
+  // const handlePhone = (e) => {
+  //   setPhone(e.target.value);
+  // };
 
-  const handleAge = (e) => {
-    setAge(e.target.value);
-  };
+  // const handleAge = (e) => {
+  //   setAge(e.target.value);
+  // };
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
+  // const handleEmail = (e) => {
+  //   setEmail(e.target.value);
+  // };
 
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
-  };
+  // const handleAddress = (e) => {
+  //   setAddress(e.target.value);
+  // };
 
-  const handleCity = (e) => {
-    setCity(e.target.value);
-  };
+  // const handleCity = (e) => {
+  //   setCity(e.target.value);
+  // };
 
-  const handleCin = (e) => {
-    setCin(e.target.value);
-  };
+  // const handleCin = (e) => {
+  //   setCin(e.target.value);
+  // };
 
   // open modal when all inputs are fulfilled
   const openModal = (e) => {
@@ -426,11 +426,11 @@ function BookCar() {
             </div>
           </form>
         </div> */}
-        <div className="navbar__buttons">
-            <Link className="navbar__buttons__sign-in" to="/">
+        <div className="activemodal__buttons">
+            <Link className="activemodal__buttons__sign-in" to="/"target="/">
               Sign In
             </Link>
-            <Link className="navbar__buttons__register" to="/">
+            <Link className="activemodal__buttons__register" to="/">
               Register
             </Link>
           </div>

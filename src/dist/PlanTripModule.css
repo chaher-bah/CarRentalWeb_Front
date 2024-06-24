@@ -60,3 +60,21 @@
     padding: 1rem 1rem;
   }
       
+@media (max-width: 1021px) {
+  .plan-container__boxes {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 2rem;
+  }
+}
+@media (max-width: 800px) {
+  .plan-container__boxes {
+    grid-template-columns: 1fr;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .plan-container__boxes__box {
+    padding: 1rem 1rem;
+  }
+}

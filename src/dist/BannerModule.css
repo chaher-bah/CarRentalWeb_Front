@@ -40,3 +40,13 @@
     font-weight: 500;
   }
   
+  
+@media (max-width: 550px) {
+  .banner-content__text h2 {
+    font-size: 4rem;
+  }
+  .banner-content__text p {
+    font-size: 2rem;
+  }
+}
+

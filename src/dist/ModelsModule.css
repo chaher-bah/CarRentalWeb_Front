@@ -112,4 +112,57 @@
     color: white;
     font-weight: 700;
   }
+
+  @media (max-width: 1050px) {
+    .pick-container__car-content {
+      flex-direction: column;
+      gap: 3rem;
+    }
+  }
+  @media (max-width: 700px) {
+    .pick-car {
+      width: 90%;
+    }
+  }
+  @media (max-width: 1200px) {
+    .box-cars {
+      gap: 2rem;
+    }
+  }
+  
+  @media (max-width: 700px) {
+    .box-cars {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+  }
+
     
+@media (max-width: 1150px) {
+  .models-div {
+    grid-template-columns: 1fr 1fr;
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+}
+
+@media (max-width: 800px) {
+  .models-div {
+    grid-template-columns: 1fr;
+    width: -moz-fit-content;
+    width:max-content;
+  }
+}
+
+@media (max-width: 400px) {
+  .models-div__box {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+}
+
+  
+  
+        

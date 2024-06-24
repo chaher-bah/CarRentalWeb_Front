@@ -42,4 +42,22 @@
     color: #ff4d30;
     white-space: nowrap;
   }
+  @media (max-width: 750px) {
+    .book-banner {
+      padding: 1.5rem ;
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .book-banner__overlay{
+      height: fit-content;
+    }
+    .text-content{
+      align-items: center;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+  
       
