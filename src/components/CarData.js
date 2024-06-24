@@ -51,7 +51,7 @@ export const CAR_DATA = [
   ],
   [
     {
-      name: "BMW 320 ModernLine",
+      name: "BMW 320 ",
       price: "35",
       img: [Bmw320],
       model: "320",
@@ -65,14 +65,14 @@ export const CAR_DATA = [
   ],
   [
     {
-      name: "Mercedes-Benz GLK",
-      price: "50",
+      name: "Mercedes GLK",
+      price: "32",
       img: [Benz],
       model: "Benz GLK",
       mark: "Mercedes",
       year: "2006",
       doors: "4/5",
-      air: "Yes",
+      air: "No",
       transmission: "Manual",
       fuel: "Diesel",
     },

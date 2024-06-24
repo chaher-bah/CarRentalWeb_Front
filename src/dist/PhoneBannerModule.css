@@ -1,0 +1,45 @@
+.book-banner {
+    display: flex;
+    width: 100%;
+    height: 20rem;
+    background-image: url("/src/images/banners/book-banner.png");
+    position: relative;
+    margin-bottom: 7rem;
+  }
+  .book-banner__overlay {
+    background-color: #2d2d2d;
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  
+  .text-content {
+    color: white;
+    font-family: "Ubuntu",sans-serif;
+    font-weight: 900;
+    z-index: 5;
+    position: relative;
+    width: 100%;
+    height: 19rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 25rem;
+  }
+
+  .text-content h2 {
+    font-size:4rem;
+  }
+  
+  .text-content span {
+    display: flex;
+    font-size: 3rem;
+    gap: 1.5rem;
+    align-items: center;
+    color: #ff4d30;
+    white-space: nowrap;
+  }
+      

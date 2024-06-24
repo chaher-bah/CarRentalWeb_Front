@@ -1,39 +1,39 @@
-import { IconMail, IconMailOpened, IconPhone } from "@tabler/icons-react";
+import { IconMail, IconMailOpened, IconPhone,IconLocation } from "@tabler/icons-react";
 import Footer from "../components/Footer";
-import HeroPages from "../components/HeroPages";
-import { IconLocation } from "@tabler/icons-react";
-
+import Banner from "../components/Banner";
+import PhonBanner from "../components/PhoneBanner"
+import TemplatePage from "../components/TemplatePage";
+import "../dist/ContactModule.css"
 function Contact() {
   return (
     <>
       <section className="contact-page">
-        <HeroPages name="Contact" />
+        <TemplatePage name="Contact" />
+        <PhonBanner />
         <div className="container">
           <div className="contact-div">
             <div className="contact-div__text">
-              <h2>Need additional information?</h2>
+              <h2>Plus d'information?</h2>
               <p>
-                A multifaceted professional skilled in multiple fields of
-                research, development as well as a learning specialist. Over 15
-                years of experience.
+              Nous Fournissons à Nos Clients Un Service Simple, Efficace Et Rapide Pour La Location De Voiture .
               </p>
-              <a href="/">
-                <IconPhone /> &nbsp; (123) 456-7869
-              </a>
-              <a href="/">
-                <IconMail /> &nbsp; carrental@carmail.com
-              </a>
-              <a href="/">
+              <a href="tel:+21695077703">
+                  <IconPhone /> &nbsp; (+216) 95 077 703
+                </a>
+                <a href="mailto: bahrichaher.pro@gmail.com">
+                  <IconMail />&nbsp; VoitureMobelite@gmail.com
+                </a>
+              <a href="https://maps.app.goo.gl/TCge1Ae4Hj2FTuLW8" target="https://maps.app.goo.gl/TCge1Ae4Hj2FTuLW8">
                 <IconLocation />
-                &nbsp; Belgrade, Serbia
+                &nbsp; Mobelite, Monastir
               </a>
             </div>
             <div className="contact-div__form">
               <form>
                 <label>
-                  Full Name <b>*</b>
+                  Nom Et Prenom <b>*</b>
                 </label>
-                <input type="text" placeholder='E.g: "Joe Shmoe"'></input>
+                <input type="text" placeholder='E.x: "Chaher BAHRI"'></input>
 
                 <label>
                   Email <b>*</b>
@@ -41,30 +41,19 @@ function Contact() {
                 <input type="email" placeholder="youremail@example.com"></input>
 
                 <label>
-                  Tell us about it <b>*</b>
+                  C'est quoi le Problème <b>*</b>
                 </label>
-                <textarea placeholder="Write Here.."></textarea>
+                <textarea placeholder="Expliquer.."></textarea>
 
                 <button type="submit">
                   <IconMailOpened />
-                  &nbsp; Send Message
+                  &nbsp; Envoyer
                 </button>
               </form>
             </div>
           </div>
         </div>
-        <div className="book-banner">
-          <div className="book-banner__overlay"></div>
-          <div className="container">
-            <div className="text-content">
-              <h2>Book a car by getting in touch with us</h2>
-              <span>
-                <IconPhone width={40} height={40} />
-                <h3>(123) 456-7869</h3>
-              </span>
-            </div>
-          </div>
-        </div>
+        <Banner/>
         <Footer />
       </section>
     </>

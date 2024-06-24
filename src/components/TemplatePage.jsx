@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-
-function HeroPages({ name }) {
+import "../dist/TemplatePageModule.css"
+function TemplatePage({ name }) {
   return (
     <>
-      <section className="hero-pages">
-        <div className="hero-pages__overlay"></div>
+      <section className="template-pages">
+        <div className="template-pages__overlay"></div>
         <div className="container">
-          <div className="hero-pages__text">
+          <div className="template-pages__text">
             <h3>{name}</h3>
             <p>
               <Link to="/">Home</Link> / {name}
@@ -18,4 +18,4 @@ function HeroPages({ name }) {
   );
 }
 
-export default HeroPages;
+export default TemplatePage;
