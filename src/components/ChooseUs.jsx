@@ -17,11 +17,7 @@ function ChooseUs() {
             <div className="text-container">
               <div className="text-container__left">
                 <h4>Pourqoi Louer Avec Nous?</h4>
-<<<<<<< HEAD
                 <h2>Les Prix Les <span><Link onClick={() => window.scrollTo(0, 0)} to="/models">Moins Cher</Link></span> En Tunisie.</h2>
-=======
-                <h2>Les Prix Les <span><Link onClick={window.scrollTo({top: 0,behavior: "smooth"})} to="/models">Moins Cher</Link></span> En Tunisie.</h2>
->>>>>>> b52d87e57ac1febc89a724d5245463503068c073
               </div>
               <div className="text-container__right">
                 <div className="text-container__right__box">
