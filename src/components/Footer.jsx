@@ -15,10 +15,17 @@ function Footer() {
               </li>
             </ul>
             <ul className="footer-content__2">
+<<<<<<< HEAD
               <li>Heures De Travail</li>
               <li>Lun - Ven: 9:00AM - 9:00PM</li>
               <li>Sam: 9:00AM - 5:00PM</li>
               <li>Dim: Closed</li>
+=======
+              <li>Working Hours</li>
+              <li>Mon - Fri: 9:00AM - 9:00PM</li>
+              <li>Sat: 9:00AM - 19:00PM</li>
+              <li>Sun: Closed</li>
+>>>>>>> b52d87e57ac1febc89a724d5245463503068c073
             </ul>
             <ul className="footer-content__3">
               <li>
@@ -26,7 +33,11 @@ function Footer() {
               </li>
               <li>
                 <a href="tel:+21695077703">
+<<<<<<< HEAD
                   <IconPhoneCall /> &nbsp; (+216) 95 077 703
+=======
+                  <IconPhoneCall /> &nbsp; (216) 95 077 703
+>>>>>>> b52d87e57ac1febc89a724d5245463503068c073
                 </a>
               </li>
 

@@ -4,7 +4,11 @@
     height: auto;
     display: flex;
     background-color: #2d2d2d;
+<<<<<<< HEAD
     margin-bottom: 10rem;
+=======
+    margin-top: 9rem;
+>>>>>>> b52d87e57ac1febc89a724d5245463503068c073
     padding: 6rem 0;
     text-align: center;
   }
