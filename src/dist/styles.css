@@ -20,8 +20,8 @@ body {
 .container {
   max-width: 133rem !important;
   width: 100%;
-  margin: 0 auto !important;
-  padding: 0 2.5rem !important;
+  margin: 0 auto ;
+  padding: 0 2.5rem ;
 }
 
 * {
@@ -241,4 +241,8 @@ body {
     transform: rotate(360deg);
   }
 }
-
+.Page404{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

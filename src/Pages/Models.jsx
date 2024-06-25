@@ -42,7 +42,7 @@ function Models() {
                         {car.fuel} &nbsp; <IconCar />
                       </span>
                     </div>
-                    <div className="models-div__box__descr__name-price__btn">
+                    <div className="models-div__box__descr__name-price__btn" onClick={() => { window.scrollTo(0, 0); window.location.href = '/';}}>
                       <Link onClick={() => window.scrollTo(0, 0)} to="/">
                         Reserver
                       </Link>

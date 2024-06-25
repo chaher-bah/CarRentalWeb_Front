@@ -1,0 +1,20 @@
+.admin-page{
+    height: 75rem;
+    width: 100%;
+    overflow-x: hidden;
+
+}
+.admin-page .template-pages{
+    height: 22rem;
+}
+.admin-page .template-pages__text{
+    height: 28rem;
+}
+.admin-page .container{
+    padding: 0;
+}
+.dash-container{
+    height: max-content;
+    display: grid;
+    grid-template-columns: .55fr 3fr;
+}
