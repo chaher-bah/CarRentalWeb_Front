@@ -17,6 +17,9 @@ function CarBox({ data, carID }) {
                 alt={`car_img_${index}`}
                 onLoad={() => setCarLoad(false)}
               />
+                </div>
+            ))}
+            ))}
             ))}
           </div>
           {/* description */}
