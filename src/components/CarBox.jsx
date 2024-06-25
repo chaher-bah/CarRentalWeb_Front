@@ -1,25 +1,39 @@
-import { useState } from "react";
-
+import { useState,useEffect } from "react";
 function CarBox({ data, carID }) {
   const [carLoad, setCarLoad] = useState(true);
+  const [bigCar,setBigCAr]=useState(null);
+  const makeitbigger=(index)=>{
+    setBigCAr(bigCar===index ?null:index);
+  };
+  useEffect(() => {
+    let timer;
+    if (bigCar !== null) {
+      timer = setTimeout(() => {
+        setBigCAr(null);
+      }, 800); 
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [bigCar]);
   return (
     <>
       {data[carID].map((car, id) => (
         <div key={id} className="box-cars">
           {/* car images*/}
-          <div className="pick-car">
+          <div className={`pick-car ${car.img.length > 1 ? 'image-grid' : ''}`}>
             {carLoad && <span className="loader"></span>}
             {car.img.map((img, index) => (
-              <img
-                key={index}
-                style={{ display: carLoad ? "none" : "block" }}
-                src={img}
-                alt={`car_img_${index}`}
-                onLoad={() => setCarLoad(false)}
-              />
-                </div>
-            ))}
-            ))}
+              <div key={index}  className={`image-container ${bigCar === index ? 'enlarged' : ''}`} onClick={() => makeitbigger(index)}>  
+                <img
+                  key={index}
+                  style={{ display: carLoad ? "none" : "block" }}
+                  src={img}
+                  alt={`car_img_${index}`}
+                  onLoad={() => setCarLoad(false)}
+                />
+              </div>
             ))}
           </div>
           {/* description */}
@@ -29,22 +43,22 @@ function CarBox({ data, carID }) {
             </div>
             <div className="pick-description__table">
               <div className="pick-description__table__col">
-                <span>Model</span>
+                <span>Modèle</span>
                 <span>{car.model}</span>
               </div>
 
               <div className="pick-description__table__col">
-                <span>Mark</span>
+                <span>Marque</span>
                 <span>{car.mark}</span>
               </div>
 
               <div className="pick-description__table__col">
-                <span>Year</span>
+                <span>Année début circulation</span>
                 <span>{car.year}</span>
               </div>
 
               <div className="pick-description__table__col">
-                <span>Doors</span>
+                <span>Portes</span>
                 <span>{car.doors}</span>
               </div>
 
@@ -54,12 +68,12 @@ function CarBox({ data, carID }) {
               </div>
 
               <div className="pick-description__table__col">
-                <span>Transmission</span>
+                <span>Transmission </span>
                 <span>{car.transmission}</span>
               </div>
 
               <div className="pick-description__table__col">
-                <span>Fuel</span>
+                <span>Carburant</span>
                 <span>{car.fuel}</span>
               </div>
             </div>

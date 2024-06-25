@@ -11,10 +11,13 @@
     "react": "^18.2.0",
     "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",
+    "react-facebook-photo-grid": "^1.0.10",
+    "react-modal-image": "^2.6.0",
     "react-router-dom": "^6.8.0",
     "react-scripts": "5.0.1",
     "swiper": "^11.1.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yet-another-react-lightbox": "^3.20.0"
   },
   "scripts": {
     "start": "react-scripts start",

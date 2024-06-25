@@ -2,9 +2,12 @@ import Golf6 from "../images/cars-big/golf6.jpg";
 import AudiA1 from "../images/cars-big/audia1.jpg";
 import Toyota from "../images/cars-big/toyotacamry.jpg";
 import Camery from "../images/cars-big/cameryfrominside.jpg";
+import toy from "../images/cars-big/toyota-box.png";
+import bmw from "../images/cars-big/bmw-box.png";
+
 import Bmw320 from "../images/cars-big/bmw320.jpg";
 import Benz from "../images/cars-big/benz.jpg";
-import Passat from "../images/cars-big/passatcc.jpg";
+import Passat from "../images/cars-big/passat-box.png";
 
 export const CAR_DATA = [
   [
@@ -39,7 +42,7 @@ export const CAR_DATA = [
     {
       name: "Toyota Camry",
       price: "30",
-      img: [Toyota,Camery],
+      img: [Toyota,Camery,toy],
       model: "Camry",
       mark: "Toyota",
       year: "2006",
@@ -53,7 +56,7 @@ export const CAR_DATA = [
     {
       name: "BMW 320 ",
       price: "35",
-      img: [Bmw320],
+      img: [Bmw320,bmw],
       model: "320",
       mark: "BMW",
       year: "2012",
