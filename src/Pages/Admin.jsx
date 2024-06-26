@@ -3,6 +3,8 @@ import TemplatePage from '../components/TemplatePage';
 import Sidebar from '../components/Sidebar';
 import "../dist/AdminModule.css"
 import Dashboard from '../components/Dashboard';
+import {Route, Routes} from 'react-router-dom';
+import Clients from '../components/Clients';
  function Admin() {
   return (
     <>
@@ -12,7 +14,10 @@ import Dashboard from '../components/Dashboard';
                 <div className='admin-div'>
                     <Sidebar/>
                 </div>
-                <Dashboard/>
+                <Routes>
+                <Route path='/' element={<Dashboard/>}></Route>
+                <Route path='/clients' element={<Clients/>}></Route>
+                </Routes>
             </div>
         </section>
     </>

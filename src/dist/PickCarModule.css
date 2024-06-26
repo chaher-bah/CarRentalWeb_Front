@@ -54,6 +54,7 @@
   .pick-car {
     width: 55rem;
     position: relative;
+    cursor: pointer;
   }
     
   

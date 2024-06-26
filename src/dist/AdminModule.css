@@ -1,7 +1,7 @@
 .admin-page{
     height: 75rem;
     width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
 
 }
 .admin-page .template-pages{

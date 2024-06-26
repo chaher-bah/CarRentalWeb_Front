@@ -1,0 +1,100 @@
+.card{
+    font-size: 1.7rem;
+    font-weight: 700;
+    display: contents;
+    
+}
+
+.card h3{
+    font-family: "Roboto",sans-serif;
+}
+.card .icon{
+    height: 3rem;
+    width: auto;
+}
+.icon:hover{
+    height: 3.5rem;
+    width: auto;
+    transition: all .2s ease-in-out;
+}
+.alerts-container{
+    display: grid;
+    align-content:baseline;
+    padding: 20px;
+    border-radius: 10px;
+    color: #ffff;
+    width: 90%;
+    height: 85%;
+    background-color: #fc4444e9;
+    grid-row: span 2;
+
+  }
+.alerts-container:hover{
+    background-color: #fe0303;
+}
+
+.alerts-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.content{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.reservation__approuvee-container{
+    background-color:#44fc44bb;
+    display: grid;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    color: #014001;
+    width: 90%;
+    height: 70%;
+}
+.reservation__approuvee-container:hover{
+    background-color:#0cf40c;
+    
+}
+.reservation__attente-container{
+    display: grid;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    color: #404001;
+    width: 90%;
+    height: 70%;
+    background-color: #fcfc4497;
+}
+.reservation__attente-container:hover{
+    background-color: #ffff28;
+}
+.reservation__annulee-container{
+    display: grid;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    color: #ffff;
+    width: 90%;
+    height: 70%;
+    background-color: #f1697a;
+}
+.reservation__annulee-container:hover{
+    background-color: #d42136;
+}
+.client-container{
+    display: grid;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    width: 90%;
+    height: 70%;
+    background-color: #139fce;
+}
+.client-container:hover{
+    background-color: #00bfff;   
+}

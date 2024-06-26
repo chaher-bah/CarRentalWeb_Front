@@ -52,10 +52,10 @@ function Navbar() {
 
         {/* desktop */}
 
-        <div className="navbar">
-          <div className="navbar__img">
+        <div className="navbar"><Link to="/">
+          <div className="navbar__img" >
             <img src={Logo} alt="logo-img" />
-          </div>
+          </div></Link>
           <ul className="navbar__links">
             <li>
               <Link className="home-link" to="/">

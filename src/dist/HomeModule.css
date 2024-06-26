@@ -19,7 +19,12 @@
   .navbar__img {
     width: 14rem;
   }
-  
+  .navbar__img:hover{
+    width: 15rem;
+    height: auto;
+    transition: all .3s ease-in-out;
+    cursor:pointer
+  }
   .navbar__img img {
     width: 100%;
     height: 100%;
