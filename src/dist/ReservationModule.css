@@ -1,0 +1,74 @@
+.reservation-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 2rem;
+}
+.reservation-header{
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+.reservation-section h2{
+    position: relative;
+}
+.dropdown-btn{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 25rem;
+    height: 5rem;
+    border:none;
+    padding: 2rem;
+    border-radius: 1rem;
+
+    font-family: "Ubuntu",sans-serif;
+    transition: all .2s ease-in-out;
+}
+.reservation-section__Approuvés .dropdown-btn{
+    background-color: #44fc44bb;
+    color: #014001;
+}
+.reservation-section__En.attente .dropdown-btn{
+    background-color: #fcfc4497;
+    color: #404001;
+
+}
+.reservation-section__Annulés .dropdown-btn{
+    background-color: #f1697a;
+    color: #fff;
+}
+.dropdown-btn i{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.dropdown-btn:hover{
+    cursor: pointer;
+    width: 28rem;
+    height: 6rem;
+}
+.reservation-section__Approuvés .dropdown-btn:hover{background-color: #0CF40C;}
+.reservation-section__En.attente .dropdown-btn:hover{background-color: #ffff28;}
+.reservation-section__Annulés .dropdown-btn:hover{    background-color: #d42136;}
+.dropdown-btn i p{
+    font-size: 1.4rem;
+    font-family: "Roboto",sans-serif;
+}
+.dropdown-btn i p:hover{
+    font-size: 2rem;
+}
+.dropdown-btn:hover::after{
+    display: none;
+}
+.dropdown-content{
+    padding: 5rem;
+    transition: all .5s ease;
+}
+.dropdown-content .info-table{
+    position: static;
+    height: -webkit-fill-avaible;
+}

@@ -61,7 +61,7 @@ const Clients = () => {
                 </div>
                 <SearchInput fieldSearchedBy={fieldSearchedBy} />
                 <div className="info-table-container">
-                <InfoTable data={memodata} columns={columns}/>
+                <InfoTable data={memodata} columns={columns} operation="Supprimer"/>
                 </div>
             </div>
         </>

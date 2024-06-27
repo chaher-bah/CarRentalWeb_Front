@@ -4,13 +4,12 @@ import {IconArrowUp,IconArrowDown} from '@tabler/icons-react';
 import PropTypes from 'prop-types';
 import '../dist/InfoTableModule.css';
 
-const InfoTable = ({ data, columns }) => {
+const InfoTable = ({ data, columns ,operation}) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
       data,
       initialState: {
-        sortBy: [{ id: columns[0].accessor, desc: false }], // Default sorting by the first column
       },
     },
     useSortBy // Hook for sorting functionality
@@ -18,7 +17,7 @@ const InfoTable = ({ data, columns }) => {
   const handleDelete = (id) => {
     //  delete function
     // Replace with  API call)
-    alert(`Deleting item with ID: ${id}`);
+    alert(`${operation} item with ID: ${id}`);
   };
 
   return (
@@ -52,7 +51,7 @@ const InfoTable = ({ data, columns }) => {
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}
                 <td>
-                  <button onClick={() => handleDelete(row.index+1)}>Delete</button>
+                  <button onClick={() => handleDelete(row.index+1)}>{operation}</button>
                 </td>
               </tr>
             );
