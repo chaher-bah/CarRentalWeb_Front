@@ -18,3 +18,29 @@
     display: grid;
     grid-template-columns: .55fr 3fr;
 }
+.clients-container{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: .1fr .2fr 1fr;
+    align-items: center;
+    justify-items: center;
+    margin: 2rem;
+    gap: 1.5rem;
+    grid-area: 1/2;
+}
+
+
+/*conditional rendering*/
+.dash-container .hide-template {
+    display: none;
+}
+.hide-template{
+    height: -webkit-fill-available;
+}
+.hide-template .admin-div .sidebar-container{
+    height: 100%;
+}
+.hide-template.admin-div{
+    position: absolute;
+    height: 100%;
+}

@@ -10,10 +10,12 @@ aside{
     flex-direction: column;
     list-style-type: none;
     align-items: flex-start;
+    justify-content:space-between;
     gap: .4rem;
     height: 100%;
     padding: 1rem;
     padding-bottom: 5rem;
+
 }
 .sidebar__links a{
     font-size: 2rem;
@@ -49,4 +51,10 @@ aside{
     display: flex;
     flex-direction: row;
     gap: 1rem;
+}
+.hide-template .sidebar__links .item:hover{
+    height: 15%;
+}
+.hide-template .sidebar__links{
+    padding-top: 5rem;
 }

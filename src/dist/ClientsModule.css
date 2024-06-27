@@ -1,0 +1,25 @@
+.button-container{
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+
+}
+.button-container button{
+    width: 25rem;
+    height: 5rem;
+    border-radius: 1.5rem;
+    outline: none;
+    border: none;
+    background-color: #44fc44bb;
+    color: #014001;
+    font-family: "Ubuntu",sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem;
+    transition: all .3s ease-in-out;
+
+}
+.button-container button:hover{
+    background-color:#0cf40c;
+    cursor: pointer;
+}
