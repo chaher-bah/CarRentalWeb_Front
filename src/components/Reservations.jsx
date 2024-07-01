@@ -42,6 +42,9 @@ const Reservation = () => {
       setExpanded(index); // Expand if not expanded
     }
   };
+  const handleopr=(id)=>{
+    alert(`doing the opertation on  item with ID: ${id}`);
+  }
   const getOperationText = (status) => {
     switch (status) {
       case 'En attente':
@@ -101,6 +104,7 @@ const Reservation = () => {
                   data={section.data} 
                   
                   operation={getOperationText(section.status)}
+                  opr={handleopr}
                 />
               </div>
             )}

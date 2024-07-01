@@ -24,7 +24,7 @@ const Clients = () => {
       {cin:'78989',nom:'7amouda',prenom:'el 8rab',email:'wa333@gmial.mj',reservations:['4646']},
       
     ];
-    const memodata=useMemo(()=>TestData,[]);
+    const memodata=useMemo(()=>TestData);
     const columns =useMemo(()=>[
       {
         Header: "CIN",
@@ -50,7 +50,9 @@ const Clients = () => {
       
     ],[])
     const [fieldSearchedBy, setFieldSearchedBy] = useState('Num de CIN');
-
+    const handleopr=(id)=>{
+      alert(`doing the opertation on  item with ID: ${id}`);
+    }
     return (
         <>
             <div className='clients-container'>
@@ -61,7 +63,7 @@ const Clients = () => {
                 </div>
                 <SearchInput fieldSearchedBy={fieldSearchedBy} />
                 <div className="info-table-container">
-                <InfoTable data={memodata} columns={columns} operation="Supprimer"/>
+                <InfoTable data={memodata} columns={columns} operation="Supprimer"opr={handleopr}/>
                 </div>
             </div>
         </>

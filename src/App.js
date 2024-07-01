@@ -20,7 +20,7 @@ function App() {
     <>
       {showNavbar && <Navbar />}
       <Routes>
-        <Route path="*" element={<Page404/>}/>
+        <Route path="*"  element={<Page404/>}/>
         <Route index path="/" element={<Home />} />
         <Route path="about" element={<About />} />
         <Route path="models" element={<Models />} />

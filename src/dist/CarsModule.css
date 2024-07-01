@@ -1,0 +1,82 @@
+.cars-container{
+    height: -webkit-fill-available;
+    position: relative;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    overflow-y: hidden;
+}
+.cars-container h2{
+    font-weight: 500;
+    font-size: 4rem;
+    font-family: "Roboto",sans-serif;
+}
+.cars__buttons-container{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 25rem;
+}
+.cars__buttons-container button{
+    width: 25rem;
+    height: 5rem;
+    border-radius: 1.5rem;
+    outline: none;
+    border: none;
+    background-color: #44fc44bb;
+    color: #014001;
+    font-family: "Ubuntu",sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem;
+    transition: all .3s ease-in-out;
+}
+.cars__buttons-container button:hover{
+    background-color:#0cf40c;
+    cursor: pointer;
+    width: 27rem;
+    height: 5.8rem;
+}
+.cars-list{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.cars-list__notfound .Page404{
+    position: relative;
+    top: -10rem;
+}
+.cars-list__exists{
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+.cars-list__exists h2{
+    font-weight: 500;
+    font-size: 4rem;
+    font-family: "Roboto",sans-serif;
+}
+.add-car-form{
+    display: flex;
+    flex-direction: column;
+    gap: inherit;
+    align-items: center;
+}
+/**/
+.add-car-form .form_area{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: repeat(5,1fr);
+}
+.add-car-form form{
+    display: contents;
+}
+.add-car-form .form_area p{
+    display: none;
+}
+.add-car-form .form_button{
+    grid-area: 6 / 1 / 7 / 3;
+}

@@ -4,7 +4,7 @@ import {IconArrowUp,IconArrowDown} from '@tabler/icons-react';
 import PropTypes from 'prop-types';
 import '../dist/InfoTableModule.css';
 
-const InfoTable = ({ data, columns ,operation}) => {
+const InfoTable = ({ data, columns ,operation,opr}) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
@@ -14,11 +14,11 @@ const InfoTable = ({ data, columns ,operation}) => {
     },
     useSortBy // Hook for sorting functionality
   );
-  const handleDelete = (id) => {
-    //  delete function
-    // Replace with  API call)
-    alert(`${operation} item with ID: ${id}`);
-  };
+  // const handleDelete = (id) => {
+  //   //  delete function
+  //   // Replace with  API call)
+  //   alert(`${operation} item with ID: ${id}`);
+  // };
 
   return (
     <div className="info-table">
@@ -51,7 +51,7 @@ const InfoTable = ({ data, columns ,operation}) => {
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}
                 <td>
-                  <button onClick={() => handleDelete(row.index+1)}>{operation}</button>
+                  <button onClick={()=>opr(row.original.id)}>{operation}</button>
                 </td>
               </tr>
             );
@@ -65,6 +65,9 @@ const InfoTable = ({ data, columns ,operation}) => {
 InfoTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  operation:PropTypes.string,
+  opr: PropTypes.func.isRequired,
+
 };
 
 export default InfoTable;

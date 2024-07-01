@@ -1,12 +1,15 @@
-import React ,{useEffect,useState}from 'react'
-import TemplatePage from '../components/TemplatePage';
-import Sidebar from '../components/Sidebar';
+import React ,{useEffect,useState ,lazy,Suspense}from 'react'
 import "../dist/AdminModule.css"
-import Dashboard from '../components/Dashboard';
 import {Route, Routes,useLocation} from 'react-router-dom';
-import Clients from '../components/Clients';
-import Cars from '../components/Cars';
-import Reservations from '../components/Reservations';
+import Page404 from "../Pages/Page404"
+const Reservations =lazy(()=>import('../components/Reservations'));
+const TemplatePage=lazy(() =>import( '../components/TemplatePage'));
+const Cars = lazy(()=> import ('../components/Cars'));
+const Dashboard =lazy(()=>import( '../components/Dashboard'));
+const Clients=lazy(()=>import('../components/Clients'));
+const Sidebar= lazy(()=>import( '../components/Sidebar'));
+
+
 const Admin =() =>{
     const location = useLocation();
     const [isSpecialAdminPath, setIsSpecialAdminPath] = useState(false);
@@ -15,7 +18,7 @@ useEffect(() => {
     setIsSpecialAdminPath(['/admin/clients', '/admin/cars', '/admin/reservations'].includes(location.pathname));
 }, [location]);
   return (
-    <>
+    <><Suspense fallback={<Page404/>}>
         <section className='admin-page'>
             {!isSpecialAdminPath && <TemplatePage name="Admin" />}
             <div className={`dash-container ${isSpecialAdminPath ? 'hide-template' : ''}`}>
@@ -30,7 +33,7 @@ useEffect(() => {
                 </Routes>
             </div>
         </section>
-    </>
+    </Suspense></>
   )
 }
 export default Admin;
