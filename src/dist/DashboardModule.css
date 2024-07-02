@@ -6,3 +6,12 @@
     height: 52rem;
     gap: 1rem;
 }
+@media (max-width:1000px){
+    .dashboard-container{
+        display: flex;
+        flex-direction: column;
+
+        height: max-content;
+        margin: 1rem;
+    }
+}

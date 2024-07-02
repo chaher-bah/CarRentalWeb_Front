@@ -58,3 +58,55 @@ aside{
 .hide-template .sidebar__links{
     padding-top: 5rem;
 }
+
+@media (max-width:1000px) {
+    .sidebar-container{
+        display: none;
+    }
+    .mobile-sidebar{
+        display: grid;
+        width: 7rem;
+        margin-top: 4rem;
+        align-content: center;
+        justify-items: center;
+        position: fixed;
+        top: 27rem;
+    }
+    .mobile-sidebar__links{
+        background-color: #fff5de;
+        display: flex;
+        flex-direction: column;
+        list-style-type: none;
+        align-items: center;
+        justify-content:space-between;
+        gap: 8rem;
+        height: 100%;
+        padding: 6rem 1rem 6rem 1rem;
+    }
+    .mobile-sidebar__links a{
+        font-size: 2rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    color: #010103;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-clip: content-box;
+    }
+    .toggle-btn{
+        border: none;
+        border-radius: 50%;
+        width: 4rem;
+        height: 4rem;
+        background-color: #FC8A45;
+        transition: all .3s ease-in-out;
+    }
+    .toggle-btn:hover{
+        background-color: #ea6716;
+    }
+    .mobile-sidebar__links .item.active{
+        background-color: #f8905088;
+        padding: 1rem;
+        border-radius: 50%;
+    }
+}

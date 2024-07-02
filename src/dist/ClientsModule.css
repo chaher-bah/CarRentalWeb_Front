@@ -23,3 +23,10 @@
     background-color:#0cf40c;
     cursor: pointer;
 }
+
+@media(max-width:1000px){
+    .button-container{
+        flex-direction: column;
+    }
+    
+}

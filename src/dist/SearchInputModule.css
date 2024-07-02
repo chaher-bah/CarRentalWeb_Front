@@ -37,12 +37,21 @@
     background-color: transparent;
     transition: all .5s ease-in;
   }
-  
+  @media(max-width:1000px){
+    .search-input__text{
+      width: 35rem;
+    }
+  }
   .search-input__text::placeholder {
     color: #3b361c;
     opacity: 0.7;
     transition: all .5s ease;
     font-family: "Playwrite NG Modern",Arial, Helvetica, sans-serif;
+  }
+  @media(max-width:1000px){
+    .search-input__text::placeholder{
+      font-size: 1.9rem;
+    }
   }
   
   .search-container {
@@ -55,5 +64,12 @@
     gap: 10rem;
     justify-content: space-between;
     align-items: center;
+  }
+  @media(max-width:1000px){
+    .search-container{
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
   }
   

@@ -11,8 +11,11 @@ const Sidebar = () => {
         setActiveLink(location.pathname);
     }, [location]);
     const handleNavigation =(path)=>{navigate(path);}
-
-    return (
+    const [isSideBarExpanded,setIsSideBarExpanded]=useState(true);
+    const toggleSideBar=()=>{
+        setIsSideBarExpanded(!isSideBarExpanded);
+    }
+    return (<>
         <div className='sidebar-container'>
             <aside>
                 <ul className='sidebar__links'>
@@ -34,7 +37,28 @@ const Sidebar = () => {
                 </ul>
             </aside>
         </div>
-    );
+        {/* Mobile */ }
+        <div className='mobile-sidebar'>
+            <ul className='mobile-sidebar__links'>
+                
+                <li className={`item ${activeLink === '/admin' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin")}>
+                    <Link to="/admin" className='dashboard-link'><IconLayoutDashboard className='icon'/></Link>
+                </li>
+                <li className={`item ${activeLink === '/admin/clients' ? 'active' : ''}`}onClick={()=>handleNavigation("/admin/clients")}>
+                    <Link className='clients-link' to="/admin/clients"><IconUsers className='icon'/></Link>
+                </li>
+                <li className={`item ${activeLink === '/admin/reservations' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/reservations")}>
+                    <Link className='reservations-link' to="/admin/reservations"><IconWritingSign className='icon'/></Link>
+                </li>
+                <li className={`item ${activeLink === '/admin/cars' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/cars")}>
+                    <Link className='cars-link' to="/admin/cars"><IconCar className='icon'/></Link>
+                </li>
+                <li className={`item ${activeLink === '/' ? 'active' : ''}`} onClick={()=>handleNavigation("/")}>
+                    <Link className='manage-link' to="/"/*to change to keycloak account mangment*/ ><IconSettingsCog/></Link>
+                </li>
+            </ul>
+        </div>
+    </>);
 }
 
 export default Sidebar;

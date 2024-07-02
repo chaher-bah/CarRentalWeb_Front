@@ -2,7 +2,12 @@
     font-size: 1.7rem;
     font-weight: 700;
     display: contents;
+}
+@media (max-width:1000px){
+    .card{
+        display: flex;
     
+    }
 }
 
 .card h3{

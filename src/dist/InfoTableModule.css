@@ -9,6 +9,12 @@
     position: fixed;
     top: 20rem;
 }
+@media(max-width:1000px){
+  .info-table-container{
+  position: relative;
+  top: 2rem;
+}
+}
 .info-table{
     overflow-y: scroll;
     

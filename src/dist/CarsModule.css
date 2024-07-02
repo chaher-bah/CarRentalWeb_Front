@@ -14,10 +14,22 @@
     font-size: 4rem;
     font-family: "Roboto",sans-serif;
 }
+@media(max-width:1000px){
+    .cars-container h2{
+        text-align: left;
+        width: 30rem;
+    }
+}
 .cars__buttons-container{
     display: flex;
     justify-content: space-evenly;
     gap: 25rem;
+}
+@media(max-width:1000px){
+    .cars__buttons-container{
+        flex-direction: column;
+        gap: 5rem;
+    }
 }
 .cars__buttons-container button{
     width: 25rem;
@@ -43,6 +55,12 @@
     display: flex;
     align-items: center;
     text-align: center;
+}
+@media(max-width:1000px){
+    .cars-list{
+        position: relative;
+        left: 45rem;
+    }
 }
 
 .cars-list__notfound .Page404{
@@ -71,8 +89,20 @@
     grid-template-columns: repeat(2,1fr);
     grid-template-rows: repeat(5,1fr);
 }
+@media(max-width:1000px){
+    .add-car-form .form_area{
+        grid-template-columns: repeat(1,1fr);
+        grid-template-rows: repeat(1,1fr);
+    }
+}
 .add-car-form form{
     display: contents;
+}
+@media(max-width:1000px){
+    .add-car-form form{
+        display: flex;
+        flex-direction: column;
+    }
 }
 .add-car-form .form_area p{
     display: none;

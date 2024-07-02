@@ -5,6 +5,11 @@
     padding: 2rem;
     gap: 2rem;
 }
+@media(max-width:1000px){
+    .reservation-container{
+        overflow-x: auto;
+    }
+}
 .reservation-header{
     font-size: 2rem;
     display: flex;
@@ -68,7 +73,18 @@
     padding: 5rem;
     transition: all .5s ease;
 }
+@media(max-width:1000px){
+    .dropdown-content{
+        position: relative;
+        left: 20rem;
+    }
+}
 .dropdown-content .info-table{
     position: static;
     height: -webkit-fill-avaible;
+}
+@media(max-width:1000px){
+    .dropdown-content .info-table{
+        position: relative;
+    }
 }

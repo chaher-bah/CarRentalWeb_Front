@@ -27,7 +27,13 @@
     gap: 1.5rem;
     grid-area: 1/2;
 }
-
+@media(max-width:1000px){
+    .clients-container{
+        display: flex;
+        flex-direction: column;
+        width: 32rem;
+    }
+}
 
 /*conditional rendering*/
 .dash-container .hide-template {
@@ -44,3 +50,5 @@
     position: absolute;
     height: 100%;
 }
+
+
