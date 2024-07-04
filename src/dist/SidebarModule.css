@@ -58,6 +58,9 @@ aside{
 .hide-template .sidebar__links{
     padding-top: 5rem;
 }
+.mobile-sidebar{
+    display: none;
+}
 
 @media (max-width:1000px) {
     .sidebar-container{

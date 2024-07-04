@@ -3,6 +3,11 @@
     margin-bottom: 5rem;
     padding: 4rem 0;
   }
+@media (max-width:1000px) {
+  .pick-section{
+    overflow-x: scroll;
+  }
+}
   
   .pick-container {
     display: flex;
@@ -35,7 +40,13 @@
     font-family: "Ubuntu", sans-serif;
     margin: 0.5rem 0 1rem 0;
   }
-  
+  .pick-container h1{
+    font-family: "Roboto",sans-serif;
+    text-align: center;
+    font-size: 2rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
   .pick-container__car-content {
     display: flex;
     justify-content: space-between;
@@ -48,6 +59,7 @@
   .pick-box {
     display: flex;
     flex-direction: column;
+    width: 27rem;
     gap: 1rem;
   
   }

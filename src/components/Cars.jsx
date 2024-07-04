@@ -48,11 +48,13 @@ const Cars = () => {
     { name: 'make', label: 'Marque', type: 'text', placeholder: 'VW/Mercedes/BMW', required: true },
     { name: 'model', label: 'Modèle', type: 'text', placeholder: 'Golf6/GLA-4Matic', required: true },
     { name: 'year', label: 'Date de Début de Circulation', type: 'text', placeholder: 'Année', required: true },
-    { name: 'vin', label: 'Num Vin', type: 'text', placeholder: 'WBAHA91050GK33329', required: false },
+    { name: 'carburant', label: 'Carburant', type: 'text', placeholder: 'Essence/Hybrid/Electric', required: false },
     { name: 'licensePlate', label: 'Numéro d\'immatriculation', type: 'text', placeholder: '78945-TUN-120', required: true },
+    { name: 'transmission', label: 'Transmission', type: 'text', placeholder: 'Auto/Mannuelle', required: true },
     { name: 'insuranceDueDate', label: 'Date d\'échéance de l\'assurance', type: 'date', required: false },
     { name: 'vignetteDueDate', label: 'Date d\'échéance du Vignette', type: 'date', required: false },
     { name: 'visiteDueDate', label: 'Date d\'échéance du Visite', type: 'date', required: false },
+    { namr:'prix_par_nuit',label:'Prix Par Nuit/D.T',type:'number',placeholder:'65',required: true},
     {name:'photos',label:'Photos',type:'file',accept:'image/*'}
   ];
 

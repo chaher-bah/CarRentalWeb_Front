@@ -16,12 +16,17 @@ body {
   position: relative;
   overflow-x: hidden;
 }
+@media(max-width:1000px){
+  body{
+    overflow-x: scroll !important;
+  }
+}
 
 .container {
   max-width: 133rem !important;
   width: 100%;
   margin: 0 auto ;
-  padding: 0 2.5rem ;
+  padding: 0 2rem ;
 }
 
 * {

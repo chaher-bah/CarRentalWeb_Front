@@ -1,21 +1,24 @@
 import HomeComponent from "../components/HomeComponent";
-import BookCar from "../components/BookCar";
-import PlanTrip from "../components/PlanTrip";
-import PickCar from "../components/PickCar";
-import Banner from "../components/Banner";
-import ChooseUs from "../components/ChooseUs";
-import Footer from "../components/Footer";
 
+import { Suspense, lazy } from "react";
+import Page404 from "./Page404";
+const BookCar =lazy(()=>import( "../components/BookCar"));
+const PlanTrip =lazy(()=>import( "../components/PlanTrip"));
+const Footer =lazy(()=>import( "../components/Footer"));
+const PickCar =lazy(()=>import( "../components/PickCar"));
+const Banner =lazy(()=>import( "../components/Banner"));
+const ChooseUs =lazy(()=>import( "../components/ChooseUs"));
 function Home() {
   return (
     <>
       <HomeComponent />
+      <Suspense fallback={<Page404/>}>
       <BookCar />
       <PlanTrip />
       <PickCar />
       <Banner />
       <ChooseUs />
-      <Footer />
+      <Footer /></Suspense>
     </>
   );
 }

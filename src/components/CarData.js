@@ -9,87 +9,91 @@ import Bmw320 from "../images/cars-big/bmw320.jpg";
 import Benz from "../images/cars-big/benz.jpg";
 import Passat from "../images/cars-big/passat-box.png";
 
+
+
 export const CAR_DATA = [
   [
     {
-      name: "VW Golf 6",
       price: "37",
       img: [Golf6],
       model: "Golf 6",
       mark: "Volkswagen",
       year: "2008",
       doors: "4/5",
-      air: "Yes",
+      anneemodele: "2020",
       transmission: "Manual",
       fuel: "Diesel",
     },
   ],
   [
     {
-      name: "Audi A1 S-Line",
-      price: "45",
+      price: "45",//prixpn
       img: [AudiA1],
-      model: "Audi",
-      mark: "A1",
-      year: "2012",
-      doors: "4/5",
-      air: "Yes",
+      model: "A1 S-Line",//modele
+      mark: "Audi",//marque
+      anneemodele: "2015",
       transmission: "Manual",
-      fuel: "Gasoline",
+      fuel: "Gasoline",//carburant
     },
   ],
   [
     {
-      name: "Toyota Camry",
       price: "30",
       img: [Toyota,Camery,toy],
       model: "Camry",
       mark: "Toyota",
-      year: "2006",
       doors: "4/5",
-      air: "Yes",
+      anneemodele: "2006",
       transmission: "Automatic",
       fuel: "Hybrid",
     },
   ],
   [
     {
-      name: "BMW 320 ",
       price: "35",
       img: [Bmw320,bmw],
-      model: "320",
+      model: "Serie-320",
       mark: "BMW",
-      year: "2012",
       doors: "4/5",
-      air: "Yes",
+      anneemodele: "2012",
       transmission: "Manual",
       fuel: "Diesel",
     },
   ],
   [
     {
-      name: "Mercedes GLK",
       price: "32",
       img: [Benz],
-      model: "Benz GLK",
+      model: "GLK",
       mark: "Mercedes",
       year: "2006",
       doors: "4/5",
-      air: "No",
+      anneemodele: "2006",
       transmission: "Manual",
       fuel: "Diesel",
     },
   ],
   [
     {
-      name: "VW Passat CC",
+      price: "25",
+      img: [Passat],
+      model: "Passat CC",
+      mark: "Volkswagen",
+      doors: "4/5",
+      anneemodele: "2008",
+      transmission: "Automatic",
+      fuel: "Gasoline",
+    },
+  ],
+  [
+    {
       price: "25",
       img: [Passat],
       model: "Passat CC",
       mark: "Volkswagen",
       year: "2008",
       doors: "4/5",
-      air: "Yes",
+      anneemodele: "2008",
       transmission: "Automatic",
       fuel: "Gasoline",
     },

@@ -1,28 +1,49 @@
-import { useState } from "react";
-import CarBox from "./CarBox";
-import { CAR_DATA } from "./CarData";
-import React from "react";
-import "../dist/PickCarModule.css"
-function PickCar() {
-  const [active, setActive] = useState("FirstCar");
-  const [activeButtonId, setActiveButtonId] = useState("btn1");
+import React, { Suspense, lazy, useState, useEffect } from "react";
+import axios from "axios";
+import { IconSparkles } from "@tabler/icons-react";
+import Page404 from "../Pages/Page404";
+import "../dist/PickCarModule.css";
 
-  const carButtons = [
-    { id: "btn1", label: "VW Golf 6", activeKey: "FirstCar" },
-    { id: "btn2", label: "Audi A1 S-Line", activeKey: "SecondCar" },
-    { id: "btn3", label: "Toyota Camry", activeKey: "ThirdCar" },
-    { id: "btn4", label: "BMW 320 ModernLine", activeKey: "FourthCar" },
-    { id: "btn5", label: "Mercedes-Benz GLK", activeKey: "FifthCar" },
-    { id: "btn6", label: "VW Passat CC", activeKey: "SixthCar" },
-  ];
+const CarBox = lazy(() => import("./CarBox"));
+
+function PickCar() {
+  const [active, setActive] = useState(null);
+  const [activeButtonId, setActiveButtonId] = useState(null);
+  const [carData, setCarData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCarData = async () => {
+      try {
+        const response = await axios.get("http://localhost:2020/locationvoiture/v1/cars");
+        const carsData = response.data;
+        setCarData(carsData);
+        setLoading(false);
+        if (carsData.length > 0) {
+          setActive(carsData[0].id.toString() + "Car");
+          setActiveButtonId(`btn${carsData[0].id}`);
+        }
+      } catch (error) {
+        console.error("Failed to load cars:", error);
+      }
+    };
+
+    fetchCarData();
+  }, []);
 
   const btnID = (id) => {
-    setActiveButtonId(id === activeButtonId ? "" : id);
+    setActiveButtonId(id);
   };
 
   const coloringButton = (id) => {
     return activeButtonId === id ? "colored-button" : "";
   };
+
+  const carButtons = carData.slice(0, 5).map(car => ({
+    id: `btn${car.id}`,
+    label: `${car.marque} ${car.modele}`,
+    activeKey: car.id.toString() + "Car",
+  }));
 
   return (
     <section className="pick-section">
@@ -31,6 +52,7 @@ function PickCar() {
           <div className="pick-container__title">
             <h3>Véhicule Models</h3>
             <h2>Notre flotte de véhicules</h2>
+            <h1><IconSparkles />les plus reservees<IconSparkles /></h1>
             <p>
               Choisissez parmi une variété de nos véhicules à louer pour votre
               prochaine aventure ou voyage d'affaires.
@@ -51,13 +73,21 @@ function PickCar() {
                 </button>
               ))}
             </div>
-            {carButtons.map((button) => (
-              <React.Fragment key={button.activeKey}>
-                {active === button.activeKey && (
-                  <CarBox data={CAR_DATA} carID={parseInt(button.id.replace("btn", ""), 10) - 1} />
-                )}
-              </React.Fragment>
-            ))}
+            {loading ? (
+              <p>Loading Cars...</p>
+            ) : (
+              carButtons.map((button) => (
+                <React.Fragment key={button.activeKey}>
+                  <Suspense fallback={<Page404 />}>
+                    {active === button.activeKey && (
+                      <CarBox
+                        car={carData.find(car => car.id.toString() + "Car" === button.activeKey)}
+                      />
+                    )}
+                  </Suspense>
+                </React.Fragment>
+              ))
+            )}
           </div>
         </div>
       </div>
