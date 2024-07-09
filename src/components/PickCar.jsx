@@ -3,6 +3,7 @@ import axios from "axios";
 import { IconSparkles } from "@tabler/icons-react";
 import Page404 from "../Pages/Page404";
 import "../dist/PickCarModule.css";
+import { Link } from "react-router-dom";
 
 const CarBox = lazy(() => import("./CarBox"));
 
@@ -72,9 +73,12 @@ function PickCar() {
                   {button.label}
                 </button>
               ))}
+              <Link to="/models" onClick={() => window.scrollTo(0, 0)}>
+              <button className="decouvrir-btn">Découvrer Plus</button>
+              </Link>
             </div>
             {loading ? (
-              <p>Loading Cars...</p>
+              <p style={{color: "black", fontSize: "40px"}}>Loading Cars...</p>
             ) : (
               carButtons.map((button) => (
                 <React.Fragment key={button.activeKey}>

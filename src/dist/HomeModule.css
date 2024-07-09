@@ -294,9 +294,12 @@
     align-items: center;
   }
   
-  .home-content__text__btns__reservation {
+  .home-content__text__btns .home-content__text__btns__reservation {
     background-color: #ff4d30;
     padding: 1.8rem 3rem;
+    width: 30rem;
+    font-family: monospace,sans-serif;
+    font-size: 2rem;
     border-radius: 0.3rem;
     box-shadow: 0 10px 15px 0 rgba(255, 83, 48, 0.35);
     transition: all 0.3s;
@@ -310,9 +313,12 @@
     }
   }
   
-  .home-content__text__btns__reservation:hover {
+  .home-content__text__btns .home-content__text__btns__reservation:hover {
     box-shadow: 0 10px 15px 0 rgba(255, 83, 48, 0.6);
-    background-color: #fa4226;
+    background-color: #f3290a;
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff;
+    box-shadow: 0 0 5px #f3290a, 0 0 20px #f3290a, 0 0 50px #f3290a,
+    0 0 100px #f3290a;
   }
   
   .home-content__text__btns__learn-more {

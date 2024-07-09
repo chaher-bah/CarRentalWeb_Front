@@ -33,16 +33,16 @@
     font-family: "Ubuntu",sans-serif;
     transition: all .2s ease-in-out;
 }
-.reservation-section__Approuvés .dropdown-btn{
+.reservation-section__ACCEPTEE .dropdown-btn{
     background-color: #44fc44bb;
     color: #014001;
 }
-.reservation-section__En.attente .dropdown-btn{
+.reservation-section__EN_COUR .dropdown-btn{
     background-color: #fcfc4497;
     color: #404001;
 
 }
-.reservation-section__Annulés .dropdown-btn{
+.reservation-section__REFUSEE    .dropdown-btn{
     background-color: #f1697a;
     color: #fff;
 }
@@ -70,7 +70,7 @@
     display: none;
 }
 .dropdown-content{
-    padding: 5rem;
+    padding: 1rem;
     transition: all .5s ease;
 }
 @media(max-width:1000px){

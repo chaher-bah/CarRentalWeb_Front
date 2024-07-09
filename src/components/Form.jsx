@@ -29,6 +29,7 @@ const Form = ({ title, fields, buttonLabel, onSubmit }) => {
                   name={field.name}
                   required={field.required}
                   accept={field.accept}
+                  multiple="multiple"
                 />
               ) : (
                 <input
@@ -38,6 +39,9 @@ const Form = ({ title, fields, buttonLabel, onSubmit }) => {
                   type={field.type}
                   name={field.name}
                   required={field.required}
+                  min={field.min?field.min:undefined}
+                  max={field.max?field.max:undefined}
+                  step={field.step?field.step:undefined}
                 />
               )}
             </div>
@@ -60,7 +64,9 @@ Form.propTypes = {
       type: PropTypes.string.isRequired,
       placeholder: PropTypes.string,
       required: PropTypes.bool,
-      accept: PropTypes.string, 
+      accept: PropTypes.string,
+      min:PropTypes.string,
+      max:PropTypes.string
     })
   ).isRequired,
   buttonLabel: PropTypes.string.isRequired,

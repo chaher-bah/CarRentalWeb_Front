@@ -31,12 +31,9 @@ const Clients = () => {
         accessor: "cin"
       },
       {
-        Header: "Nom",
-        accessor: "nom"
-      },
-      {
-        Header: "Prenom",
-        accessor: "prenom"
+        Header: "Nom-Prenom",
+        accessor:  (row) => `${row.nom} - ${row.prenom}`,
+
       },
       {
         Header: "E-mail",

@@ -18,7 +18,7 @@ function Footer() {
               <li>Heures De Travail</li>
               <li>Lun - Ven: 9:00AM - 9:00PM</li>
               <li>Sam: 9:00AM - 5:00PM</li>
-              <li>Dim: Closed</li>
+              <li>Dim: Fermée</li>
             </ul>
             <ul className="footer-content__3">
               <li>

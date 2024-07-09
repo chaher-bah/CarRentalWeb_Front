@@ -63,6 +63,11 @@
     gap: 1rem;
   
   }
+  @media(max-width:1000px){
+    .pick-box{
+      align-self: center;
+    }
+  }
   .pick-car {
     width: 55rem;
     position: relative;
@@ -86,7 +91,16 @@
     background-color: #fb6b2f;
     color: white;
   }
-  
+  .decouvrir-btn{
+    background-color: #fc4444e9 !important;
+    width: -webkit-fill-available;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
+
+  }
+  .decouvrir-btn:hover{
+    background-color: #fe0303;
+    zoom: 110%;
+  }
   .cta-btn {
     font-size: 2rem;
     text-transform: uppercase;
@@ -132,7 +146,7 @@
   }
 
   .pick-description {
-    width: 29rem;
+    width: 35rem;
   }
   
   .pick-description__table__col {

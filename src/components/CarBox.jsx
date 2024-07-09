@@ -24,6 +24,8 @@ function CarBox({ car }) {
   return (
     <div className="box-cars">
       {/* car images */}
+      {car.imageUrls.length >0 ?(
+      console.log(car),
       <div className={`pick-car ${car.imageUrls.length > 1 ? 'image-grid' : ''}`}>
         {carLoad && <span className="loader"></span>}
         {car.imageUrls.map((img, index) => (
@@ -41,7 +43,10 @@ function CarBox({ car }) {
             />
           </div>
         ))}
-      </div>
+      </div>):(
+        <p style={{color:"black",fontFamily:"Roboto,sansSerif",fontSize:"40px",alignSelf:"center"}}>Images Inexistants</p>
+      )}
+
       {/* description */}
       <div className="pick-description">
         <div className="pick-description__price">

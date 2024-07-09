@@ -1,40 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import InfoTable from './InfoTable';
-import {IconFileSignal ,IconWritingSignOff,IconWritingSign} from "@tabler/icons-react"
-import "../dist/ReservationModule.css"
+import { IconFileSignal, IconWritingSignOff, IconWritingSign } from "@tabler/icons-react";
+import "../dist/ReservationModule.css";
+
 const Reservation = () => {
   const [expanded, setExpanded] = useState(null); // State to manage expanded dropdown
-  //fakedata
-  const resNumber=[{status:'En attente',nbr:'250'},{status:'Approuvés',nbr:'30'},{status:'Annulés',nbr:'25'}]
-  const reservations = [
-    {
-      status: 'En attente',
-      data: [
-        { id: 1, reservationNum: '56464', client: { cin: '145263', nom: 'moula' }, voiture: { number: 'ABC123', modele: 'Toyota' } },
-        { id: 2, reservationNum: '45646', client: { cin: '78989', nom: '7amouda' }, voiture: { number: 'XYZ789', modele: 'Honda civic' } },
-        { id: 3, reservationNum: '45646', client: { cin: '78989', nom: ';ldkk' }, voiture: { number: '1123tun55', modele: 'Mercedes 190e' } },
-        { id: 4, reservationNum: '45646', client: { cin: '78989', nom: 'dffaad' }, voiture: { number: 'XYZ789', modele: 'kia Rio' } },
-        { id: 5, reservationNum: '45646', client: { cin: '78989', nom: '7amouda' }, voiture: { number: 'XYZ789', modele: 'Honda' } },
-        { id: 6, reservationNum: '45646', client: { cin: '78989', nom: '7amouda' }, voiture: { number: 'XYZ789', modele: 'Honda' } },
-        { id: 7, reservationNum: '45646', client: { cin: '78989', nom: '7amouda' }, voiture: { number: 'XYZ789', modele: 'Honda' } },
-        { id: 2, reservationNum: '45646', client: { cin: '78989', nom: '7amouda' }, voiture: { number: 'XYZ789', modele: 'Honda' } },
+  const [reservations, setReservations] = useState([]);
+  const [resNumber, setResNumber] = useState([]); // State for reservation numbers
 
-      ],
-    },
-    {
-      status: 'Approuvés',
-      data: [
-        { id: 3, reservationNum: '4646', client: { cin: '145263', nom: 'moulaEl Bash' }, voiture: { number: 'DEF456', modele: 'Ford' } },
-      ],
-    },
-    {
-      status: 'Annulés',
-      data: [
-        { id: 4, reservationNum: '7890', client: { cin: '78989', nom: '7amouda' }, voiture: { number: 'GHI789', modele: 'Chevrolet' } },
-      ],
-    },
-  ];
-//drropdown handeling
+  // Function to load reservations from the API
+  const loadReservations = async () => {
+    try {
+      const response = await axios.get("http://localhost:2020/locationvoiture/v1/reservation");
+      const data = response.data;
+      const statusCounts = data.reduce((acc, reservation) => {
+        const status = reservation.reservationStatus;
+        if (!acc[status]) {
+          acc[status] = 0;
+        }
+        acc[status]++;
+        return acc;
+      }, {});
+
+      const resNumberData = Object.keys(statusCounts).map(status => ({
+        status,
+        nbr: statusCounts[status]
+      }));
+
+      setReservations(data);
+      setResNumber(resNumberData);
+    } catch (error) {
+      console.error("Failed to load reservations:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadReservations();
+  }, []);
+
+  // Dropdown handling
   const handleToggle = (index) => {
     if (expanded === index) {
       setExpanded(null); // Collapse if already expanded
@@ -42,75 +47,110 @@ const Reservation = () => {
       setExpanded(index); // Expand if not expanded
     }
   };
-  const handleopr=(id)=>{
-    alert(`doing the opertation on  item with ID: ${id}`);
-  }
+
+  // const handleOperation = (id) => {
+  //   alert(`Performing operation on item with ID: ${id}`);
+  // };
+
   const getOperationText = (status) => {
     switch (status) {
-      case 'En attente':
+      case 'EN_COUR':
         return 'Approuver';
-      case 'Approuvés':
+      case 'ACCEPTEE':
         return 'Annuler';
-      case 'Annulés':
+      case 'REFUSEE':
         return 'Approuver';
       default:
         return 'Operation';
     }
   };
+
   const getOperationIcon = (status) => {
     switch (status) {
-      case 'En attente':
-        return <IconFileSignal/>;
-      case 'Approuvés':
-        return <IconWritingSign/>;
-      case 'Annulés':
-        return <IconWritingSignOff/>;
+      case 'EN_COUR':
+        return <IconFileSignal />;
+      case 'ACCEPTEE':
+        return <IconWritingSign />;
+      case 'REFUSEE':
+        return <IconWritingSignOff />;
       default:
         return '';
     }
   };
-  const getResNum= (status) =>{
+
+  const getResNum = (status) => {
     const res = resNumber.find((section) => section.status === status);
     return <p>{res ? res.nbr : ''}</p>;
-  }
+  };
+  // Function to handle the PATCH request
+  const handleOperation = async (id, newStatus) => {
+    try {
+      const response = await axios.patch(`http://localhost:2020/locationvoiture/v1/reservation/status/${id}`, { status: newStatus });
+      if (response.status === 200) {
+        loadReservations(); // Reload reservations to reflect changes
+      }
+    } catch (error) {
+      alert(`Failed to update reservation status for ID: ${id}`);
+      console.error(`Failed to update reservation status for ID: ${id}`, error);
+    }
+  };
+
+  // Group reservations by status
+  const groupedReservations = reservations.reduce((acc, reservation) => {
+    const status = reservation.reservationStatus;
+    if (!acc[status]) {
+      acc[status] = [];
+    }
+    acc[status].push(reservation);
+    return acc;
+  }, {}); 
 
   return (
     <div className="reservation-container">
-      {reservations.map((section, index) => (
-        <div key={index} className={`reservation-section__${section.status}`}>
+      {Object.keys(groupedReservations).length>0?(
+      Object.keys(groupedReservations).map((status, index) => (
+        <div key={index} className={`reservation-section__${status}`}>
           <div className='reservation-header'>
-          <h2>Reservations  {section.status}</h2>
-          <div className="dropdown">
-            <button onClick={() => handleToggle(index)} className="dropdown-btn"><i>{getOperationIcon(section.status)} {getResNum(section.status)}</i>
-              Voir plus
-            </button>
-          </div>
+            <h2>Reservations {status.charAt(0)+status.slice(1).toLowerCase()}</h2>
+            <div className="dropdown">
+              <button onClick={() => handleToggle(index)} className="dropdown-btn"><i>{getOperationIcon(status)} {getResNum(status)}</i>
+                Voir plus
+              </button>
+            </div>
             {expanded === index && (
               <div className="dropdown-content">
                 <InfoTable
                   columns={[
-                    { Header: 'Numéro de réservation', accessor: 'reservationNum' },
+                    { Header: 'Numéro de réservation', accessor: 'id' },
                     {
                       Header: 'Client',
                       accessor: 'client',
-                      Cell: ({ value }) => `${value.cin} - ${value.nom}`,
+                      Cell: ({ value }) => `${value.cin} / ${value.nom}`,
                     },
                     {
                       Header: 'Voiture',
-                      accessor: 'voiture',
-                      Cell: ({ value }) => `${value.number} - ${value.modele}`,
+                      accessor: 'car',
+                      Cell: ({ value }) => ` ${value.marque}-${value.modele} (${value.matricule})`,
+                    },
+                    {
+                      Header: 'Periode',
+                      accessor: (row) => `De : ${row.startDate} jusqu'a: ${row.endDate}`,
                     },
                   ]}
-                  data={section.data} 
-                  
-                  operation={getOperationText(section.status)}
-                  opr={handleopr}
+                  data={groupedReservations[status]}
+                  operation={getOperationText(status)}
+                  opr={(id) => {
+                    const newStatus = status === 'REFUSEE' ? 'ACCEPTEE' : status==='ACCEPTEE'?'REFUSEE':'ACCEPTEE';
+                    handleOperation(id, newStatus);
+                  }}
                 />
               </div>
             )}
           </div>
         </div>
-      ))}
+      ))
+      ):(<p style={{color:"black",fontSize:"40px"}}>Pas de reservation  </p>)
+    }
     </div>
   );
 };

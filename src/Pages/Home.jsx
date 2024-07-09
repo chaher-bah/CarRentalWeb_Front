@@ -13,9 +13,9 @@ function Home() {
     <>
       <HomeComponent />
       <Suspense fallback={<Page404/>}>
-      <BookCar />
-      <PlanTrip />
       <PickCar />
+      <PlanTrip />
+      <BookCar />
       <Banner />
       <ChooseUs />
       <Footer /></Suspense>

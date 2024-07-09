@@ -6,6 +6,7 @@ import { IconCar, IconCalendarStats, IconManualGearbox, IconGasStation } from "@
 import "../dist/ModelsModule.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { color } from "framer-motion";
 
 const Models = () => {
   const [cars, setCars] = useState([]);
@@ -13,9 +14,17 @@ const Models = () => {
   const loadCars = async () => {
     try {
       const response = await axios.get("http://localhost:2020/locationvoiture/v1/cars");
-      const carsData = response.data;
-      setCars(carsData);
+      const carsData = Array.isArray(response.data) ? response.data : [];
+      const carsWithImages = await Promise.all(carsData.map(async car => {
+      if (car.imageUrls && car.imageUrls.length > 0) {
+        // const imgResponse= await axios.get(`http://localhost:2020/locationvoiture/v1/cars/${car.id}/images/0`)
+        return { ...car, imageUrls:`http://localhost:2020/locationvoiture/v1/cars/${car.id}/images/0` }; // Add imageUrlObject to the car object
+      }
+      return car;
+    }));
+      setCars(carsWithImages);
       console.log(response.data)
+      console.log(carsWithImages)
     } catch (error) { 
       console.error("Failed to load cars:", error);
     }
@@ -32,12 +41,13 @@ const Models = () => {
         <div className="container">
           <div className="models-div">
             {cars.length > 0 ? (
+              console.log(cars.length),
               cars.map((car, index) => (
                 <div className="models-div__box" key={index}>
                   <div className="models-div__box__img">
                     {car.imageUrls && (
                       <img
-                      src={car.imageUrls[0]}
+                      src={car.imageUrls}
                       alt={`car_img_${index}`}
                       />
                     )}
@@ -75,7 +85,7 @@ const Models = () => {
                 </div>
               ))
             ) : (
-              <p>Loading Cars......</p>
+              <p style={{color: "black", fontSize: "40px",fontFamily:"Roboto,sansSerif"}}>Loading Cars......</p>
             )}
           </div>
         </div>
