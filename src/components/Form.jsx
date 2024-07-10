@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import "../dist/FormModule.css";
 
 const Form = ({ title, fields, buttonLabel, onSubmit }) => {
+  const [fileInputs, setFileInputs] = useState({});
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFileInputs((prev) => ({ ...prev, [name]: files }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
+    Object.keys(fileInputs).forEach((key) => {
+      data[key] = fileInputs[key];
+    });
     onSubmit(data);
   };
 
@@ -29,7 +39,8 @@ const Form = ({ title, fields, buttonLabel, onSubmit }) => {
                   name={field.name}
                   required={field.required}
                   accept={field.accept}
-                  multiple="multiple"
+                  multiple
+                  onChange={handleFileChange}
                 />
               ) : (
                 <input
@@ -39,9 +50,9 @@ const Form = ({ title, fields, buttonLabel, onSubmit }) => {
                   type={field.type}
                   name={field.name}
                   required={field.required}
-                  min={field.min?field.min:undefined}
-                  max={field.max?field.max:undefined}
-                  step={field.step?field.step:undefined}
+                  min={field.min ? field.min : undefined}
+                  max={field.max ? field.max : undefined}
+                  step={field.step ? field.step : undefined}
                 />
               )}
             </div>
@@ -65,8 +76,8 @@ Form.propTypes = {
       placeholder: PropTypes.string,
       required: PropTypes.bool,
       accept: PropTypes.string,
-      min:PropTypes.string,
-      max:PropTypes.string
+      min: PropTypes.string,
+      max: PropTypes.string
     })
   ).isRequired,
   buttonLabel: PropTypes.string.isRequired,

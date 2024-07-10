@@ -1,3 +1,6 @@
+.sidebar-container{
+    height: 100%;
+}
 aside{
     height: 100%;
     overflow: auto;
@@ -40,7 +43,6 @@ aside{
     cursor: pointer;
     background-color: #401a011c;
     width: 100%;
-    height: 100%;
     border: 1px solid #401a01;
 }
 .sidebar__links .item.active{

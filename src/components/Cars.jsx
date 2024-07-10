@@ -2,20 +2,33 @@ import React, { Suspense, lazy, useState, useEffect } from 'react';
 import "../dist/CarsModule.css";
 import Page404 from "../Pages/Page404";
 import axios from "axios";
-
+import toast,{Toaster} from 'react-hot-toast';
+import {IconAlertTriangle} from '@tabler/icons-react';
 const InfoTable = lazy(() => import('./InfoTable'));
 const Form = lazy(() => import('../components/Form'));
-
 const Cars = () => {
   const [cars, setCars] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [showCars, setShowCars] = useState(false);
 
+  //loading cars from  the backend
   const loadCars = async () => {
     try {
       const response = await axios.get("http://localhost:2020/locationvoiture/v1/admin/cars");
+      console.log(response)
+
       setCars(response.data);
     } catch (error) {
+      toast.error("Problem lors de l'acces au BD",{
+        style:{
+          fontSize:'2rem',
+          fontWeight:'700',
+          fontFamily:'Roboto,sansSerif',
+          border:'2px solid red'
+
+        },
+        duration:7000
+      })
       console.error("Failed to load cars:", error);
     }
   };
@@ -23,17 +36,17 @@ const Cars = () => {
   useEffect(() => {
     loadCars();
   }, []);
-
+  //handeling the state of the cars list
   const handleShowCars = () => {
     setShowCars(true);
     setShowForm(false);
   };
-
+  //handeling the state of the form for adding the car
   const handleShowForm = () => {
     setShowForm(true);
     setShowCars(false);
   };
-
+  //handeling the input form
   const handleAddCar = async (formData) => {
     try {
       const carData = {
@@ -46,31 +59,71 @@ const Cars = () => {
         dateExpAssurance: formData.dateExpAssurance,
         dateExpVignette: formData.dateExpVignette,
         dateExpVisite: formData.dateExpVisite,
-        fraisLocation: parseFloat(formData.fraisLocation),
+        fraisLocation: parseFloat(formData.fraisLocation)
       };
       const formDataApi = new FormData();
       formDataApi.append('car', JSON.stringify(carData));
-      if (formData.photos.length > 5) {
-        alert("You can upload up to 5 photos only.");
+      const photos = formData.photos;
+      console.log(photos)
+      if (photos.length > 6) {
+        toast.error('Vous ne pouvez utiliser que 6 photos maximum.',{
+        style:{
+          border: '2px solid #E0A75E',
+          fontSize:'3rem',
+          fontWeight:'700',
+          backgroundColor:"#F9D689",
+          color:'#973131',
+          width:'100rem',
+          fontFamily:'Roboto,sansSerif',
+        },
+        icon:<IconAlertTriangle/>,
+        duration:5000,
+        
+      })
         return;
-      }
-      console.log(formData.photos)
-      formDataApi.append('images', formData.photos);
-
+    }
+    console.log(photos.length)
+    for (let i = 0; i < photos.length; i++) {
+      formDataApi.append('images', photos[i]);
+    }
       const response = await axios.post('http://localhost:2020/locationvoiture/v1/cars/ajouter', formDataApi, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-
       setCars(prevCars => [...prevCars, response.data]);
+      toast.success('Les donnes du voitures Ajoutees avec success.', {
+        style: {
+          border: '2px solid #1A5319',
+          fontSize:'2.5rem',
+          fontWeight:'700',
+          width:'100rem',
+          fontFamily:'Roboto,sansSerif',
+        },
+        iconTheme: {
+          primary: '#80AF81',
+          secondary: '#FFFAEE',
+        },
+        duration:8000
+      });
       setShowForm(false);
+
     } catch (error) {
+      toast.error("Problem lors l'ajout du voiture Verifier Tous les Donnes",{
+        style:{
+          fontSize:'2rem',
+          fontWeight:'700',
+          fontFamily:'Roboto,sansSerif',
+          border:'2px solid red'
+
+        },
+        duration: 7000
+      })
       console.error('Failed to add car:', error);
       // Handle error appropriately, e.g., show error message
     }
   };
-
+  //TO DO handele the button action
   const handleCarModification = (id) => {
     alert(`Modifying item with ID: ${id}`);
   };
@@ -84,6 +137,7 @@ const Cars = () => {
   const getStatusColor = (daysDiff) => {
     return(daysDiff < 0)?'red':(daysDiff <= 30)?'orange':'green';
   };
+  //the form fields to input the data
   const formFields = [
     { name: 'marque', label: 'Marque', type: 'text', placeholder: 'VW/Mercedes/BMW', required: true },
     { name: 'modele', label: 'Modèle', type: 'text', placeholder: 'Golf6/GLA-4Matic', required: true },
@@ -99,13 +153,18 @@ const Cars = () => {
   ];
 
   return (
-    <Suspense fallback={<Page404 />}>
+    <Suspense fallback={<Page404 />}>    <Toaster containerStyle={{
+      top: 100,
+      left: 320,
+      inset:'50px 16px 16px 12px'
+      
+    }}/>
+
       <div className="cars-container">
         <div className="cars__buttons-container">
           <button onClick={handleShowCars}>Afficher toutes les voitures</button>
           <button onClick={handleShowForm}>Ajouter nouvelle voiture</button>
         </div>
-
         {showCars && (
           <div className="cars-list">
             {cars.length === 0 ? (

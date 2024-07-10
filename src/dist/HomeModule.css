@@ -202,9 +202,10 @@
 
   .bg-shape {
     position: absolute;
-    top: 0;
+    top: -3rem;
     right: 0;
     z-index: 1;
+    zoom: 120%;
   }
   
   @media (max-width: 800px) {

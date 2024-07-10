@@ -34,13 +34,14 @@
     font-size:4rem;
   }
   
-  .text-content span {
+  .text-content span a{
     display: flex;
     font-size: 3rem;
     gap: 1.5rem;
     align-items: center;
     color: #ff4d30;
     white-space: nowrap;
+    text-decoration: none;
   }
   @media (max-width: 750px) {
     .book-banner {

@@ -8,11 +8,14 @@ const Footer =lazy(()=>import( "../components/Footer"));
 const PickCar =lazy(()=>import( "../components/PickCar"));
 const Banner =lazy(()=>import( "../components/Banner"));
 const ChooseUs =lazy(()=>import( "../components/ChooseUs"));
+const PhoneBanner =lazy(()=>import( "../components/PhoneBanner"));
+
 function Home() {
   return (
     <>
       <HomeComponent />
       <Suspense fallback={<Page404/>}>
+      <PhoneBanner/>
       <PickCar />
       <PlanTrip />
       <BookCar />
