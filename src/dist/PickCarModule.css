@@ -3,6 +3,9 @@
     margin-bottom: 5rem;
     padding: 4rem 0;
   }
+.pick-section .container{
+  padding: 0;
+}
 @media (max-width:1000px) {
   .pick-section{
     overflow-x: scroll;
@@ -50,7 +53,6 @@
   .pick-container__car-content {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
   }
   .colored-button {
     background-color: #fb6b2f !important;
@@ -61,6 +63,7 @@
     flex-direction: column;
     width: 27rem;
     gap: 1rem;
+    margin-top: 4rem;
   
   }
   @media(max-width:1000px){
@@ -85,6 +88,8 @@
     background-color: #e9e9e9;
     transition: all 0.2s;
     text-align: left;
+    height: 5rem;
+    gap: 1rem;
   }
   
   .pick-box button:hover {
@@ -141,8 +146,7 @@
   
   
 .pick-car img {
-    width: 100%;
-    padding: 3rem;
+    padding: .5rem;
   }
 
   .pick-description {
@@ -173,7 +177,21 @@
 
   .box-cars {
     display: flex;
-    justify-content: space-between;
-    gap: 9rem;
+    gap: 12rem;
+  }
+  .box-cars .carousel-cars .thumbs{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+  }
+  .box-cars .carousel-cars .thumbs-wrapper{
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.134) 0px 30px 40px -7px;
+  }
+  .box-cars .carousel-cars .thumb{
+    border: none;
+  }
+  .box-cars .carousel-cars .slide img{
+    border-radius: 2rem;
   }
       

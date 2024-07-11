@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 function CarBox({ car }) {
   const [carLoad, setCarLoad] = useState(true);
   const [bigCar, setBigCar] = useState(null);
@@ -13,7 +14,7 @@ function CarBox({ car }) {
     if (bigCar !== null) {
       timer = setTimeout(() => {
         setBigCar(null);
-      }, 800);
+      }, 80000);
     }
 
     return () => {
@@ -28,6 +29,7 @@ function CarBox({ car }) {
       console.log(car),
       <div className={`pick-car ${car.imageUrls.length > 1 ? 'image-grid' : ''}`}>
         {carLoad && <span className="loader"></span>}
+        <Carousel className="carousel-cars"autoPlay autoFocus infiniteLoop interval={2500} showStatus={false} width={'120%'}>
         {car.imageUrls.map((img, index) => (
           <div
             key={index}
@@ -36,13 +38,14 @@ function CarBox({ car }) {
           >
             <img
               key={index}
-              style={{ display: carLoad ? "none" : "block" }}
+              // style={{ display: carLoad ? "none" : "block" }}
               src={img}
               alt={`car_img_${index}`}
               onLoad={() => setCarLoad(false)}
             />
           </div>
-        ))}
+
+        ))}</Carousel>
       </div>):(
         <p style={{color:"black",fontFamily:"Roboto,sansSerif",fontSize:"40px",alignSelf:"center"}}>Images Inexistants</p>
       )}

@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import {useForm} from 'react-hook-form'
 import PropTypes from 'prop-types';
 import "../dist/FormModule.css";
 
-const Form = ({ title, fields, buttonLabel, onSubmit }) => {
+const Form = ({ title, fields, buttonLabel, onSubmit,initialValues }) => {
   const [fileInputs, setFileInputs] = useState({});
-
+  const {register,setValue}=useForm();
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFileInputs((prev) => ({ ...prev, [name]: files }));
   };
-
+  useEffect(() => {
+    if (initialValues) {
+      Object.keys(initialValues).forEach(key => {
+        setValue(key, initialValues[key]);
+      });
+    }
+  }, [initialValues, setValue]);
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -32,8 +39,8 @@ const Form = ({ title, fields, buttonLabel, onSubmit }) => {
               </label>
               {field.type === "file" ? (
                 <input
+                  {...register(field.name)}
                   placeholder={field.placeholder}
-                  id={field.name}
                   className="form_style"
                   type={field.type}
                   name={field.name}
@@ -44,8 +51,8 @@ const Form = ({ title, fields, buttonLabel, onSubmit }) => {
                 />
               ) : (
                 <input
+                  {...register(field.name)}
                   placeholder={field.placeholder}
-                  id={field.name}
                   className="form_style"
                   type={field.type}
                   name={field.name}

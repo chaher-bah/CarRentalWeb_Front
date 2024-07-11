@@ -7,16 +7,16 @@ import {IconAlertTriangle} from '@tabler/icons-react';
 const InfoTable = lazy(() => import('./InfoTable'));
 const Form = lazy(() => import('../components/Form'));
 const Cars = () => {
-  const [cars, setCars] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [showCars, setShowCars] = useState(false);
+  const [cars, setCars] = useState([]);//state to retrive cars data
+  const [showForm, setShowForm] = useState(false);//state for the form to add car
+  const [showCars, setShowCars] = useState(false);  //state for list cars
+  const [selectedCar, setSelectedCar] = useState(null); // state for selected car
+  const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
 
   //loading cars from  the backend
   const loadCars = async () => {
     try {
       const response = await axios.get("http://localhost:2020/locationvoiture/v1/admin/cars");
-      console.log(response)
-
       setCars(response.data);
     } catch (error) {
       toast.error("Problem lors de l'acces au BD",{
@@ -40,11 +40,14 @@ const Cars = () => {
   const handleShowCars = () => {
     setShowCars(true);
     setShowForm(false);
+    setSelectedCar(null);
   };
   //handeling the state of the form for adding the car
   const handleShowForm = () => {
     setShowForm(true);
     setShowCars(false);
+    setSelectedCar(null);
+    setFormMode('Ajouter')
   };
   //handeling the input form
   const handleAddCar = async (formData) => {
@@ -65,6 +68,7 @@ const Cars = () => {
       formDataApi.append('car', JSON.stringify(carData));
       const photos = formData.photos;
       console.log(photos)
+
       if (photos.length > 6) {
         toast.error('Vous ne pouvez utiliser que 6 photos maximum.',{
         style:{
@@ -83,16 +87,29 @@ const Cars = () => {
         return;
     }
     console.log(photos.length)
+
     for (let i = 0; i < photos.length; i++) {
       formDataApi.append('images', photos[i]);
     }
+    //adding the modifying logic
+    let response;
+    if(selectedCar){
+      response=await axios.put(`http://localhost:2020/locationvoiture/v1/cars/update/${selectedCar.id}`,formDataApi,{
+        headers:{
+          'Content-Type':'multipart/form-data'
+        }
+      });
+      setCars(prevCars => prevCars.map(car => car.id === selectedCar.id ? response.data : car));
+    }else{
       const response = await axios.post('http://localhost:2020/locationvoiture/v1/cars/ajouter', formDataApi, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
       setCars(prevCars => [...prevCars, response.data]);
-      toast.success('Les donnes du voitures Ajoutees avec success.', {
+    }
+
+      toast.success(`Les donnes du voitures ${formMode} avec success.`, {
         style: {
           border: '2px solid #1A5319',
           fontSize:'2.5rem',
@@ -126,6 +143,12 @@ const Cars = () => {
   //TO DO handele the button action
   const handleCarModification = (id) => {
     alert(`Modifying item with ID: ${id}`);
+    const carToEdit=cars.find(car=>car.id===id);
+    console.log(carToEdit)
+    setSelectedCar(carToEdit);
+    setShowForm(true);
+    setShowCars(false);
+    setFormMode("Modifier")
   };
   const getDaysDiff=(date)=>{
     const today = new Date();
@@ -243,12 +266,25 @@ const Cars = () => {
 
         {showForm && (
           <div className="add-car-form">
-            <h2>Ajouter une nouvelle voiture</h2>
+            <h2> {formMode} une voiture</h2>
             <Form
               title=""
               fields={formFields}
-              buttonLabel="Ajouter"
+              buttonLabel={formMode}
               onSubmit={handleAddCar}
+              initialValues={selectedCar?{
+                marque: selectedCar.marque,
+                modele: selectedCar.modele,
+                anneemodele: selectedCar.anneemodele,
+                carburant: selectedCar.carburant,
+                matricule: selectedCar.matricule,
+                transmission: selectedCar.transmission,
+                dateExpAssurance: selectedCar.dateExpAssurance,
+                dateExpVignette: selectedCar.dateExpVignette,
+                dateExpVisite: selectedCar.dateExpVisite,
+                fraisLocation: selectedCar.fraisLocation,
+                photos:[]
+              }:null}
             />
           </div>
         )}
