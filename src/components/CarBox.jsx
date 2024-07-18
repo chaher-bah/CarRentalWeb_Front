@@ -14,7 +14,7 @@ function CarBox({ car }) {
     if (bigCar !== null) {
       timer = setTimeout(() => {
         setBigCar(null);
-      }, 80000);
+      }, 7000);
     }
 
     return () => {

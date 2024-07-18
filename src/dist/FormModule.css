@@ -39,6 +39,10 @@
     align-items: baseline;
     margin: 10px;
   }
+  .form_group select{
+    width: -webkit-fill-available;
+    
+  }
   
   .form_style {
     outline: none;

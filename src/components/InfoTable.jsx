@@ -1,24 +1,24 @@
 import React from 'react';
 import { useTable, useSortBy } from 'react-table';
-import {IconArrowUp,IconArrowDown} from '@tabler/icons-react';
+import { IconArrowUp, IconArrowDown } from '@tabler/icons-react';
 import PropTypes from 'prop-types';
 import '../dist/InfoTableModule.css';
 
-const InfoTable = ({ data, columns ,operation,opr}) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+const InfoTable = ({ data, columns, operations }) => {
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
+  } = useTable(
     {
       columns,
       data,
-      initialState: {
-      },
+      initialState: {},
     },
-    useSortBy // Hook for sorting functionality
+    useSortBy
   );
-  // const handleDelete = (id) => {
-  //   //  delete function
-  //   // Replace with  API call)
-  //   alert(`${operation} item with ID: ${id}`);
-  // };
 
   return (
     <div className="info-table">
@@ -29,17 +29,17 @@ const InfoTable = ({ data, columns ,operation,opr}) => {
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
-                  {/* Render sort indicator */}
                   <span>
-                    {column.isSorted ? (column.isSortedDesc ? <IconArrowDown/> : <IconArrowUp/>) : ''}
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? <IconArrowDown />
+                        : <IconArrowUp />
+                      : ''}
                   </span>
                 </th>
               ))}
-              <th>
-                Operation
-              </th>
+              <th>Operations</th>
             </tr>
-
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
@@ -51,7 +51,21 @@ const InfoTable = ({ data, columns ,operation,opr}) => {
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}
                 <td>
-                  <button onClick={()=>opr(row.original.id)}>{operation}</button>
+                  <select
+                  style={{fontFamily:'Roboto,sansSerif',height:"-webkit-fill-available",backgroundColor:"bisque"}}
+                    onChange={(e) => {
+                      const selectedOperation = operations.find(op => op.name === e.target.value);
+                      if (selectedOperation) {
+                        selectedOperation.action(row.original.id);
+                      }
+                    }}
+                    defaultValue=""
+                  >
+                    <option value="" disabled style={{fontSize:"1.5rem"}}>sélectionner une opération</option>
+                    {operations.map((op, index) => (
+                      <option key={index} value={op.name} style={{backgroundColor:"#E4003A",alignText:"center",fontSize:"1.5rem"}}>{op.name}</option>
+                    ))}
+                  </select>
                 </td>
               </tr>
             );
@@ -65,9 +79,10 @@ const InfoTable = ({ data, columns ,operation,opr}) => {
 InfoTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-  operation:PropTypes.string,
-  opr: PropTypes.func.isRequired,
-
+  operations: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired,
+  })).isRequired,
 };
 
 export default InfoTable;

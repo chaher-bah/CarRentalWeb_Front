@@ -40,7 +40,7 @@
     display: none;
 }
 .hide-template{
-    height: -webkit-fill-available;
+    height: 100vh;
 }
 .hide-template .admin-div .sidebar-container{
     height: 95rem;

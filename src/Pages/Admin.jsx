@@ -8,6 +8,7 @@ const Cars = lazy(()=> import ('../components/Cars'));
 const Dashboard =lazy(()=>import( '../components/Dashboard'));
 const Clients=lazy(()=>import('../components/Clients'));
 const Sidebar= lazy(()=>import( '../components/Sidebar'));
+const Calendar= lazy(()=>import( '../components/Calendar'));
 
 
 const Admin =() =>{
@@ -15,7 +16,7 @@ const Admin =() =>{
     const [isSpecialAdminPath, setIsSpecialAdminPath] = useState(false);
 
 useEffect(() => {
-    setIsSpecialAdminPath(['/admin/clients', '/admin/cars', '/admin/reservations'].includes(location.pathname));
+    setIsSpecialAdminPath(['/admin/clients', '/admin/cars', '/admin/reservations','/admin/calendrier'].includes(location.pathname));
 }, [location]);
   return (
     <><Suspense fallback={<Page404/>}>
@@ -30,6 +31,7 @@ useEffect(() => {
                 <Route path='/clients' element={<Clients/>}></Route>
                 <Route path='/cars' element={<Cars/>}></Route>
                 <Route path='/reservations'element={<Reservations/>}></Route>
+                <Route path='/calendrier'element={<Calendar/>}></Route>
                 </Routes>
             </div>
         </section>

@@ -71,11 +71,9 @@ aside{
     .mobile-sidebar{
         display: grid;
         width: 7rem;
-        margin-top: 4rem;
-        align-content: center;
+        height: 90vh;
         justify-items: center;
-        position: fixed;
-        top: 27rem;
+        position: relative;
     }
     .mobile-sidebar__links{
         background-color: #fff5de;
@@ -85,8 +83,8 @@ aside{
         align-items: center;
         justify-content:space-between;
         gap: 8rem;
-        height: 100%;
-        padding: 6rem 1rem 6rem 1rem;
+        height: auto;
+        padding: 2rem 1rem 6rem 1rem;
     }
     .mobile-sidebar__links a{
         font-size: 2rem;
@@ -113,5 +111,8 @@ aside{
         background-color: #f8905088;
         padding: 1rem;
         border-radius: 50%;
+    }
+    .mobile-sidebar__links .item{
+        padding: 1rem;
     }
 }

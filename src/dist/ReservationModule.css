@@ -20,6 +20,39 @@
 .reservation-section h2{
     position: relative;
 }
+.reservation__buttons-container{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 25rem;
+}
+@media(max-width:1000px){
+    .reservation__buttons-container{
+        flex-direction: column;
+        gap: 5rem;
+    }
+}
+.reservation__buttons-container button{
+    width: 25rem;
+    height: 5rem;
+    border-radius: 1.5rem;
+    outline: none;
+    border: none;
+    background-color: #44fc44bb;
+    color: #014001;
+    font-family: "Ubuntu",sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem;
+    transition: all .3s ease-in-out;
+}
+.reservation__buttons-container button:hover{
+    background-color:#0cf40c;
+    cursor: pointer;
+    width: 27rem;
+    height: 5.8rem;
+}
+
+
 .dropdown-btn{
     display: flex;
     align-items: center;
@@ -66,9 +99,7 @@
 .dropdown-btn i p:hover{
     font-size: 2rem;
 }
-.dropdown-btn:hover::after{
-    display: none;
-}
+.dropdown-btn:hover::after{display: none;}
 .dropdown-content{
     padding: 1rem;
     transition: all .5s ease;
@@ -86,5 +117,43 @@
 @media(max-width:1000px){
     .dropdown-content .info-table{
         position: relative;
+    }
+}
+
+.add-res-form{
+    display: flex;
+    flex-direction: column;
+    gap: inherit;
+    align-items: center;
+}
+.add-res-form .form_area{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+.add-res-form form{
+    display: contents !important;
+}
+.add-res-form .form_area p{
+    display: none;
+}
+.add-res-form__title{
+    font-weight: 500;
+    font-size: 4rem;
+    font-family: "Roboto",sans-serif;
+}
+@media(max-width:1000px){
+    .add-res-form .form_area{
+        grid-template-columns: repeat(1,1fr);
+        grid-template-rows: repeat(1,1fr);
+    }
+    .ReservationBg{
+        display: none;
+    }
+}
+
+@media(max-width:1000px){
+    .add-res-form form{
+        display: flex;
+        flex-direction: column;
     }
 }

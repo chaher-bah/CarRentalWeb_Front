@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
 import "../dist/CarsModule.css";
 import Page404 from "../Pages/Page404";
+import CarsBg from '../components/CarsBg'
 import axios from "axios";
 import toast,{Toaster} from 'react-hot-toast';
 import {IconAlertTriangle} from '@tabler/icons-react';
@@ -108,7 +109,6 @@ const Cars = () => {
       });
       setCars(prevCars => [...prevCars, response.data]);
     }
-
       toast.success(`Les donnes du voitures ${formMode} avec success.`, {
         style: {
           border: '2px solid #1A5319',
@@ -137,7 +137,6 @@ const Cars = () => {
         duration: 7000
       })
       console.error('Failed to add car:', error);
-      // Handle error appropriately, e.g., show error message
     }
   };
   //TO DO handele the button action
@@ -150,6 +149,39 @@ const Cars = () => {
     setShowCars(false);
     setFormMode("Modifier")
   };
+  const handleDeleteOperation = async (id) => {
+    try {
+        const answer= window.confirm(`Voulais-Vous supprimer la Voiture avec l'id ${id}`)
+        if(answer){
+        await axios.delete(`http://localhost:2020/locationvoiture/v1/cars/${id}`);
+        setCars(prevCars => prevCars.filter(car => car.id !== id));
+        toast.success("Voiture supprimé avec succès", {
+            style: {
+                fontSize: '2rem',
+                fontWeight: '700',
+                fontFamily: 'Roboto, sans-serif',
+                border: '2px solid green'
+            },
+            duration: 7000
+        });}
+    } catch (error) {
+        console.error(`Failed to delete Car with ID ${id}:`, error);
+        toast.error("Erreur lors de la suppression de la Voiture", {
+            style: {
+                fontSize: '2rem',
+                fontWeight: '700',
+                fontFamily: 'Roboto, sans-serif',
+                border: '2px solid red'
+            },
+            duration: 7000
+        });
+    }
+};
+
+  const operations = [
+    { name: "Modifier", action: handleCarModification },
+    {name:"Supprimer", action:handleDeleteOperation }]
+
   const getDaysDiff=(date)=>{
     const today = new Date();
     const dueDate = new Date(date);
@@ -187,6 +219,7 @@ const Cars = () => {
         <div className="cars__buttons-container">
           <button onClick={handleShowCars}>Afficher toutes les voitures</button>
           <button onClick={handleShowForm}>Ajouter nouvelle voiture</button>
+          <CarsBg/>
         </div>
         {showCars && (
           <div className="cars-list">
@@ -200,6 +233,7 @@ const Cars = () => {
                 <h2>Liste des voitures</h2>
                 <InfoTable
                   columns={[
+                    { Header: 'Id Voiture', accessor: 'id' },
                     { Header: 'Marque', accessor: (row) => `${row.marque} - ${row.modele}` },
                     { Header: 'Date de début de circulation', accessor: 'anneemodele' },
                     { Header: 'Carburant', accessor: 'carburant' },
@@ -256,8 +290,7 @@ const Cars = () => {
                     }
                   ]}
                   data={cars}
-                  operation={'Modifier'}
-                  opr={handleCarModification}
+                  operations={operations}
                 />
               </div>
             )}
@@ -268,7 +301,6 @@ const Cars = () => {
           <div className="add-car-form">
             <h2> {formMode} une voiture</h2>
             <Form
-              title=""
               fields={formFields}
               buttonLabel={formMode}
               onSubmit={handleAddCar}

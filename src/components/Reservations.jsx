@@ -1,19 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,lazy, Suspense } from 'react';
 import axios from 'axios';
-import InfoTable from './InfoTable';
 import { IconFileSignal, IconWritingSignOff, IconWritingSign } from "@tabler/icons-react";
 import "../dist/ReservationModule.css";
+import toast,{Toaster} from 'react-hot-toast';
+import Page404 from '../Pages/Page404';
+import ReservationBg from './ReservationBg';
+const Form = lazy(() => import('../components/Form'));
+const InfoTable = lazy(() => import('../components/InfoTable'));
+
 
 const Reservation = () => {
   const [expanded, setExpanded] = useState(null); // State to manage expanded dropdown
   const [reservations, setReservations] = useState([]);
   const [resNumber, setResNumber] = useState([]); // State for reservation numbers
-
+  const [showForm, setShowForm] = useState(false);//state for the form to add res
+  const [showRes, setShowRes] = useState(true);  //state for list res
+  const [selectedRes, setSelectedRes] = useState(null); // state for selected car
+  const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
+  
   // Function to load reservations from the API
   const loadReservations = async () => {
     try {
       const response = await axios.get("http://localhost:2020/locationvoiture/v1/reservation");
       const data = response.data;
+      console.log(response)
       const statusCounts = data.reduce((acc, reservation) => {
         const status = reservation.reservationStatus;
         if (!acc[status]) {
@@ -22,7 +32,6 @@ const Reservation = () => {
         acc[status]++;
         return acc;
       }, {});
-
       const resNumberData = Object.keys(statusCounts).map(status => ({
         status,
         nbr: statusCounts[status]
@@ -31,13 +40,89 @@ const Reservation = () => {
       setReservations(data);
       setResNumber(resNumberData);
     } catch (error) {
+      toast.error("Problem lors de l'acces au BD",{
+        style:{
+          fontSize:'2rem',
+          fontWeight:'700',
+          fontFamily:'Roboto,sansSerif',
+          border:'2px solid red'
+
+        },
+        duration:7000
+      })
       console.error("Failed to load reservations:", error);
     }
   };
-
   useEffect(() => {
     loadReservations();
   }, []);
+  //handeling the res 
+  const handleShowRes = () => {
+    setShowRes(true);
+    setShowForm(false);
+    setSelectedRes(null);
+  };
+  //handeling the form
+  const handleShowForm = () => {
+    setShowForm(true);
+    setShowRes(false);
+    setSelectedRes(null);
+    setFormMode('Ajouter');
+  };
+  //handeling the input
+  const handleAddRes= async (formData) => {
+   try {
+    const resData = {
+      startDate: formData.date_Debut,
+      endDate: formData.date_Fin,
+      reservationStatus: formData.statusRes,
+      client: {
+        id: formData.idClient,
+      },
+      car: {
+        id: formData.idVoiture,
+      }
+    };
+     if (selectedRes){
+      const response=await axios.put(`http://localhost:2020/locationvoiture/v1/reservation/update/${selectedRes.id}`,resData)
+      console.log(resData)
+     setReservations(prevRes => prevRes.map(Reservation => Reservation.id === selectedRes.id ? response.data : Reservation));
+    }else{
+      const response = await axios.post("http://localhost:2020/locationvoiture/v1/reservation/ajouter", resData);
+      setReservations(prevReservations=>[...prevReservations,response.data])
+    }
+      toast.success(`Les donnes de Reservation ${formMode} avec success.`, {
+        style: {
+          fontSize: '2rem',
+          fontWeight: '700',
+          fontFamily: 'Roboto,sansSerif',
+          border: '2px solid green'
+        },
+        duration: 7000
+      });
+      setShowForm(false);
+    } catch (error) { 
+      toast.error(`Problem lors ${formMode} de reservation Verifier Tous les Donnes`,{
+        style:{
+          fontSize:'2rem',
+          fontWeight:'700',
+          fontFamily:'Roboto,sansSerif',
+          border:'2px solid red'
+        },
+        duration: 7000
+      })
+      console.error('Failed to add res:', error);
+    }
+  };
+  //the form fields
+  const formFields = [
+    { name: 'date_Debut', label: 'Date Début De Location', type: 'datetime-local', required: true },
+    { name: 'date_Fin', label: 'Date Fin De Location', type: 'datetime-local', required: true },
+    { name: 'idClient', label: 'ID de Client', type: 'text', required: true },
+    { name: 'statusRes', label: 'Status de Réservation', type: 'select', optionNumber: '3', options: ['EN_COUR', 'ACCEPTEE', 'REFUSEE'], required: false },
+    { name: 'idVoiture', label: 'ID de Voiture', type: 'text', required: true },
+  ];
+
 
   // Dropdown handling
   const handleToggle = (index) => {
@@ -47,10 +132,6 @@ const Reservation = () => {
       setExpanded(index); // Expand if not expanded
     }
   };
-
-  // const handleOperation = (id) => {
-  //   alert(`Performing operation on item with ID: ${id}`);
-  // };
 
   const getOperationText = (status) => {
     switch (status) {
@@ -82,18 +163,54 @@ const Reservation = () => {
     const res = resNumber.find((section) => section.status === status);
     return <p>{res ? res.nbr : ''}</p>;
   };
-  // Function to handle the PATCH request
+
+  // Function to handle the PATCH request for the status
   const handleOperation = async (id, newStatus) => {
     try {
+      alert(`Chnager la Status du Reservation avec ID ${id}???`)
       const response = await axios.patch(`http://localhost:2020/locationvoiture/v1/reservation/status/${id}`, { status: newStatus });
       if (response.status === 200) {
         loadReservations(); // Reload reservations to reflect changes
+        toast.success(`La status du reservation ${id} est changer a ${newStatus}`, {
+          style: {
+            border: '2px solid #1A5319',
+            fontSize:'2.2rem',
+            fontWeight:'700',
+            width:'100rem',
+            fontFamily:'Roboto,sansSerif',
+          },
+          iconTheme: {
+            primary: '#80AF81',
+            secondary: '#FFFAEE',
+          },
+          duration:8000
+        });
       }
     } catch (error) {
-      alert(`Failed to update reservation status for ID: ${id}`);
+      alert(`Error lors de changant staus du reservation ${id} `);
+      toast.error(`Problem lors mise a jour du status du reservation${id}`,{
+        style:{
+          fontSize:'2rem',
+          fontWeight:'700',
+          fontFamily:'Roboto,sansSerif',
+          border:'2px solid red'
+
+        },
+        duration:7000
+      })
       console.error(`Failed to update reservation status for ID: ${id}`, error);
     }
   };
+  //Function to handle the PATCH request for the whole reservation
+  const handleModifRes=(id)=>{
+    alert(`modifier la Reservation avec l'id${id}`)
+    const resToEdit=reservations.find(res=>res.id===id);
+      console.log(resToEdit)
+      setSelectedRes(resToEdit);
+      setShowForm(true);
+      setShowRes(false);
+      setFormMode("Modifier")
+  }
 
   // Group reservations by status
   const groupedReservations = reservations.reduce((acc, reservation) => {
@@ -106,8 +223,21 @@ const Reservation = () => {
   }, {}); 
 
   return (
-    <div className="reservation-container">
-      {Object.keys(groupedReservations).length>0?(
+    <div className="reservation-container"><Toaster containerStyle={{
+      top: 100,
+      left: 320,
+      inset:'50px 16px 16px 12px'
+      
+    }}/>
+    <div className="reservation__buttons-container">
+      <button onClick={handleShowRes}>Afficher les Reservations</button>
+      <button onClick={handleShowForm}>Ajouter nouvelle Resrvation</button>
+      <ReservationBg/>
+    </div><Suspense fallback={Page404}>
+    {showRes && (reservations.length===0 ? 
+      (<div className='res-list__notfound'>
+        <p style={{fontSize:"5rem",fontWeight:"700"}}>Pas de Reservations.</p>
+        </div>):(
       Object.keys(groupedReservations).map((status, index) => (
         <div key={index} className={`reservation-section__${status}`}>
           <div className='reservation-header'>
@@ -136,21 +266,46 @@ const Reservation = () => {
                       Header: 'Periode',
                       accessor: (row) => `De : ${row.startDate} jusqu'a: ${row.endDate}`,
                     },
+                    { Header: 'Total de Reservation', accessor: 'fraisAPayer' },
                   ]}
                   data={groupedReservations[status]}
-                  operation={getOperationText(status)}
-                  opr={(id) => {
-                    const newStatus = status === 'REFUSEE' ? 'ACCEPTEE' : status==='ACCEPTEE'?'REFUSEE':'ACCEPTEE';
-                    handleOperation(id, newStatus);
-                  }}
+                  operations={[
+                    { 
+                      name: getOperationText(status), 
+                      action: (id) => {
+                        const newStatus = status === 'REFUSEE' ? 'ACCEPTEE' : status === 'ACCEPTEE' ? 'REFUSEE' : 'ACCEPTEE';
+                        handleOperation(id, newStatus);
+                      } 
+                    },
+                    {name:"Modifier",action:handleModifRes}
+                  ]}
                 />
               </div>
             )}
           </div>
         </div>
       ))
-      ):(<p style={{color:"black",fontSize:"40px"}}>Pas de reservation  </p>)
-    }
+      ))}
+    {showForm && (
+          <div className="add-res-form">
+            <h2 className='add-res-form__title'> {formMode} une Reservation </h2>
+            <Form
+              fields={formFields}
+              buttonLabel={formMode}
+              onSubmit={handleAddRes}
+              initialValues={selectedRes?{
+                date_Debut: selectedRes.startDate,
+                date_Fin: selectedRes.endDate,
+                statusRes: selectedRes.reservationStatus,
+                idClient:selectedRes.client.id,
+                idVoiture:selectedRes.car.id
+              }:null}
+            />
+          </div>
+        )}
+
+
+    </Suspense>
     </div>
   );
 };

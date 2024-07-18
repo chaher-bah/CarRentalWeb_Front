@@ -7,7 +7,7 @@
     align-items: center;
     gap: 2rem;
     margin-top: 2rem;
-    overflow-y: hidden;
+    overflow-x: hidden;
 }
 .cars-container h2{
     font-weight: 500;
@@ -93,6 +93,9 @@
     .add-car-form .form_area{
         grid-template-columns: repeat(1,1fr);
         grid-template-rows: repeat(1,1fr);
+    }
+    .CarsBg{
+        display: none;
     }
 }
 .add-car-form form{

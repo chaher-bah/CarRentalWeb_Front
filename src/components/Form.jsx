@@ -49,7 +49,17 @@ const Form = ({ title, fields, buttonLabel, onSubmit,initialValues }) => {
                   multiple
                   onChange={handleFileChange}
                 />
-              ) : (
+              ) :field.type==="select"? (
+                <select name={field.name} className="form_style"
+>
+                  {Array.from({ length: field.optionNumber }).map((_, index) => (
+                  <option key={index} value={field.options[index]}>
+                    {field.options[index]}
+                  </option>
+                ))}
+                </select>
+
+              ):(
                 <input
                   {...register(field.name)}
                   placeholder={field.placeholder}

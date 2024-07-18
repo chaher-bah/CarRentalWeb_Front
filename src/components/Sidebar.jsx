@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IconLayoutDashboard, IconUsers, IconCar, IconSettingsCog, IconWritingSign } from "@tabler/icons-react";
+import { IconLayoutDashboard, IconUsers, IconCar, IconSettingsCog, IconWritingSign,IconCalendarMonth } from "@tabler/icons-react";
 import { Link, useLocation,useNavigate } from 'react-router-dom';
 import "../dist/SidebarModule.css";
 
@@ -11,10 +11,7 @@ const Sidebar = () => {
         setActiveLink(location.pathname);
     }, [location]);
     const handleNavigation =(path)=>{navigate(path);}
-    const [isSideBarExpanded,setIsSideBarExpanded]=useState(true);
-    const toggleSideBar=()=>{
-        setIsSideBarExpanded(!isSideBarExpanded);
-    }
+    
     return (<>
         <div className='sidebar-container'>
             <aside>
@@ -27,6 +24,9 @@ const Sidebar = () => {
                     </li>
                     <li className={`item ${activeLink === '/admin/reservations' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/reservations")}>
                         <Link className='reservations-link' to="/admin/reservations"><IconWritingSign className='icon'/>Reservations</Link>
+                    </li>
+                    <li className={`item ${activeLink === '/admin/calendrier' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/calendrier")}>
+                        <Link className='calendar-link' to="/admin/cars"><IconCalendarMonth className='icon'/>Calendrier</Link>
                     </li>
                     <li className={`item ${activeLink === '/admin/cars' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/cars")}>
                         <Link className='cars-link' to="/admin/cars"><IconCar className='icon'/>Voitures</Link>
@@ -49,6 +49,9 @@ const Sidebar = () => {
                 </li>
                 <li className={`item ${activeLink === '/admin/reservations' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/reservations")}>
                     <Link className='reservations-link' to="/admin/reservations"><IconWritingSign className='icon'/></Link>
+                </li>
+                <li className={`item ${activeLink === '/admin/calendrier' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/calendrier")}>
+                    <Link className='calendar-link' to="/admin/calendrier"><IconCalendarMonth className='icon'/></Link>
                 </li>
                 <li className={`item ${activeLink === '/admin/cars' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/cars")}>
                     <Link className='cars-link' to="/admin/cars"><IconCar className='icon'/></Link>

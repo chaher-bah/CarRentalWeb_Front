@@ -6,7 +6,6 @@ import { IconCar, IconCalendarStats, IconManualGearbox, IconGasStation } from "@
 import "../dist/ModelsModule.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { color } from "framer-motion";
 
 const Models = () => {
   const [cars, setCars] = useState([]);

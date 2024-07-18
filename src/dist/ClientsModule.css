@@ -23,10 +23,20 @@
     background-color:#0cf40c;
     cursor: pointer;
 }
+.allClients ,.addClient{
+    background-color: #EF5A6F !important;
+    color: #100f0f !important;
+}
+.allClients:hover , .addClient:hover{
+    background-color: #f7adb7 !important;
+    border: 2px solid #100f0f;
+}
 
 @media(max-width:1000px){
     .button-container{
         flex-direction: column;
     }
-    
+    .ClientsBg{
+        display: none;
+    }
 }

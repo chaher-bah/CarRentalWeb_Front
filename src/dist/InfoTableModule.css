@@ -1,13 +1,12 @@
 .info-table-container{
     width: -webkit-fill-available;
-    height: 70%;
+    height: auto;
     max-height: max-content;
     display: flex;
     text-align: center;
     justify-content: center;
     margin: 1rem; 
-    position: fixed;
-    top: 20rem;
+
 }
 @media(max-width:1000px){
   .info-table-container{
@@ -31,8 +30,11 @@ table {
     width: 75rem;
     height: 100%;
     overflow: hidden;
-    box-shadow: 0em 1em 3em #beb18f64;
+    box-shadow: 0em 1em 3em #7f7660a7;
     border-radius: 1.5rem;
+  }
+  tbody tr{
+    background-color:rgb(252, 238, 221);
   }
   th,
   td {
