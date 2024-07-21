@@ -3,6 +3,9 @@
     width: 100%;
 
 }
+.admin-div{
+    width: 17vw;
+}
 .admin-page .template-pages{
     height: 22rem;
 }
@@ -22,6 +25,7 @@
     grid-template-columns: 1fr;
     grid-template-rows: .1fr .2fr 1fr;
     align-items: center;
+    width: 81vw;
     justify-items: center;
     margin: 2rem;
     gap: 1.5rem;
@@ -29,9 +33,9 @@
 }
 @media(max-width:1000px){
     .clients-container{
-        display: flex;
-        flex-direction: column;
-        width: 32rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-items: start;
     }
 }
 
@@ -43,7 +47,7 @@
     height: 100vh;
 }
 .hide-template .admin-div .sidebar-container{
-    height: 95rem;
+    height: 100%;
     position: fixed;
 }
 .hide-template.admin-div{

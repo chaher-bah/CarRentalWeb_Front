@@ -107,7 +107,7 @@
 @media(max-width:1000px){
     .dropdown-content{
         position: relative;
-        left: 20rem;
+        left: 50vw;
     }
 }
 .dropdown-content .info-table{
@@ -157,3 +157,37 @@
         flex-direction: column;
     }
 }
+.add-res__message {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 3rem;
+    background-color: #FEEAC2;
+    border-radius: 2rem;
+    border: 1px solid #1f1e1e;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;  }
+  
+  .add-res__message h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: "Roboto",sans-serif;
+    color: #ff4d30;
+  }
+  
+ i{
+    font-size: 2.5rem;
+    font-weight: bolder;
+  }
+  
+  .add-res__message p {
+    font-size: 1.8rem;
+    color: #1f1e1e;
+    font-weight: 500;
+    line-height: 1.6;
+    font-family: "Roboto",sans-serif;
+    
+  }
+  .add-res__message p svg{
+    height: 40px;
+    padding-top: 1rem;
+  }

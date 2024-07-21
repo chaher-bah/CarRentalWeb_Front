@@ -17,7 +17,7 @@ aside{
     gap: .4rem;
     height: 100%;
     padding: 1rem;
-    padding-bottom: 5rem;
+    padding-bottom: 2vh;
 
 }
 .sidebar__links a{
@@ -74,6 +74,7 @@ aside{
         height: 90vh;
         justify-items: center;
         position: relative;
+        z-index: 9;
     }
     .mobile-sidebar__links{
         background-color: #fff5de;

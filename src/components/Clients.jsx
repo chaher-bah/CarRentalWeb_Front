@@ -1,24 +1,28 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, lazy } from 'react';
 import axios from 'axios';
+import { IconAlertTriangle } from '@tabler/icons-react';
 import SearchInput from './SearchInput';
 import "../dist/ClientsModule.css";
 import InfoTable from './InfoTable';
 import toast, { Toaster } from 'react-hot-toast';
 import ClientsBg from '../components/ClientsBg';
-
+const Form=lazy(()=>import('../components/Form'));
 const Clients = () => {
     const [clients, setClients] = useState([]);
     const [fieldSearchedBy, setFieldSearchedBy] = useState('Num de CIN');
     const [searchTerm, setSearchTerm] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [showClients, setShowClients] = useState(true);
+    const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
+    const [selectedClient, setSelectedClient] = useState(null); // state for selected Client
 
-    // Fetch clients from the API
+    // Fetch clients from the API wuth Reservations
     const loadClients = async () => {
         try {
             const response = await axios.get("http://localhost:2020/locationvoiture/v1/client");
             const clientsData = response.data;
             setClients(clientsData);
+            console.log(response)
 
             // Fetch reservations for each client
             const clientsWithReservations = await Promise.all(clientsData.map(async client => {
@@ -53,13 +57,15 @@ const Clients = () => {
     const handleShowClients = () => {
         setShowClients(true);
         setShowForm(false);
+        setSelectedClient(null);
     };
 
     const handleShowForm = () => {
         setShowClients(false);
         setShowForm(true);
+        setSelectedClient(null);
     };
-
+    //handeling the search logic
     const searchClients = async () => {
         let url;
         if (fieldSearchedBy === 'Num de CIN') {
@@ -114,6 +120,10 @@ const Clients = () => {
             accessor: (row) => `${row.nom} - ${row.prenom}`,
         },
         {
+            Header: "Num Telephone",
+            accessor: "numTel"
+        },
+        {
             Header: "E-mail",
             accessor: "email"
         },
@@ -124,7 +134,7 @@ const Clients = () => {
         },
     ], []);
 
-    const handleOperation = async (id) => {
+    const handleDeleteOpr = async (id) => {
         try {
             const answer = window.confirm(`Voulais-Vous supprimer le Client avec l'id ${id}`);
             if (answer) {
@@ -153,9 +163,100 @@ const Clients = () => {
             });
         }
     };
+    //the Form Fields
+    const formFields = [
+        { name: 'cin', label: 'Cin', type: 'text', required: true },
+        { name: 'nom', label: 'Nom', type: 'text', required: true },
+        { name: 'prenom', label: 'Prenom', type: 'text', required: true },
+        { name: 'numTel', label: 'Numero de Telephone', type: 'text', placeholder: '+21695077703',pattern:'^\+((?:9[679]|8[035789]|6[789]|5[90]|42|3[578]|2[1-689])|9[0-58]|8[1246]|6[0-6]|5[1-8]|4[013-9]|3[0-469]|2[70]|7|1)(?:\W*\d){0,13}\d$', required: true },
+        { name: 'email', label: 'Email de Client', type: 'email',placeholder:'test1234@gmail.com', required: false },
+        { name: 'photos', label: 'Photos de Permis [Max:4]', type: 'file', accept: 'image/*' }
+
+      ];
+  //handeling the input
+  const handleAddClient= async (formData) => {
+    try {
+     const clientData = {
+       cin: formData.cin,
+       mon: formData.nom,
+       prenom: formData.prenom,
+       email: formData.email,
+       numTel:formData.numTel 
+     };
+     const formDataApi = new FormData();
+     formDataApi.append('client', JSON.stringify(clientData));
+    const photos = formData.photos;
+    if (photos.length > 4) {
+        toast.error('Vous ne pouvez utiliser que 4 photos maximum.',{
+        style:{
+          border: '2px solid #E0A75E',
+          fontSize:'3rem',
+          fontWeight:'700',
+          backgroundColor:"#F9D689",
+          color:'#973131',
+          width:'100rem',
+          fontFamily:'Roboto,sansSerif',
+        },
+        icon:<IconAlertTriangle/>,
+        duration:5000,
+        
+      })
+        return;
+    }
+    for (let i = 0; i < photos.length; i++) {
+      formDataApi.append('images', photos[i]);
+    }
+      if (selectedClient){
+        const response=await axios.put(`http://localhost:2020/locationvoiture/v1/client/update/${selectedClient.id}`,formDataApi,{
+            headers:{
+              'Content-Type':'multipart/form-data'}});
+      setClients(prevClient => prevClient.map(Client => Client.id === selectedClient.id ? response.data : Client));
+     }else{
+       const response = await axios.post("http://localhost:2020/locationvoiture/v1/Client/ajouter", formDataApi,{
+        headers:{
+            'Content-Type':'multipart/form-data'
+        }
+       });
+       setClients(prevClient=>[...prevClient,response.data])
+     }
+       toast.success(`Les donnes de Client ${formMode} avec success.`, {
+         style: {
+           fontSize: '2rem',
+           fontWeight: '700',
+           fontFamily: 'Roboto,sansSerif',
+           border: '2px solid green'
+         },
+         duration: 7000
+       });
+       setShowForm(false);
+     } catch (error) { 
+       toast.error(`Problem lors ${formMode} de Client Verifier Tous les Donnes`,{
+         style:{
+           fontSize:'2rem',
+           fontWeight:'700',
+           fontFamily:'Roboto,sansSerif',
+           border:'2px solid red'
+         },
+         duration: 7000
+       })
+       console.error('Failed to add client:', error);
+     }
+   };
+   const handleClientModification = (id) => {
+    const res=window.confirm(`Modifier Client avec ID: ${id}`);
+    if (res){
+    const clientToEdit=clients.find(client=>client.id===id);
+    console.log(clientToEdit)
+    setSelectedClient(clientToEdit);
+    setShowForm(true);
+    setShowClients(false);
+    setFormMode("Modifier")}
+  };
+
 
     const operations = [
-        { name: "Supprimer", action: handleOperation }
+        { name: "Modifier", action: handleClientModification },
+        { name: "Supprimer", action: handleDeleteOpr }
     ];
 
     return (
@@ -175,7 +276,7 @@ const Clients = () => {
                 <button className='addClient' onClick={handleShowForm}>Ajouter Une Client Manuellement</button>
             </div>
             {showClients && (
-                <div>
+                <>
                     <SearchInput
                         fieldSearchedBy={fieldSearchedBy}
                         searchTerm={searchTerm}
@@ -188,8 +289,25 @@ const Clients = () => {
                             columns={columns}
                             operations={operations} />
                     </div>
-                </div>
+                </>
             )}
+            {showForm &&(
+                <div className='add-res-form'>
+                    <h2 className='add-res-form__title'> {formMode} un Client </h2>
+                    <Form
+                        fields={formFields}
+                        buttonLabel={formMode}
+                        onSubmit={handleAddClient}
+                        initialValues={selectedClient?{
+                        cin: selectedClient.cin,
+                        nom: selectedClient.nom,
+                        prenom: selectedClient.prenom,
+                        numTel:selectedClient.numTel,
+                        photos:selectedClient.photoPermis}:null}
+                    />
+                </div>
+            )
+            }
         </div>
     );
 };

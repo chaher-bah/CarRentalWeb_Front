@@ -4,7 +4,6 @@ import { IconSparkles } from "@tabler/icons-react";
 import Page404 from "../Pages/Page404";
 import "../dist/PickCarModule.css";
 import { Link } from "react-router-dom";
-
 const CarBox = lazy(() => import("./CarBox"));
 
 function PickCar() {
@@ -78,7 +77,7 @@ function PickCar() {
               </Link>
             </div>
             {loading ? (
-              <p style={{color: "black", fontSize: "40px"}}>Loading Cars...</p>
+              <p style={{color: "black", fontSize: "40px",flexBasis: 'min-content'}}>Voitures En Attente...</p>
             ) : (
               carButtons.map((button) => (
                 <React.Fragment key={button.activeKey}>

@@ -84,7 +84,7 @@ const Models = () => {
                 </div>
               ))
             ) : (
-              <p style={{color: "black", fontSize: "40px",fontFamily:"Roboto,sansSerif"}}>Loading Cars......</p>
+              <p style={{color: "black", fontSize: "40px",fontFamily:"Roboto,sansSerif"}}>Voitures En Attente...</p>
             )}
           </div>
         </div>

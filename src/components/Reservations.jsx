@@ -1,10 +1,11 @@
 import React, { useState, useEffect,lazy, Suspense } from 'react';
 import axios from 'axios';
-import { IconFileSignal, IconWritingSignOff, IconWritingSign } from "@tabler/icons-react";
+import {IconUsers,IconCar, IconFileSignal, IconWritingSignOff, IconWritingSign ,IconInfoCircleFilled} from "@tabler/icons-react";
 import "../dist/ReservationModule.css";
 import toast,{Toaster} from 'react-hot-toast';
 import Page404 from '../Pages/Page404';
-import ReservationBg from './ReservationBg';
+import {Message} from'primereact/message'
+const ReservationBg= lazy(()=>import ('./ReservationBg'));
 const Form = lazy(() => import('../components/Form'));
 const InfoTable = lazy(() => import('../components/InfoTable'));
 
@@ -15,7 +16,7 @@ const Reservation = () => {
   const [resNumber, setResNumber] = useState([]); // State for reservation numbers
   const [showForm, setShowForm] = useState(false);//state for the form to add res
   const [showRes, setShowRes] = useState(true);  //state for list res
-  const [selectedRes, setSelectedRes] = useState(null); // state for selected car
+  const [selectedRes, setSelectedRes] = useState(null); // state for selected res
   const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
   
   // Function to load reservations from the API
@@ -223,7 +224,8 @@ const Reservation = () => {
   }, {}); 
 
   return (
-    <div className="reservation-container"><Toaster containerStyle={{
+    <div className="reservation-container">
+      <Toaster containerStyle={{
       top: 100,
       left: 320,
       inset:'50px 16px 16px 12px'
@@ -288,6 +290,13 @@ const Reservation = () => {
       ))}
     {showForm && (
           <div className="add-res-form">
+            <div className="add-res__message">
+          <h3>
+            <i><IconInfoCircleFilled /> </i> Pour Ajouter une Reservation, Il faut connaitre l'exact ID du <i>Client</i> et l'exact ID de <i>Voiture</i>
+          </h3>
+          <p >
+          Notez que vous pouvez avoir les codes des ID dans les tableaux du chaque <i>Entite</i> <IconCar/>[<a href='./cars'>Voitures </a>]<IconUsers/>[<a href='./clients'>Clients</a>]</p>
+          </div>
             <h2 className='add-res-form__title'> {formMode} une Reservation </h2>
             <Form
               fields={formFields}
@@ -302,7 +311,8 @@ const Reservation = () => {
               }:null}
             />
           </div>
-        )}
+        )
+        }
 
 
     </Suspense>

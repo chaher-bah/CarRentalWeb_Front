@@ -10,7 +10,7 @@ const Form = lazy(() => import('../components/Form'));
 const Cars = () => {
   const [cars, setCars] = useState([]);//state to retrive cars data
   const [showForm, setShowForm] = useState(false);//state for the form to add car
-  const [showCars, setShowCars] = useState(false);  //state for list cars
+  const [showCars, setShowCars] = useState(true);  //state for list cars
   const [selectedCar, setSelectedCar] = useState(null); // state for selected car
   const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
 
@@ -51,7 +51,7 @@ const Cars = () => {
     setFormMode('Ajouter')
   };
   //handeling the input form
-  const handleAddCar = async (formData) => {
+  const handleAddCar = async (formData) => {  
     try {
       const carData = {
         marque: formData.marque,
@@ -141,13 +141,14 @@ const Cars = () => {
   };
   //TO DO handele the button action
   const handleCarModification = (id) => {
-    alert(`Modifying item with ID: ${id}`);
+    const res=window.confirm(`Modifier Voiture avec ID: ${id}`);
+    if(res){
     const carToEdit=cars.find(car=>car.id===id);
     console.log(carToEdit)
     setSelectedCar(carToEdit);
     setShowForm(true);
     setShowCars(false);
-    setFormMode("Modifier")
+    setFormMode("Modifier")}
   };
   const handleDeleteOperation = async (id) => {
     try {
@@ -204,7 +205,7 @@ const Cars = () => {
     { name: 'dateExpVignette', label: 'Date d\'échéance du Vignette', type: 'date', required: false },
     { name: 'dateExpVisite', label: 'Date d\'échéance du Visite', type: 'date', required: false },
     { name: 'fraisLocation', label: 'Prix Par Nuit/D.T', type: 'number', placeholder: '65',step:'0.01', required: true },
-    { name: 'photos', label: 'Photos', type: 'file', accept: 'image/*' }
+    { name: 'photos', label: 'Photos [Max:6]', type: 'file', accept: 'image/*' }
   ];
 
   return (
@@ -225,8 +226,7 @@ const Cars = () => {
           <div className="cars-list">
             {cars.length === 0 ? (
               <div className='cars-list__notfound'>
-                <p style={{fontSize:"20px",fontWeight:"700"}}>Aucune voiture trouvée.</p>
-                <Page404 />
+                <p style={{fontSize:"40px",fontWeight:"700"}}>Aucune voiture trouvée.</p>
               </div>
             ) : (
               <div className='cars-list__exists'>
@@ -315,7 +315,7 @@ const Cars = () => {
                 dateExpVignette: selectedCar.dateExpVignette,
                 dateExpVisite: selectedCar.dateExpVisite,
                 fraisLocation: selectedCar.fraisLocation,
-                photos:[]
+                photos:[selectedCar.imageUrls]
               }:null}
             />
           </div>

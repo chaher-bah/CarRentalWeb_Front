@@ -1,5 +1,4 @@
 .cars-container{
-    height: -webkit-fill-available;
     position: relative;
     padding: 1rem;
     display: flex;
@@ -7,7 +6,6 @@
     align-items: center;
     gap: 2rem;
     margin-top: 2rem;
-    overflow-x: hidden;
 }
 .cars-container h2{
     font-weight: 500;
@@ -15,6 +13,10 @@
     font-family: "Roboto",sans-serif;
 }
 @media(max-width:1000px){
+    .cars-container{
+        display: block;
+        width: 80vw;
+    }
     .cars-container h2{
         text-align: left;
         width: 30rem;
@@ -29,6 +31,7 @@
     .cars__buttons-container{
         flex-direction: column;
         gap: 5rem;
+        position: relative;
     }
 }
 .cars__buttons-container button{
@@ -59,7 +62,6 @@
 @media(max-width:1000px){
     .cars-list{
         position: relative;
-        left: 45rem;
     }
 }
 

@@ -50,8 +50,7 @@ const Form = ({ title, fields, buttonLabel, onSubmit,initialValues }) => {
                   onChange={handleFileChange}
                 />
               ) :field.type==="select"? (
-                <select name={field.name} className="form_style"
->
+                <select name={field.name} className="form_style">
                   {Array.from({ length: field.optionNumber }).map((_, index) => (
                   <option key={index} value={field.options[index]}>
                     {field.options[index]}
@@ -66,6 +65,7 @@ const Form = ({ title, fields, buttonLabel, onSubmit,initialValues }) => {
                   className="form_style"
                   type={field.type}
                   name={field.name}
+                  pattern={field.pattern}
                   required={field.required}
                   min={field.min ? field.min : undefined}
                   max={field.max ? field.max : undefined}

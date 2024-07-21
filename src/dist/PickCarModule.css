@@ -10,6 +10,12 @@
   .pick-section{
     overflow-x: scroll;
   }
+  .pick-container__car-content{
+    display: contents !important;
+  }
+  .pick-container{
+    overflow: hidden;
+  }
 }
   
   .pick-container {
@@ -148,11 +154,19 @@
 .pick-car img {
     padding: .5rem;
   }
-
+@media(max-width:1000px){
+  .pick-car{
+    width: auto;
+  }
+  .pick-description{
+    width: min-content !important;
+    padding: 1rem 0rem 1rem 2rem;
+  }
+}
   .pick-description {
     width: 35rem;
   }
-  
+
   .pick-description__table__col {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -178,6 +192,11 @@
   .box-cars {
     display: flex;
     gap: 12rem;
+  }
+  @media(max-width:1000px){
+    .box-cars{
+      display: block;
+    }
   }
   .box-cars .carousel-cars .thumbs{
     display: flex;
