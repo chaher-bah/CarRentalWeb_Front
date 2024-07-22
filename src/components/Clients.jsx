@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, lazy } from 'react';
 import axios from 'axios';
-import { IconAlertTriangle } from '@tabler/icons-react';
+import { IconAlertTriangle,IconInfoCircleFilled } from '@tabler/icons-react';
 import SearchInput from './SearchInput';
 import "../dist/ClientsModule.css";
 import InfoTable from './InfoTable';
@@ -17,7 +17,7 @@ const Clients = () => {
     const [selectedClient, setSelectedClient] = useState(null); // state for selected Client
 
     // Fetch clients from the API wuth Reservations
-    const loadClients = async () => {
+    const loadClients = async() => {
         try {
             const response = await axios.get("http://localhost:2020/locationvoiture/v1/client");
             const clientsData = response.data;
@@ -167,10 +167,10 @@ const Clients = () => {
     const formFields = [
         { name: 'cin', label: 'Cin', type: 'text', required: true },
         { name: 'nom', label: 'Nom', type: 'text', required: true },
-        { name: 'prenom', label: 'Prenom', type: 'text', required: true },
-        { name: 'numTel', label: 'Numero de Telephone', type: 'text', placeholder: '+21695077703',pattern:'^\+((?:9[679]|8[035789]|6[789]|5[90]|42|3[578]|2[1-689])|9[0-58]|8[1246]|6[0-6]|5[1-8]|4[013-9]|3[0-469]|2[70]|7|1)(?:\W*\d){0,13}\d$', required: true },
+        { name: 'prenom', label: 'Prénom', type: 'text', required: true },
+        { name: 'numTel', label: 'Numéro de Téléphone', type: 'text', placeholder: '+21695077703',pattern:'^\+((?:9[679]|8[035789]|6[789]|5[90]|42|3[578]|2[1-689])|9[0-58]|8[1246]|6[0-6]|5[1-8]|4[013-9]|3[0-469]|2[70]|7|1)(?:\W*\d){0,13}\d$', required: true },
         { name: 'email', label: 'Email de Client', type: 'email',placeholder:'test1234@gmail.com', required: false },
-        { name: 'photos', label: 'Photos de Permis [Max:4]', type: 'file', accept: 'image/*' }
+        { name: 'photos', label: 'Photos de Permis [Min:0 Max:4]', type: 'file', accept: 'image/*',required:false }
 
       ];
   //handeling the input
@@ -178,7 +178,7 @@ const Clients = () => {
     try {
      const clientData = {
        cin: formData.cin,
-       mon: formData.nom,
+       nom: formData.nom,
        prenom: formData.prenom,
        email: formData.email,
        numTel:formData.numTel 
@@ -206,17 +206,16 @@ const Clients = () => {
     for (let i = 0; i < photos.length; i++) {
       formDataApi.append('images', photos[i]);
     }
+    let response;
       if (selectedClient){
-        const response=await axios.put(`http://localhost:2020/locationvoiture/v1/client/update/${selectedClient.id}`,formDataApi,{
+        response=await axios.put(`http://localhost:2020/locationvoiture/v1/client/update/${selectedClient.id}`,formDataApi,{
             headers:{
               'Content-Type':'multipart/form-data'}});
-      setClients(prevClient => prevClient.map(Client => Client.id === selectedClient.id ? response.data : Client));
+      setClients(prevClient => prevClient.map(client => client.id === selectedClient.id ? response.data : client));
      }else{
-       const response = await axios.post("http://localhost:2020/locationvoiture/v1/Client/ajouter", formDataApi,{
+        const response = await axios.post("http://localhost:2020/locationvoiture/v1/client/ajouter", formDataApi,{
         headers:{
-            'Content-Type':'multipart/form-data'
-        }
-       });
+            'Content-Type':'multipart/form-data'}});
        setClients(prevClient=>[...prevClient,response.data])
      }
        toast.success(`Les donnes de Client ${formMode} avec success.`, {
@@ -252,11 +251,14 @@ const Clients = () => {
     setShowClients(false);
     setFormMode("Modifier")}
   };
+  const handleCLientPermis=(id)=>{
 
+  }
 
     const operations = [
         { name: "Modifier", action: handleClientModification },
-        { name: "Supprimer", action: handleDeleteOpr }
+        { name: "Supprimer", action: handleDeleteOpr },
+        { name:"Afficher Permis",action:handleCLientPermis}
     ];
 
     return (
@@ -273,7 +275,7 @@ const Clients = () => {
                 <button className='cin' onClick={() => { handleShowClients(); setFieldSearchedBy('Num de CIN'); }}>Chercher par CIN</button>
                 <button className='email' onClick={() => { handleShowClients(); setFieldSearchedBy('Email'); }}>Chercher par Email</button>
                 <button className='nom' onClick={() => { handleShowClients(); setFieldSearchedBy('Nom et/ou Prénom'); }}>Chercher par Nom et/ou Prénom</button>
-                <button className='addClient' onClick={handleShowForm}>Ajouter Une Client Manuellement</button>
+                <button className='addClient' onClick={handleShowForm}>Ajouter Un Client Manuellement</button>
             </div>
             {showClients && (
                 <>
@@ -292,8 +294,14 @@ const Clients = () => {
                 </>
             )}
             {showForm &&(
-                <div className='add-res-form'>
-                    <h2 className='add-res-form__title'> {formMode} un Client </h2>
+                <div className='add-client-form'>
+                    <div className="add-client__message">
+                        <h3>
+                            <i><IconInfoCircleFilled /> </i> Pour Ajouter un Client, Il faut respecter le condition du Numéro de Téléphone
+                        </h3>
+                        <p >Notez que vous pouvez ajouter max <i>4</i> Photos de Permis</p>
+                    </div>
+                    <h2 className='add-client-form__title'> {formMode} un Client </h2>
                     <Form
                         fields={formFields}
                         buttonLabel={formMode}
@@ -303,6 +311,7 @@ const Clients = () => {
                         nom: selectedClient.nom,
                         prenom: selectedClient.prenom,
                         numTel:selectedClient.numTel,
+                        email:selectedClient.email,
                         photos:selectedClient.photoPermis}:null}
                     />
                 </div>

@@ -38,7 +38,7 @@ const InfoTable = ({ data, columns, operations }) => {
                   </span>
                 </th>
               ))}
-              <th>Operations</th>
+              {operations.length > 0 && <th>Operations</th>}
             </tr>
           ))}
         </thead>
@@ -50,23 +50,25 @@ const InfoTable = ({ data, columns, operations }) => {
                 {row.cells.map((cell) => (
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}
-                <td>
-                  <select
-                  style={{fontFamily:'Roboto,sansSerif',height:"-webkit-fill-available",backgroundColor:"bisque"}}
-                    onChange={(e) => {
-                      const selectedOperation = operations.find(op => op.name === e.target.value);
-                      if (selectedOperation) {
-                        selectedOperation.action(row.original.id);
-                      }
-                    }}
-                    defaultValue=""
-                  >
-                    <option value="" disabled style={{fontSize:"1.5rem"}}>sélectionner une opération</option>
-                    {operations.map((op, index) => (
-                      <option key={index} value={op.name} style={{backgroundColor:"#E4003A",alignText:"center",fontSize:"1.5rem"}}>{op.name}</option>
-                    ))}
-                  </select>
-                </td>
+                {operations.length > 0 && (
+                  <td>
+                    <select
+                      style={{ fontFamily: 'Roboto,sansSerif', height: "fit-content", backgroundColor: "bisque" }}
+                      onChange={(e) => {
+                        const selectedOperation = operations.find(op => op.name === e.target.value);
+                        if (selectedOperation) {
+                          selectedOperation.action(row.original.id);
+                        }
+                      }}
+                      defaultValue=""
+                    >
+                      <option value="" disabled style={{ fontSize: "1.5rem" }}>sélectionner une opération</option>
+                      {operations.map((op, index) => (
+                        <option key={index} value={op.name} style={{ backgroundColor: "#E4003A", textAlign: "center", fontSize: "1.5rem" }}>{op.name}</option>
+                      ))}
+                    </select>
+                  </td>
+                )}
               </tr>
             );
           })}
@@ -82,7 +84,11 @@ InfoTable.propTypes = {
   operations: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     action: PropTypes.func.isRequired,
-  })).isRequired,
+  }))
+};
+
+InfoTable.defaultProps = {
+  operations: []
 };
 
 export default InfoTable;

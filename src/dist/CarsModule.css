@@ -6,11 +6,7 @@
     align-items: center;
     gap: 2rem;
     margin-top: 2rem;
-}
-.cars-container h2{
-    font-weight: 500;
-    font-size: 4rem;
-    font-family: "Roboto",sans-serif;
+    width:83vw;
 }
 @media(max-width:1000px){
     .cars-container{
@@ -85,6 +81,11 @@
     gap: inherit;
     align-items: center;
 }
+.add-car-form__title{
+    font-weight: 500;
+    font-size: 4rem;
+    font-family: "Roboto",sans-serif;
+}
 /**/
 .add-car-form .form_area{
     display: grid;
@@ -114,4 +115,70 @@
 }
 .add-car-form .form_button{
     grid-area: 7 / 1 / 8 / 3;
+}
+.add-car__message {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 3rem;
+    background-color: #FEEAC2;
+    border-radius: 2rem;
+    border: 1px solid #1f1e1e;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;  }
+  
+  .add-car__message h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    font-family: "Roboto",sans-serif;
+    color: #ff4d30;
+  }
+  
+ i{
+    font-size: 2.5rem;
+    font-weight: bolder;
+  }
+  
+  .add-car__message p {
+    font-size: 1.8rem;
+    color: #1f1e1e;
+    font-weight: 500;
+    line-height: 1.6;
+    font-family: "Roboto",sans-serif;
+    
+  }
+.show-car-charge{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5vh;
+}
+.show-car-charge__title{
+    font-weight: 500;
+    font-size: 4rem;
+    font-family: "Roboto", sans-serif;
+}
+.show-car-charge__table{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5vw;
+}
+.show-car-charge__table button{
+    width: 25rem;
+    height: 5rem;
+    border-radius: 1.5rem;
+    outline: none;
+    border: none;
+    background-color: #EF5A6F;
+    color: #100f0f;
+    font-family: "Ubuntu",sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1rem;
+    transition: all .3s ease-in-out;
+}
+.show-car-charge__table button:hover{
+    background-color: #f7adb7 ;
+    border: 2px solid #100f0f;
+    cursor: pointer;
 }

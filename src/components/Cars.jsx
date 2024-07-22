@@ -4,22 +4,28 @@ import Page404 from "../Pages/Page404";
 import CarsBg from '../components/CarsBg'
 import axios from "axios";
 import toast,{Toaster} from 'react-hot-toast';
-import {IconAlertTriangle} from '@tabler/icons-react';
+import {IconAlertTriangle,IconInfoCircleFilled} from '@tabler/icons-react';
 const InfoTable = lazy(() => import('./InfoTable'));
 const Form = lazy(() => import('../components/Form'));
 const Cars = () => {
   const [cars, setCars] = useState([]);//state to retrive cars data
+  const[charges,setCharges]=useState([]);
   const [showForm, setShowForm] = useState(false);//state for the form to add car
   const [showCars, setShowCars] = useState(true);  //state for list cars
+  const [showCharges, setShowCharges] = useState(false);  //state for charges
   const [selectedCar, setSelectedCar] = useState(null); // state for selected car
   const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
+  const [showChargeForm, setShowChargeForm] = useState(false); // state for charge form
 
   //loading cars from  the backend
   const loadCars = async () => {
     try {
       const response = await axios.get("http://localhost:2020/locationvoiture/v1/admin/cars");
-      setCars(response.data);
-    } catch (error) {
+      const carsWithTotalCharges = response.data.map(car => ({
+        ...car,
+        totalCharges: car.charges.reduce((sum, charge) => sum + charge.charge, 0)
+      }));
+      setCars(carsWithTotalCharges);    } catch (error) {
       toast.error("Problem lors de l'acces au BD",{
         style:{
           fontSize:'2rem',
@@ -41,15 +47,18 @@ const Cars = () => {
   const handleShowCars = () => {
     setShowCars(true);
     setShowForm(false);
+    setShowCharges(false);
     setSelectedCar(null);
   };
   //handeling the state of the form for adding the car
   const handleShowForm = () => {
     setShowForm(true);
     setShowCars(false);
+    setShowCharges(false);
     setSelectedCar(null);
     setFormMode('Ajouter')
   };
+  
   //handeling the input form
   const handleAddCar = async (formData) => {  
     try {
@@ -144,7 +153,6 @@ const Cars = () => {
     const res=window.confirm(`Modifier Voiture avec ID: ${id}`);
     if(res){
     const carToEdit=cars.find(car=>car.id===id);
-    console.log(carToEdit)
     setSelectedCar(carToEdit);
     setShowForm(true);
     setShowCars(false);
@@ -177,11 +185,94 @@ const Cars = () => {
             duration: 7000
         });
     }
-};
+ };
+  const handleCharge=(id)=>{
+    const car = cars.find((car) => car.id === id);
+    setSelectedCar(car);
+    
+    if (car) {
+    setCharges(car.charges);
+    setShowCars(false);
+    setShowCharges(true);
+    setShowForm(false);
+    console.log(charges)
+  }
 
+  };
+
+  const handleAddCharge = async (formData) => {
+    try{
+    const newCharge = {
+      id:Math.random(),
+      label: formData.labelle,
+      charge: parseFloat(formData.montant),
+    };
+    await axios.patch(`http://localhost:2020/locationvoiture/v1/cars/${selectedCar.id}/charge`, [newCharge]);
+
+    setCharges(prevCharges => [...prevCharges, newCharge]);
+    setShowChargeForm(false);
+
+    toast.success("Charge ajoutée avec succès", {
+      style: {
+        fontSize: '2rem',
+        fontWeight: '700',
+        fontFamily: 'Roboto, sans-serif',
+        border: '2px solid green'
+      },
+      duration: 7000
+    });
+  } catch (error) {
+    toast.error('Erreur lors de l\'ajout de la charge.', {
+        style: {
+            fontSize: '2rem',
+            fontWeight: '700',
+            fontFamily: 'Roboto, sans-serif',
+            border: '2px solid red'
+        },
+        duration: 7000
+    });
+    console.error('Failed to add charge:', error);
+}
+  };
+  const handleDeleteCharge = async (chargeId) => {
+    try {
+      let res=window.confirm("Voulais-Vous supprimer Cette Charge")
+      if (res){
+      await axios.delete(`http://localhost:2020/locationvoiture/v1/cars/${selectedCar.id}/charge/${chargeId}`);
+
+      // Remove charge from local state
+      setCharges(prevCharges => prevCharges.filter(charge => charge.id !== chargeId));
+      toast.success("Charge supprimée avec succès", {
+        style: {
+          fontSize: '2rem',
+          fontWeight: '700',
+          fontFamily: 'Roboto, sans-serif',
+          border: '2px solid green'
+        },
+        duration: 7000
+      });}
+    } catch (error) {
+      toast.error('Erreur lors de la suppression de la charge.', {
+        style: {
+          fontSize: '2rem',
+          fontWeight: '700',
+          fontFamily: 'Roboto, sans-serif',
+          border: '2px solid red'
+        },
+        duration: 7000
+      });
+      console.error('Failed to delete charge:', error);
+    }
+  };
+  
   const operations = [
     { name: "Modifier", action: handleCarModification },
-    {name:"Supprimer", action:handleDeleteOperation }]
+    { name:"Supprimer", action:handleDeleteOperation },
+    { name:"Afficher Details Charges",action:handleCharge}
+  ]
+  const operationsCharge=[
+    {name:"Supprimer",action:handleDeleteCharge}
+  ];
 
   const getDaysDiff=(date)=>{
     const today = new Date();
@@ -191,7 +282,7 @@ const Cars = () => {
     return daysDiff;
   }
   const getStatusColor = (daysDiff) => {
-    return(daysDiff < 0)?'red':(daysDiff <= 30)?'orange':'green';
+    return(daysDiff <= 0)?'red':(daysDiff <= 30)?'orange':'green';
   };
   //the form fields to input the data
   const formFields = [
@@ -205,7 +296,11 @@ const Cars = () => {
     { name: 'dateExpVignette', label: 'Date d\'échéance du Vignette', type: 'date', required: false },
     { name: 'dateExpVisite', label: 'Date d\'échéance du Visite', type: 'date', required: false },
     { name: 'fraisLocation', label: 'Prix Par Nuit/D.T', type: 'number', placeholder: '65',step:'0.01', required: true },
-    { name: 'photos', label: 'Photos [Max:6]', type: 'file', accept: 'image/*' }
+    { name: 'photos', label: 'Photos [Min:1 Max:6]', type: 'file', accept: 'image/*' }
+  ];
+  const chargeFormFields = [
+    { name: 'labelle', label: 'Labelle', type: 'text', required: true },
+    { name: 'montant', label: 'Montant', type: 'number',step:'0.01', required: true }
   ];
 
   return (
@@ -234,8 +329,7 @@ const Cars = () => {
                 <InfoTable
                   columns={[
                     { Header: 'Id Voiture', accessor: 'id' },
-                    { Header: 'Marque', accessor: (row) => `${row.marque} - ${row.modele}` },
-                    { Header: 'Date de début de circulation', accessor: 'anneemodele' },
+                    { Header: 'Marque', accessor: (row) => `${row.anneemodele} -${row.marque}  ${row.modele}` },
                     { Header: 'Carburant', accessor: 'carburant' },
                     { Header: 'Matricule', accessor: 'matricule' },
                     { Header: 'Prix de location', accessor: 'fraisLocation' },
@@ -287,7 +381,8 @@ const Cars = () => {
                       ) :(
                         <span style={{ fontSize: '2rem', color: 'grey' }}>données inexistantes</span>
                       ))
-                    }
+                    },
+                    {Header:'Total de Charges',accessor: (row)=>`${row.totalCharges} DT`}
                   ]}
                   data={cars}
                   operations={operations}
@@ -299,7 +394,13 @@ const Cars = () => {
 
         {showForm && (
           <div className="add-car-form">
-            <h2> {formMode} une voiture</h2>
+            <div className="add-car__message">
+                        <h3>
+                            <i><IconInfoCircleFilled /> </i> Pour Ajouter une voiture, Il faut remplir les champs nécessaires<b style={{color:'red'}}> *</b>
+                        </h3>
+                        <p >Notez que vous pouvez ajouter max <i>6</i> Photos</p>
+                    </div>
+            <h2 className='add-car-form__title'> {formMode} une voiture</h2>
             <Form
               fields={formFields}
               buttonLabel={formMode}
@@ -318,6 +419,30 @@ const Cars = () => {
                 photos:[selectedCar.imageUrls]
               }:null}
             />
+          </div>
+        )}
+        {showCharges &&(
+          <div className='show-car-charge'>
+            <h2 className='show-car-charge__title'>Liste des Charges </h2>
+            <div className='show-car-charge__table'>
+            <InfoTable
+            columns={[
+                {Header:'Labelle',accessor:(row)=>`${row.label}`},
+                {Header:'Montant',accessor:(row)=>`${row.charge}`},
+                
+              ]}
+              data={charges}
+              operations={operationsCharge}
+            />
+            {!showChargeForm&&(<button onClick={() => setShowChargeForm(true)} className='show-car-charge__table__button'>Ajouter une nouvelle charge</button>)}
+            {showChargeForm && (
+              <Form
+              onSubmit={handleAddCharge}
+              buttonLabel='Ajouter Charge'
+              fields={chargeFormFields}
+              />
+            )}
+            </div>
           </div>
         )}
       </div>

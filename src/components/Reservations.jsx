@@ -4,7 +4,6 @@ import {IconUsers,IconCar, IconFileSignal, IconWritingSignOff, IconWritingSign ,
 import "../dist/ReservationModule.css";
 import toast,{Toaster} from 'react-hot-toast';
 import Page404 from '../Pages/Page404';
-import {Message} from'primereact/message'
 const ReservationBg= lazy(()=>import ('./ReservationBg'));
 const Form = lazy(() => import('../components/Form'));
 const InfoTable = lazy(() => import('../components/InfoTable'));
@@ -168,8 +167,8 @@ const Reservation = () => {
   // Function to handle the PATCH request for the status
   const handleOperation = async (id, newStatus) => {
     try {
-      alert(`Chnager la Status du Reservation avec ID ${id}???`)
-      const response = await axios.patch(`http://localhost:2020/locationvoiture/v1/reservation/status/${id}`, { status: newStatus });
+      let res=window.confirm(`Chnager la Status du Reservation avec ID ${id}???`)
+      if (res){const response = await axios.patch(`http://localhost:2020/locationvoiture/v1/reservation/status/${id}`, { status: newStatus });
       if (response.status === 200) {
         loadReservations(); // Reload reservations to reflect changes
         toast.success(`La status du reservation ${id} est changer a ${newStatus}`, {
@@ -185,7 +184,7 @@ const Reservation = () => {
             secondary: '#FFFAEE',
           },
           duration:8000
-        });
+        });}
       }
     } catch (error) {
       alert(`Error lors de changant staus du reservation ${id} `);
@@ -204,13 +203,14 @@ const Reservation = () => {
   };
   //Function to handle the PATCH request for the whole reservation
   const handleModifRes=(id)=>{
-    alert(`modifier la Reservation avec l'id${id}`)
+    let res=window.confirm(`modifier la Reservation avec l'id${id}`)
+    if (res){
     const resToEdit=reservations.find(res=>res.id===id);
       console.log(resToEdit)
       setSelectedRes(resToEdit);
       setShowForm(true);
       setShowRes(false);
-      setFormMode("Modifier")
+      setFormMode("Modifier")}
   }
 
   // Group reservations by status
@@ -291,12 +291,13 @@ const Reservation = () => {
     {showForm && (
           <div className="add-res-form">
             <div className="add-res__message">
-          <h3>
-            <i><IconInfoCircleFilled /> </i> Pour Ajouter une Reservation, Il faut connaitre l'exact ID du <i>Client</i> et l'exact ID de <i>Voiture</i>
-          </h3>
-          <p >
-          Notez que vous pouvez avoir les codes des ID dans les tableaux du chaque <i>Entite</i> <IconCar/>[<a href='./cars'>Voitures </a>]<IconUsers/>[<a href='./clients'>Clients</a>]</p>
-          </div>
+              <h3>
+                <i><IconInfoCircleFilled /> </i> Pour Ajouter une Reservation, Il faut connaitre l'exact ID du <i>Client</i> et l'exact ID de <i>Voiture</i>
+              </h3>
+              <p >
+              Notez que vous pouvez avoir les codes des ID dans les tableaux du chaque <i>Entite</i> <IconCar/>[<a href='./cars'>Voitures </a>]<IconUsers/>[<a href='./clients'>Clients</a>]
+              </p>
+            </div>
             <h2 className='add-res-form__title'> {formMode} une Reservation </h2>
             <Form
               fields={formFields}

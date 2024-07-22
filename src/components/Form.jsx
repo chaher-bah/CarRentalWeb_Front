@@ -35,7 +35,7 @@ const Form = ({ title, fields, buttonLabel, onSubmit,initialValues }) => {
           {fields.map((field, index) => (
             <div key={index} className="form_group">
               <label className="sub_title" htmlFor={field.name}>
-                {field.label}
+                {field.label}{field.required?<b style={{color:'red'}}> *</b>:''}
               </label>
               {field.type === "file" ? (
                 <input
