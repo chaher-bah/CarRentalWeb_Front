@@ -53,7 +53,7 @@ const InfoTable = ({ data, columns, operations }) => {
                 {operations.length > 0 && (
                   <td>
                     <select
-                      style={{ fontFamily: 'Roboto,sansSerif', height: "fit-content", backgroundColor: "bisque" }}
+                      style={{ fontFamily: 'Roboto,sansSerif', height: "fit-content", backgroundColor: "bisque",padding:'.7rem' }}
                       onChange={(e) => {
                         const selectedOperation = operations.find(op => op.name === e.target.value);
                         if (selectedOperation) {
@@ -62,9 +62,9 @@ const InfoTable = ({ data, columns, operations }) => {
                       }}
                       defaultValue=""
                     >
-                      <option value="" disabled style={{ fontSize: "1.5rem" }}>sélectionner une opération</option>
+                      <option value=""  style={{ fontSize: "1.5rem",textAlign:'center',margin:'1rem' }}>Opérations</option>
                       {operations.map((op, index) => (
-                        <option key={index} value={op.name} style={{ backgroundColor: "#E4003A", textAlign: "center", fontSize: "1.5rem" }}>{op.name}</option>
+                        <option key={index} value={op.name} style={{ backgroundColor: "#E4003A", textAlign: "center", fontSize: "1.7rem" }}>{op.name}</option>
                       ))}
                     </select>
                   </td>

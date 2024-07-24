@@ -5,6 +5,13 @@ import CarsBg from '../components/CarsBg'
 import axios from "axios";
 import toast,{Toaster} from 'react-hot-toast';
 import {IconAlertTriangle,IconInfoCircleFilled} from '@tabler/icons-react';
+export const getDaysDiff=(date)=>{
+  const today = new Date();
+  const dueDate = new Date(date);
+  const timeDiff = dueDate - today;
+  const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+  return daysDiff;
+}
 const InfoTable = lazy(() => import('./InfoTable'));
 const Form = lazy(() => import('../components/Form'));
 const Cars = () => {
@@ -16,7 +23,7 @@ const Cars = () => {
   const [selectedCar, setSelectedCar] = useState(null); // state for selected car
   const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
   const [showChargeForm, setShowChargeForm] = useState(false); // state for charge form
-
+  
   //loading cars from  the backend
   const loadCars = async () => {
     try {
@@ -211,7 +218,16 @@ const Cars = () => {
 
     setCharges(prevCharges => [...prevCharges, newCharge]);
     setShowChargeForm(false);
-
+    setCars(prevCars => prevCars.map(car => {
+      if (car.id === selectedCar.id) {
+        return {
+          ...car,
+          charges: [...car.charges, newCharge],
+          totalCharges: car.totalCharges + newCharge.charge
+        };
+      }
+      return car;
+    }));
     toast.success("Charge ajoutée avec succès", {
       style: {
         fontSize: '2rem',
@@ -242,6 +258,18 @@ const Cars = () => {
 
       // Remove charge from local state
       setCharges(prevCharges => prevCharges.filter(charge => charge.id !== chargeId));
+      setCars(prevCars => prevCars.map(car => {
+        if (car.id === selectedCar.id) {
+          const updatedCharges = car.charges.filter(charge => charge.id !== chargeId);
+          const totalCharges = updatedCharges.reduce((sum, charge) => sum + charge.charge, 0);
+          return {
+            ...car,
+            charges: updatedCharges,
+            totalCharges: totalCharges
+          };
+        }
+        return car;
+      }));
       toast.success("Charge supprimée avec succès", {
         style: {
           fontSize: '2rem',
@@ -274,13 +302,7 @@ const Cars = () => {
     {name:"Supprimer",action:handleDeleteCharge}
   ];
 
-  const getDaysDiff=(date)=>{
-    const today = new Date();
-    const dueDate = new Date(date);
-    const timeDiff = dueDate - today;
-    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-    return daysDiff;
-  }
+  
   const getStatusColor = (daysDiff) => {
     return(daysDiff <= 0)?'red':(daysDiff <= 30)?'orange':'green';
   };
@@ -304,11 +326,11 @@ const Cars = () => {
   ];
 
   return (
-    <Suspense fallback={<Page404 />}>    <Toaster containerStyle={{
+    <Suspense fallback={<Page404 />}>    
+    <Toaster containerStyle={{
       top: 100,
       left: 320,
       inset:'50px 16px 16px 12px'
-      
     }}/>
 
       <div className="cars-container">
@@ -400,6 +422,13 @@ const Cars = () => {
                         </h3>
                         <p >Notez que vous pouvez ajouter max <i>6</i> Photos</p>
                     </div>
+            {formMode==="Modifier"&&(
+              <div className="add-car__message">
+              <h3>
+                  <i><IconInfoCircleFilled /> </i> Notez bien que lors de la modification d'une voiture, si vous choisissez d'ajouter des photos, les anciennes seront supprimées
+              </h3>
+          </div>
+            )}
             <h2 className='add-car-form__title'> {formMode} une voiture</h2>
             <Form
               fields={formFields}

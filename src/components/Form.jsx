@@ -1,22 +1,26 @@
-import React, { useState,useEffect } from 'react';
-import {useForm} from 'react-hook-form'
+import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import "../dist/FormModule.css";
 
-const Form = ({ title, fields, buttonLabel, onSubmit,initialValues }) => {
+const Form = ({ onChanger = () => {}, fields, buttonLabel, onSubmit, initialValues }) => {
   const [fileInputs, setFileInputs] = useState({});
-  const {register,setValue}=useForm();
+  const { register, setValue } = useForm();
+
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFileInputs((prev) => ({ ...prev, [name]: files }));
+    onChanger(e);
   };
+
   useEffect(() => {
     if (initialValues) {
-      Object.keys(initialValues).forEach(key => {
+      Object.keys(initialValues).forEach((key) => {
         setValue(key, initialValues[key]);
       });
     }
   }, [initialValues, setValue]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -30,12 +34,11 @@ const Form = ({ title, fields, buttonLabel, onSubmit,initialValues }) => {
   return (
     <div className="form_container">
       <div className="form_area">
-        <p className="title">{title}</p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} onChange={onChanger}>
           {fields.map((field, index) => (
             <div key={index} className="form_group">
               <label className="sub_title" htmlFor={field.name}>
-                {field.label}{field.required?<b style={{color:'red'}}> *</b>:''}
+                {field.label}{field.required ? <b style={{ color: 'red' }}> *</b> : ''}
               </label>
               {field.type === "file" ? (
                 <input
@@ -49,16 +52,15 @@ const Form = ({ title, fields, buttonLabel, onSubmit,initialValues }) => {
                   multiple
                   onChange={handleFileChange}
                 />
-              ) :field.type==="select"? (
+              ) : field.type === "select" ? (
                 <select name={field.name} className="form_style">
                   {Array.from({ length: field.optionNumber }).map((_, index) => (
-                  <option key={index} value={field.options[index]}>
-                    {field.options[index]}
-                  </option>
-                ))}
+                    <option key={index} value={field.options[index]}>
+                      {field.options[index]}
+                    </option>
+                  ))}
                 </select>
-
-              ):(
+              ) : (
                 <input
                   {...register(field.name)}
                   placeholder={field.placeholder}
@@ -84,7 +86,7 @@ const Form = ({ title, fields, buttonLabel, onSubmit,initialValues }) => {
 };
 
 Form.propTypes = {
-  title: PropTypes.string.isRequired,
+  onChanger: PropTypes.func,
   fields: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,

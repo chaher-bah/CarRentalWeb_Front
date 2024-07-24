@@ -5,8 +5,7 @@
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    margin-top: 2rem;
-    width:83vw;
+    margin: 2vw 0 1vw .5vw;
 }
 @media(max-width:1000px){
     .cars-container{

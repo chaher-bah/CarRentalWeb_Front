@@ -4,8 +4,7 @@
 
 }
 .admin-div{
-    width: 17vw;
-}
+    }
 .admin-page .template-pages{
     height: 22rem;
 }
@@ -18,7 +17,7 @@
 .dash-container{
     height: max-content;
     display: grid;
-    grid-template-columns: .55fr 3fr;
+    grid-template-columns: 16vw 3fr;
 }
 .clients-container{
     display: grid;

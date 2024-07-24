@@ -18,6 +18,7 @@ function App() {
     setShowNavbar(!adminPaths.includes(location.pathname));
   }, [location]);
   return (
+    
     <>
       {showNavbar && <Navbar />}
       <Suspense fallback={<p>Loading...</p>}>

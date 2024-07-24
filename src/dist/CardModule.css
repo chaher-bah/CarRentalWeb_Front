@@ -40,11 +40,43 @@
 
 .alerts-content{
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
 }
+.alerts-content .content{
+    width: -webkit-fill-available;
+    justify-content: space-between;
+}
+.content_a{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1vw;
+}
+.alerts_list{
+    width: 100%;
+    height: 100%;
+    border-radius: 1.2rem;
+    overflow: auto;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;};
+ul svg{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+li svg{
+    width: 20px;
+    height: 20px;
+}
+
+
+ul li{
+    list-style-type: none;
+    align-items: center;
+    display: flex;
+}
+
 .content{
     display: flex;
     gap: 1rem;

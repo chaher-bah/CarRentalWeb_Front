@@ -59,19 +59,19 @@ function Navbar() {
           <ul className="navbar__links">
             <li>
               <Link className="home-link" to="/">
-                Home
+                Acceuil
               </Link>
             </li>
             <li>
               {" "}
               <Link className="about-link" to="/about">
-                About
+                A Propos
               </Link>
             </li>
             <li>
               {" "}
               <Link className="models-link" to="/models">
-                Vehicle Models
+                Voitures
               </Link>
             </li>
             <li>

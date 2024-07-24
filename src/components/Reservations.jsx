@@ -7,7 +7,7 @@ import Page404 from '../Pages/Page404';
 const ReservationBg= lazy(()=>import ('./ReservationBg'));
 const Form = lazy(() => import('../components/Form'));
 const InfoTable = lazy(() => import('../components/InfoTable'));
-
+const SearchInput=lazy(()=>import('../components/SearchInput'))
 
 const Reservation = () => {
   const [expanded, setExpanded] = useState(null); // State to manage expanded dropdown
@@ -15,6 +15,8 @@ const Reservation = () => {
   const [resNumber, setResNumber] = useState([]); // State for reservation numbers
   const [showForm, setShowForm] = useState(false);//state for the form to add res
   const [showRes, setShowRes] = useState(true);  //state for list res
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedRes, setSelectedRes] = useState(null); // state for selected res
   const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
   
@@ -58,17 +60,26 @@ const Reservation = () => {
   }, []);
   //handeling the res 
   const handleShowRes = () => {
+    window.location.reload();
     setShowRes(true);
     setShowForm(false);
+    setShowSearch(false);
     setSelectedRes(null);
   };
   //handeling the form
   const handleShowForm = () => {
     setShowForm(true);
     setShowRes(false);
+    setShowSearch(false);
     setSelectedRes(null);
     setFormMode('Ajouter');
   };
+  //handeling the search
+  const handleShowSearch=()=>{
+    setShowForm(false);
+    setShowRes(false);
+    setShowSearch(true);
+  }
   //handeling the input
   const handleAddRes= async (formData) => {
    try {
@@ -112,6 +123,27 @@ const Reservation = () => {
         duration: 7000
       })
       console.error('Failed to add res:', error);
+    }
+  };
+  //handeling the search
+  const handleSearchRes = async () => {
+    try {
+      const response = await axios.get(`http://localhost:2020/locationvoiture/v1/reservation/${searchTerm}`);
+      const data = response.data;
+      setReservations([data]);
+      setSearchTerm('')
+    } catch (error) {
+      toast.error("Réservation non trouvée. Vérifiez l'ID.", {
+        style: {
+          fontSize: '2rem',
+          fontWeight: '700',
+          fontFamily: 'Roboto,sansSerif',
+          border: '2px solid red'
+        },
+        duration: 7000
+      });
+      setSearchTerm('')
+      console.error('Failed to search reservation:', error);
     }
   };
   //the form fields
@@ -163,8 +195,8 @@ const Reservation = () => {
     const res = resNumber.find((section) => section.status === status);
     return <p>{res ? res.nbr : ''}</p>;
   };
-
-  // Function to handle the PATCH request for the status
+  
+    // Function to handle the PATCH request for the status
   const handleOperation = async (id, newStatus) => {
     try {
       let res=window.confirm(`Chnager la Status du Reservation avec ID ${id}???`)
@@ -209,10 +241,40 @@ const Reservation = () => {
       console.log(resToEdit)
       setSelectedRes(resToEdit);
       setShowForm(true);
+      setShowSearch(false);
       setShowRes(false);
       setFormMode("Modifier")}
   }
-
+  //Function to handle the delete option
+  const handleDeleteRes=async(id)=>{
+    try {
+      const answer = window.confirm(`Voulais-Vous supprimer la Reservation avec l'id ${id}`);
+      if (answer) {
+          await axios.delete(`http://localhost:2020/locationvoiture/v1/reservation/${id}`);
+          setReservations(prevRes => prevRes.filter(res => res.id !== id));
+          toast.success("Reservation supprimé avec succès", {
+              style: {
+                  fontSize: '2rem',
+                  fontWeight: '700',
+                  fontFamily: 'Roboto, sans-serif',
+                  border: '2px solid green'
+              },
+              duration: 7000
+          });
+      }
+  } catch (error) {
+      console.error(`Failed to delete client with ID ${id}:`, error);
+      toast.error("Erreur lors de la suppression", {
+          style: {
+              fontSize: '2rem',
+              fontWeight: '700',
+              fontFamily: 'Roboto, sans-serif',
+              border: '2px solid red'
+          },
+          duration: 7000
+      });
+  }
+  }
   // Group reservations by status
   const groupedReservations = reservations.reduce((acc, reservation) => {
     const status = reservation.reservationStatus;
@@ -222,101 +284,150 @@ const Reservation = () => {
     acc[status].push(reservation);
     return acc;
   }, {}); 
-
+  
   return (
     <div className="reservation-container">
       <Toaster containerStyle={{
-      top: 100,
-      left: 320,
-      inset:'50px 16px 16px 12px'
-      
-    }}/>
-    <div className="reservation__buttons-container">
-      <button onClick={handleShowRes}>Afficher les Reservations</button>
-      <button onClick={handleShowForm}>Ajouter nouvelle Resrvation</button>
-      <ReservationBg/>
-    </div><Suspense fallback={Page404}>
-    {showRes && (reservations.length===0 ? 
-      (<div className='res-list__notfound'>
-        <p style={{fontSize:"5rem",fontWeight:"700"}}>Pas de Reservations.</p>
-        </div>):(
-      Object.keys(groupedReservations).map((status, index) => (
-        <div key={index} className={`reservation-section__${status}`}>
-          <div className='reservation-header'>
-            <h2>Reservations {status.charAt(0)+status.slice(1).toLowerCase()}</h2>
-            <div className="dropdown">
-              <button onClick={() => handleToggle(index)} className="dropdown-btn"><i>{getOperationIcon(status)} {getResNum(status)}</i>
-                Voir plus
-              </button>
-            </div>
-            {expanded === index && (
-              <div className="dropdown-content">
-                <InfoTable
-                  columns={[
-                    { Header: 'Numéro de réservation', accessor: 'id' },
-                    {
-                      Header: 'Client',
-                      accessor: 'client',
-                      Cell: ({ value }) => `${value.cin} / ${value.nom}`,
-                    },
-                    {
-                      Header: 'Voiture',
-                      accessor: 'car',
-                      Cell: ({ value }) => ` ${value.marque}-${value.modele} (${value.matricule})`,
-                    },
-                    {
-                      Header: 'Periode',
-                      accessor: (row) => `De : ${row.startDate} jusqu'a: ${row.endDate}`,
-                    },
-                    { Header: 'Total de Reservation', accessor: 'fraisAPayer' },
-                  ]}
-                  data={groupedReservations[status]}
-                  operations={[
-                    { 
-                      name: getOperationText(status), 
-                      action: (id) => {
-                        const newStatus = status === 'REFUSEE' ? 'ACCEPTEE' : status === 'ACCEPTEE' ? 'REFUSEE' : 'ACCEPTEE';
-                        handleOperation(id, newStatus);
-                      } 
-                    },
-                    {name:"Modifier",action:handleModifRes}
-                  ]}
-                />
-              </div>
-            )}
+        top: 100,
+        left: 320,
+        inset: '50px 16px 16px 12px'
+      }} />
+      <div className="reservation__buttons-container">
+        <button onClick={handleShowRes}>Afficher les Réservations</button>
+        <button onClick={handleShowForm}>Ajouter Nouvelle Réservation</button>
+        <button onClick={handleShowSearch}>Chercher Réservation par ID</button>
+        <ReservationBg />
+      </div>
+      <Suspense fallback={<Page404 />}>
+        {showRes && (reservations.length === 0 ? (
+          <div className='res-list__notfound'>
+            <p style={{ fontSize: "5rem", fontWeight: "700" }}>Pas de Réservations.</p>
           </div>
-        </div>
-      ))
-      ))}
-    {showForm && (
+        ) : (
+          Object.keys(groupedReservations).map((status, index) => (
+            <div key={index} className={`reservation-section__${status}`}>
+              <div className='reservation-header'>
+                <h2>Réservations {status.charAt(0) + status.slice(1).toLowerCase()}</h2>
+                <div className="dropdown">
+                  <button onClick={() => handleToggle(index)} className="dropdown-btn">
+                    <i>{getOperationIcon(status)} {getResNum(status)}</i> Voir plus
+                  </button>
+                </div>
+                {expanded === index && (
+                  <div className="dropdown-content">
+                    <InfoTable
+                      columns={[
+                        { Header: 'Numéro de réservation', accessor: 'id' },
+                        {
+                          Header: 'Client',
+                          accessor: 'client',
+                          Cell: ({ value }) => <>CIN: {value.cin} <br/> nom: {value.nom}</>,
+                        },
+                        {
+                          Header: 'Voiture',
+                          accessor: 'car',
+                          Cell: ({ value }) => <>{value.marque}-{value.modele} ({value.matricule}) <br/> ID:{value.id}</>,
+                        },
+                        {
+                          Header: 'Période',
+                          accessor: (row) => <>De : {row.startDate} <br/> jusqu'à : {row.endDate}</>,
+                        },
+                        { Header: 'Total de Réservation', accessor: 'fraisAPayer' },
+                      ]}
+                      data={groupedReservations[status]}
+                      operations={[
+                        { 
+                          name: getOperationText(status), 
+                          action: (id) => {
+                            const newStatus = status === 'REFUSEE' ? 'ACCEPTEE' : status === 'ACCEPTEE' ? 'REFUSEE' : 'ACCEPTEE';
+                            handleOperation(id, newStatus);
+                          } 
+                        },
+                        { name: "Modifier", action: handleModifRes },
+                        { name: "Supprimer", action: handleDeleteRes }
+                      ]}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        ))}
+        {showForm && (
           <div className="add-res-form">
             <div className="add-res__message">
               <h3>
-                <i><IconInfoCircleFilled /> </i> Pour Ajouter une Reservation, Il faut connaitre l'exact ID du <i>Client</i> et l'exact ID de <i>Voiture</i>
+                <i><IconInfoCircleFilled /> </i> Pour ajouter une réservation, il faut connaître l'exact ID du <i>Client</i> et l'exact ID de <i>Voiture</i>
               </h3>
-              <p >
-              Notez que vous pouvez avoir les codes des ID dans les tableaux du chaque <i>Entite</i> <IconCar/>[<a href='./cars'>Voitures </a>]<IconUsers/>[<a href='./clients'>Clients</a>]
+              <p>
+                Notez que vous pouvez avoir les codes des ID dans les tableaux de chaque <i>Entité</i> <IconCar />[<a href='./cars'>Voitures </a>]<IconUsers />[<a href='./clients'>Clients</a>]
               </p>
             </div>
-            <h2 className='add-res-form__title'> {formMode} une Reservation </h2>
+            <h2 className='add-res-form__title'>{formMode} une Réservation</h2>
             <Form
               fields={formFields}
               buttonLabel={formMode}
               onSubmit={handleAddRes}
-              initialValues={selectedRes?{
+              initialValues={selectedRes ? {
                 date_Debut: selectedRes.startDate,
                 date_Fin: selectedRes.endDate,
                 statusRes: selectedRes.reservationStatus,
-                idClient:selectedRes.client.id,
-                idVoiture:selectedRes.car.id
-              }:null}
+                idClient: selectedRes.client.id,
+                idVoiture: selectedRes.car.id
+              } : null}
             />
           </div>
-        )
-        }
+        )}
+        {showSearch &&(
+        <>
+          <SearchInput
+            fieldSearchedBy={'ID Réservation'}
+            setSearchTerm={setSearchTerm}
+            searchTerm={searchTerm}
+            onSearch={handleSearchRes}
+          />
+          <InfoTable
+            columns={[
+              { Header: 'Numéro de réservation', accessor: 'id' },
+              {
+                Header: 'Client',
+                accessor: 'client',
+                Cell: ({ value }) => `${value.cin} / ${value.nom}`,
+              },
+              {
+                Header: 'Voiture',
+                accessor: 'car',
+                Cell: ({ value }) => <>{value.marque}-{value.modele} ({value.matricule}) <br/> ID:{value.id}</>,
+              },
+              {
+                Header: 'Période',
+                accessor: (row) => <>De : {row.startDate} <br/> jusqu'à : {row.endDate}</>,
+              },
+              { Header: 'Total de Réservation', accessor: 'fraisAPayer' },
+              { Header: 'Status Reservation', accessor: 'reservationStatus' },
 
-
-    </Suspense>
+            ]}
+            data={reservations}
+            operations={[
+              {
+                name: "Approuver/Annuler",
+                action: (id) => {
+                  const reservation = reservations.find(res => res.id === id);
+                  const newStatus = reservation.reservationStatus === 'REFUSEE'
+                    ? 'ACCEPTEE'
+                    : reservation.reservationStatus === 'ACCEPTEE'
+                    ? 'REFUSEE'
+                    : 'ACCEPTEE';
+                  handleOperation(id, newStatus);
+                },
+              },
+              { name: "Modifier", action: handleModifRes },
+              { name: "Supprimer", action: handleDeleteRes }
+            ]}
+          />
+        </>
+      )}
+      </Suspense>
     </div>
   );
 };

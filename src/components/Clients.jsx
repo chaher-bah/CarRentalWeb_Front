@@ -7,15 +7,17 @@ import InfoTable from './InfoTable';
 import toast, { Toaster } from 'react-hot-toast';
 import ClientsBg from '../components/ClientsBg';
 const Form=lazy(()=>import('../components/Form'));
+
 const Clients = () => {
     const [clients, setClients] = useState([]);
     const [fieldSearchedBy, setFieldSearchedBy] = useState('Num de CIN');
     const [searchTerm, setSearchTerm] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [showClients, setShowClients] = useState(true);
+    
     const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
-    const [selectedClient, setSelectedClient] = useState(null); // state for selected Client
-
+    const [selectedClient, setSelectedClient] = useState(); // state for selected Client
+    const [showPhotos,setShowPhotos]=useState(false)
     // Fetch clients from the API wuth Reservations
     const loadClients = async() => {
         try {
@@ -46,6 +48,7 @@ const Clients = () => {
     };
 
     const loadAllClients = async () => {
+        window.location.reload();
         setSearchTerm(''); // Clear search term
         await loadClients(); // Reload all clients
     };
@@ -65,6 +68,7 @@ const Clients = () => {
         setShowForm(true);
         setSelectedClient(null);
     };
+
     //handeling the search logic
     const searchClients = async () => {
         let url;
@@ -78,6 +82,7 @@ const Clients = () => {
         try {
             const response = await axios.get(url);
             const clientData = response.data;
+            setSearchTerm('');
             toast.success("Client Trouvèe avec succès", {
                 style: {
                     fontSize: '2rem',
@@ -252,7 +257,11 @@ const Clients = () => {
     setFormMode("Modifier")}
   };
   const handleCLientPermis=(id)=>{
-
+    const clientPhotos=clients.find(client=>client.id===id);
+    setSelectedClient(clientPhotos);
+    setShowClients(false);
+    setShowClients(false);
+    setShowPhotos(true);
   }
 
     const operations = [
@@ -301,6 +310,13 @@ const Clients = () => {
                         </h3>
                         <p >Notez que vous pouvez ajouter max <i>4</i> Photos de Permis</p>
                     </div>
+                    {formMode === "Modifier" && (
+                    <div className="add-client__message">
+                        <h3>
+                            <i><IconInfoCircleFilled /> </i> Notez bien que lors de la modification d'un client, si vous choisissez d'ajouter des photos, les anciennes seront supprimées
+                        </h3>
+                    </div>
+                    )}
                     <h2 className='add-client-form__title'> {formMode} un Client </h2>
                     <Form
                         fields={formFields}
@@ -315,8 +331,23 @@ const Clients = () => {
                         photos:selectedClient.photoPermis}:null}
                     />
                 </div>
-            )
-            }
+            )}
+            {showPhotos &&(
+                <div className='photos-client'>
+                    <h2 className='photos-client__title'>  Photos de Permis Pour {selectedClient?.nom ? selectedClient.nom : "client"} - {selectedClient?.prenom ? selectedClient.prenom : "client"}
+                    </h2>
+                    <div className='photos-client__img'>
+                        {selectedClient.photoPermis.map((img,index)=>
+                        (
+                            <img
+                            key={index}
+                            src={img}
+                            alt={`client_photo_${index}`}/>
+                        ))
+                        }
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

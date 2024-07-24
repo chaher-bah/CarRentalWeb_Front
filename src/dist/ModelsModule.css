@@ -91,7 +91,7 @@
   }
   
   
-  .models-div__box__descr__name-price__btn {
+  .models-div__box__descr__name-price__btn button{
     background-color: #fb6b2f;
     padding: 1.8rem 3rem;
     border-radius: 1.3rem;
@@ -100,10 +100,11 @@
     border: 2px solid #ff4d30;
     font-size: 2rem;
     cursor: pointer;
+    width: -webkit-fill-available;
   }
   
-  .models-div__box__descr__name-price__btn:hover {
-    box-shadow: 0 10px 15px 0 rgba(255, 83, 48, 0.6);
+  .models-div__box__descr__name-price__btn button:hover {
+    box-shadow: 0 10px 10px 0 rgba(255, 83, 48, 0.6);
     background-color: #fa4226;
   }
   

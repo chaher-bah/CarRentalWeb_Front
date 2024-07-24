@@ -226,7 +226,7 @@
   gap: 2rem;
 }
 
-.booking-modal__car-info__dates h5 {
+ h5 {
   font-size: 2rem;
   color: #ff4d30;
   font-family: "Roboto",sans-serif;
@@ -277,11 +277,10 @@
   gap: 3rem;
 }
 
-
-.input-time {
+.booking-modal__car-info__dates input{
   text-align: center;
-  width: 11rem;
-  font-size: 14px;
+  width: 12rem;
+  font-size: 15px;
   cursor: pointer;
 }
 .booking-modal .activemodal__buttons{
@@ -302,7 +301,6 @@
 b{
   color: #ff4d30;
 } 
-
 
 .book-content__box .box-form__car-time label {
   font-size: 1.6rem;
@@ -343,7 +341,7 @@ b{
 }
 .booking-modal__car-info {
   background-color: white;
-  padding: 3rem 3.5rem;
+  padding: 3rem 3.5rem 0;
   display: grid;
   grid-template-columns: 1.5fr .9fr;
 }
@@ -420,4 +418,45 @@ b{
 
 .activemodal__buttons a {
   text-decoration: none;
+}
+
+.booking-modal__user-info {
+  padding: 0 2vw 3vw;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+}
+
+.booking-modal__user-info  .form_area{
+  background-color: #FFEAE6;
+  box-shadow: 3px 4px 0px 1px #ff4d30;
+  display: grid;
+  grid-template-columns: auto auto;
+
+} 
+.booking-modal__user-info .btn{
+  background: #ff4d30;
+}
+.booking-modal__user-info .form_area form{
+  display: contents;
+}
+.booking-done {
+  color: #2a6817;
+  background-color: #c3fabe;
+  border-color: #f5c6cb;
+  padding: 1rem 1.4rem;
+  margin-bottom: 1.8rem;
+  margin-top: -1rem;
+  border: 1px solid transparent;
+  border-radius: 0.8rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.booking-done i {
+  cursor: pointer;
 }
