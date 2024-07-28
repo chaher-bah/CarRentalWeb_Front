@@ -385,8 +385,8 @@ const Reservation = () => {
             setSearchTerm={setSearchTerm}
             searchTerm={searchTerm}
             onSearch={handleSearchRes}
-          />
-          <InfoTable
+          /><div className='search_result'>
+            <InfoTable
             columns={[
               { Header: 'Numéro de réservation', accessor: 'id' },
               {
@@ -425,6 +425,8 @@ const Reservation = () => {
               { name: "Supprimer", action: handleDeleteRes }
             ]}
           />
+          </div>
+          
         </>
       )}
       </Suspense>

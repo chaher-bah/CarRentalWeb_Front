@@ -1,5 +1,6 @@
 .sidebar-container{
     height: 100%;
+    width: max-content;
 }
 aside{
     height: 100%;
@@ -58,7 +59,7 @@ aside{
     height: 15%;
 }
 .hide-template .sidebar__links{
-    padding-top: 5rem;
+    padding-top: 3vh;
 }
 .mobile-sidebar{
     display: none;

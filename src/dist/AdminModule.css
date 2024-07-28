@@ -1,5 +1,5 @@
 .admin-page{
-    height: -webkif-fill-available;
+    height: -webkit-fill-available;
     width: 100%;
 
 }
@@ -17,7 +17,7 @@
 .dash-container{
     height: max-content;
     display: grid;
-    grid-template-columns: 16vw 3fr;
+    grid-template-columns: 18vw 3fr;
 }
 .clients-container{
     display: grid;
@@ -48,6 +48,7 @@
 .hide-template .admin-div .sidebar-container{
     height: 100%;
     position: fixed;
+    width: max-content;
 }
 .hide-template.admin-div{
     position: absolute;

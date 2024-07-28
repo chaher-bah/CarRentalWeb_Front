@@ -7,7 +7,7 @@
 }
 @media(max-width:1000px){
     .reservation-container{
-        overflow-x: auto;
+        overflow: auto;
     }
 }
 .reservation-header{
@@ -22,8 +22,8 @@
 }
 .reservation__buttons-container{
     display: flex;
-    justify-content: space-evenly;
-    gap: 25rem;
+    justify-content: space-around;
+    width: 95%;
 }
 @media(max-width:1000px){
     .reservation__buttons-container{
@@ -148,6 +148,10 @@
     }
     .ReservationBg{
         display: none;
+    }
+    .search_result {
+        position: relative;
+        left: 250px;
     }
 }
 
