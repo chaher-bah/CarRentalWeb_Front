@@ -8,7 +8,7 @@ const Cars = lazy(()=> import ('../components/Cars'));
 const Dashboard =lazy(()=>import( '../components/Dashboard'));
 const Clients=lazy(()=>import('../components/Clients'));
 const Sidebar= lazy(()=>import( '../components/Sidebar'));
-const Calendar= lazy(()=>import( '../components/Calendar'));
+const CalendarComp= lazy(()=>import( '../components/CalendarComp'));
 
 
 const Admin =() =>{
@@ -31,7 +31,7 @@ useEffect(() => {
                 <Route path='/clients' element={<Clients/>}></Route>
                 <Route path='/cars' element={<Cars/>}></Route>
                 <Route path='/reservations'element={<Reservations/>}></Route>
-                <Route path='/calendrier'element={<Calendar/>}></Route>
+                <Route path='/calendrier'element={<CalendarComp/>}></Route>
                 </Routes>
             </div>
         </section>
