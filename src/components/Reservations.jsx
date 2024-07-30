@@ -1,15 +1,24 @@
-import React, { useState, useEffect,lazy, Suspense } from 'react';
+import React, { useState, useEffect,lazy, Suspense, useRef } from 'react';
 import axios from 'axios';
 import {IconUsers,IconCar, IconFileSignal, IconWritingSignOff, IconWritingSign ,IconInfoCircleFilled} from "@tabler/icons-react";
 import "../dist/ReservationModule.css";
 import toast,{Toaster} from 'react-hot-toast';
 import Page404 from '../Pages/Page404';
+import PizZip from 'pizzip';
+import Docxtemplater from 'docxtemplater';
+import ImageModule from 'docxtemplater-image-module-free';
+import logoPath from '../images/logo/logo.png'; 
+
+import { saveAs } from 'file-saver';
+
+
 const ReservationBg= lazy(()=>import ('./ReservationBg'));
 const Form = lazy(() => import('../components/Form'));
 const InfoTable = lazy(() => import('../components/InfoTable'));
 const SearchInput=lazy(()=>import('../components/SearchInput'))
 
 const Reservation = () => {
+  
   const [expanded, setExpanded] = useState(null); // State to manage expanded dropdown
   const [reservations, setReservations] = useState([]);
   const [resNumber, setResNumber] = useState([]); // State for reservation numbers
@@ -20,6 +29,9 @@ const Reservation = () => {
   const [selectedRes, setSelectedRes] = useState(null); // state for selected res
   const [formMode, setFormMode] = useState('Ajouter'); // State for form mode
   
+
+
+
   // Function to load reservations from the API
   const loadReservations = async () => {
     try {
@@ -275,6 +287,102 @@ const Reservation = () => {
       });
   }
   }
+  //Function to handle the contrat
+// Function to generate the DOCX document
+const HandleContrat = async (reservationId) => {
+  try {
+    // Fetch reservation details from the API
+    const reservationResponse = await axios.get(`http://localhost:2020/locationvoiture/v1/reservation/${reservationId}`);
+    const reservation = reservationResponse.data;
+
+    // Load the DOCX file as binary content
+    const response = await axios.get('/templates/contrat_location_108.docx', { responseType: 'arraybuffer' });
+    const content = new Uint8Array(response.data);
+
+    const zip = new PizZip(content);
+
+    // Configure the image module
+    const imageModule = new ImageModule({
+      centered: true,
+      getImage: (tagValue, tagName) => {
+        if (tagName === 'logo') {
+          return logoPath;  // Use the imported logo path
+        }
+        return null;
+      },
+      getSize: (img, tagValue, tagName) => {
+        if (tagName === 'logo') {
+          return [150, 150];
+        }
+        return [0, 0];
+      },
+    })
+    const doc = new Docxtemplater(zip, { modules: [imageModule], paragraphLoop: true, linebreaks: true });
+    // Calculate the time differences
+    const startDate = new Date(reservation.startDate);
+    const endDate = new Date(reservation.endDate);
+    const timeDiff = Math.abs(endDate - startDate);
+
+    const heures = Math.floor(timeDiff / (1000 * 60 * 60));
+    const jours = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const nbSemaines = Math.floor(jours / 7);
+
+    // Extracting dates and hours
+    const formatDate = (date) => date.toISOString().split('T')[0];
+    const formatTime = (date) => date.toTimeString().split(' ')[0];
+    // Define the template variables with reservation data
+    const data = {
+      logo:'logo',
+      marque: `${reservation.car.marque}-${reservation.car.modele}`,
+      resId: reservation.id,
+      HD: formatTime(startDate),
+      DD: formatDate(startDate),
+      HR: formatTime(endDate),
+      DR: formatDate(endDate),
+      nometprenom: `${reservation.client.nom} ${reservation.client.prenom}`,
+      cin: reservation.client.cin,
+      numTel: reservation.client.numTel,
+      email: reservation.client.email,
+      immatriculation: reservation.car.matricule,
+      prix: reservation.car.fraisLocation,
+      Heures: heures,
+      Jours: jours,
+      nbSemaines: nbSemaines,
+      total: reservation.fraisAPayer,
+    };
+
+    // Set the data into the document
+    doc.setData(data);
+
+    try {
+      // Render the document
+      doc.render();
+    } catch (error) {
+      throw error;
+    }
+
+    const out = doc.getZip().generate({
+      type: 'blob',
+      mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    });
+
+    saveAs(out, `contrat_location_${reservation.id}.docx`);
+  } catch (error) {
+    console.error("Failed to generate DOCX:", error);
+    toast.error("Erreur lors de la génération du contrat.", {
+      style: {
+        fontSize: '2rem',
+        fontWeight: '700',
+        fontFamily: 'Roboto,sansSerif',
+        border: '2px solid red'
+      },
+      duration: 7000
+    });
+  }
+};
+
+
+
   // Group reservations by status
   const groupedReservations = reservations.reduce((acc, reservation) => {
     const status = reservation.reservationStatus;
@@ -344,7 +452,8 @@ const Reservation = () => {
                           } 
                         },
                         { name: "Modifier", action: handleModifRes },
-                        { name: "Supprimer", action: handleDeleteRes }
+                        { name: "Supprimer", action: handleDeleteRes },
+                        { name: "Exporter Contrat", action: (id) => HandleContrat(id) }
                       ]}
                     />
                   </div>

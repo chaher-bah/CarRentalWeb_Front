@@ -29,12 +29,7 @@ const Models = () => {
     try {
       const response = await axios.get("http://localhost:2020/locationvoiture/v1/cars");
       const carsData = Array.isArray(response.data) ? response.data : [];
-      // const carsWithImages = await Promise.all(carsData.map(async car => {
-      //   if (car.imageUrls && car.imageUrls.length > 0) {
-      //     return { ...car, imageUrls: `http://localhost:2020/locationvoiture/v1/cars/${car.id}/images/0` };
-      //   }
-      //   return car;
-      // }));
+
       setCars(carsData);
     } catch (error) { 
       console.error("Failed to load cars:", error);
@@ -125,7 +120,7 @@ const Models = () => {
                 inset: '50px 16px 16px 12px'
             }} />
         <TemplatePage name="Vehicle Models" />
-        <div className="container">
+        <div className="cars-container">
           <div className="models-div">
             {cars.length > 0 ? (
               cars.map((car, index) => (
