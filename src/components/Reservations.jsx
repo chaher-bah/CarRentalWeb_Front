@@ -332,7 +332,7 @@ const HandleContrat = async (reservationId) => {
     const formatTime = (date) => date.toTimeString().split(' ')[0];
     // Define the template variables with reservation data
     const data = {
-      logo:'logo',
+      // logo:'logo',
       marque: `${reservation.car.marque}-${reservation.car.modele}`,
       resId: reservation.id,
       HD: formatTime(startDate),

@@ -66,10 +66,15 @@
     display: flex;
     gap: 2.5rem;
     margin: 10px;
+    
+    align-items: center;
+  }
+  .navbar__buttons button{
+    border: none;
+    text-transform: uppercase;
     font-size: 1.6rem;
     font-family: "Roboto", sans-serif;
     font-weight: 600;
-    align-items: center;
   }
   
 @media (max-width: 1000px) {
@@ -98,6 +103,7 @@
     color: #010103;
     cursor: pointer;
     transition: all 0.3s;
+    background-color: transparent;
   }
   
   .navbar__buttons__sign-in:hover {
@@ -112,10 +118,25 @@
     box-shadow: 0 10px 15px 0 #fb6c2f6b;
     transition: all 0.3s;
   }
+  .navbar__buttons__logout{
+    background-color: #fb6b2f;
+    color: rgb(12, 11, 11);
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 1.5rem 3rem;
+    border-radius: 4px;
+    box-shadow: 0 10px 15px 0 #fb6c2f6b;
+    transition: all 0.3s;
+  }
   
   .navbar__buttons__register:hover {
     box-shadow: 0 10px 15px 0 #f5662993;
     background-color: #f86526;
+  }
+  .navbar__buttons__logout:hover {
+    box-shadow: 0 10px 15px 0 #f5662993;
+    background-color: #f86526;
+    cursor: pointer;
   }
   
   .navbar__buttons a {

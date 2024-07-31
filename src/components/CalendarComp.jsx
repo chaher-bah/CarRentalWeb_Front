@@ -40,9 +40,10 @@ const CalendarComp = () => {
   }, []);
 
   console.log(events)
+  const formatDate = (date) => date.toISOString().split('T')[0];
 
   const handleEventClick = (info) => {
-    alert(`Reservation ID:  ${info.event.id} \n Status:  ${info.event.extendedProps.status} \n Date Fin:  ${info.event.extendedProps.fin} \n Client:  ${info.event.extendedProps.client}`);
+    alert(`Reservation ID:  ${info.event.id} \n Status:  ${info.event.extendedProps.status} \n Date Fin:  ${formatDate(new Date(info.event.extendedProps.fin))} \n Client:  ${info.event.extendedProps.client}`);
   };
 
   const renderEventContent = (eventInfo) => {
