@@ -83,17 +83,23 @@
   }
   .mobile-navbar__buttons{
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 3.5rem;
     font-family: "Roboto", sans-serif;
     margin: 5rem;
     font-weight: 600;
     font-size: 1.5rem;
   }
-  .mobile-navbar__buttons > a{
-    text-decoration: none;
+  .mobile-navbar__buttons button{
+    border: none;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
   }
+
   .navbar__img img{
     width: 9rem;
   }
@@ -104,6 +110,16 @@
     cursor: pointer;
     transition: all 0.3s;
     background-color: transparent;
+  }
+  .navbar__buttons__admin{
+    color: #010103;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: transparent;
+  }
+  .navbar__buttons__admin:hover{
+    color: #fb6b2f;
+
   }
   
   .navbar__buttons__sign-in:hover {

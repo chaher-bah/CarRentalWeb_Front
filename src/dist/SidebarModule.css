@@ -32,6 +32,17 @@ aside{
     background-clip: content-box;
     margin: 13px;
 }
+.sidebar__links span{
+    font-size: 2rem;
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    color: #010103;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-clip: content-box;
+    margin: 13px;
+}
 .sidebar__links a:hover{
     color: #401a01;
 }

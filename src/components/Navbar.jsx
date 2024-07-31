@@ -1,16 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Logo from "../images/logo/logo.png";
 import { useState, useEffect } from "react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
-import { initKeycloak, doLogin, doLogout, isAuthenticated } from "../Auth/KeycloakService.js";
-
+import { initKeycloak, doLogin, doLogout, isAuthenticated,keycloak } from "../Auth/KeycloakService.js";
+import {handleAccountManagement} from'../components/Sidebar.jsx';
 function Navbar() {
   const [nav, setNav] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
+  const [hasAdminRole, setHasAdminRole] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     initKeycloak(() => {
       setAuthenticated(isAuthenticated());
+      if (isAuthenticated()) {
+        setHasAdminRole(keycloak.hasRealmRole('adminRole'));
+      }
     });
   }, []);
 
@@ -24,6 +29,9 @@ function Navbar() {
 
   const handleLogout = () => {
     doLogout();
+  };
+  const handleAdminClick = () => {
+    navigate('/admin');
   };
 
   return (
@@ -58,9 +66,22 @@ function Navbar() {
           </ul>
           <div className="mobile-navbar__buttons">
             {authenticated ? (
+              <>
               <button className="navbar__buttons__logout" onClick={handleLogout}>
                 Logout
               </button>
+              {hasAdminRole ? (
+                <button className="navbar__buttons__admin" onClick={handleAdminClick}>
+                  Admin Dash
+                </button>
+              ):
+              (
+                <button className="navbar__buttons__admin" onClick={handleAccountManagement}>
+                  Profile Client
+                </button>
+              )}
+              
+              </>
             ) : (
               <>
                 <button className="navbar__buttons__sign-in" onClick={handleLogin}>
@@ -105,9 +126,20 @@ function Navbar() {
           </ul>
           <div className="navbar__buttons">
             {authenticated ? (
+              <>
               <button className="navbar__buttons__logout" onClick={handleLogout}>
                 Logout
               </button>
+              {hasAdminRole ? (
+                <button className="navbar__buttons__admin" onClick={handleAdminClick}>
+                  Admin Dash
+                </button>
+              ):(
+                <button className="navbar__buttons__admin" onClick={handleAccountManagement}>
+                  Profile Client
+                </button>
+              )}
+            </>
             ) : (
               <>
                 <button className="navbar__buttons__sign-in" onClick={handleLogin}>

@@ -2,11 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { IconLayoutDashboard, IconUsers, IconCar, IconSettingsCog, IconWritingSign,IconCalendarMonth } from "@tabler/icons-react";
 import { Link, useLocation,useNavigate } from 'react-router-dom';
 import "../dist/SidebarModule.css";
-
+import { keycloak } from '../Auth/KeycloakService';
+import toast from 'react-hot-toast';
+export const handleAccountManagement = () => {
+    if (keycloak && keycloak.authenticated) {
+      window.location.href = keycloak.createAccountUrl();
+    } else {
+      console.error('User is not authenticated or Keycloak is not initialized');
+      toast.error("Erreur lors de l'accees au compte ", {
+        style: {
+          fontSize: '2rem',
+          fontWeight: '700',
+          fontFamily: 'Roboto,sansSerif',
+          border: '2px solid red'
+        },
+        duration: 7000
+      });
+    }
+};
 const Sidebar = () => {
     const location = useLocation();
     const [activeLink, setActiveLink] = useState(location.pathname);
     const navigate =useNavigate();
+    
     useEffect(() => {
         setActiveLink(location.pathname);
     }, [location]);
@@ -31,8 +49,8 @@ const Sidebar = () => {
                     <li className={`item ${activeLink === '/admin/cars' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/cars")}>
                         <Link className='cars-link' to="/admin/cars"><IconCar className='icon'/>Voitures</Link>
                     </li>
-                    <li className={`item ${activeLink === '/' ? 'active' : ''}`} onClick={()=>handleNavigation("/")}>
-                        <Link className='manage-link' to="/"/*to change to keycloak account mangment*/ ><IconSettingsCog/>Manage-Account</Link>
+                    <li className={`item ${activeLink === '/' ? 'active' : ''}`} onClick={handleAccountManagement}>
+                        <span className='manage-link' /*to change to keycloak account mangment*/ ><IconSettingsCog/>Manage-Account</span>
                     </li>
                 </ul>
             </aside>
