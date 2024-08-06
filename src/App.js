@@ -14,7 +14,6 @@ const Admin = lazy(() => import("./Pages/Admin"));
 
 function App() {
   console.log(keycloak)
-  console.log(keycloak.hasRealmRole('adminRole'))
   const location = useLocation();
   const [showNavbar, setShowNavbar] = useState(true);
   
