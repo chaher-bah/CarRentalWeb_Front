@@ -8,6 +8,7 @@ import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 import ImageModule from 'docxtemplater-image-module-free';
 import logoPath from '../images/logo/logo.png'; 
+import{BASE_URL} from '../Const/API_url.json'
 
 import { saveAs } from 'file-saver';
 
@@ -35,7 +36,7 @@ const Reservation = () => {
   // Function to load reservations from the API
   const loadReservations = async () => {
     try {
-      const response = await axios.get("http://localhost:2020/locationvoiture/v1/reservation");
+      const response = await axios.get(BASE_URL+"reservation");
       const data = response.data;
       console.log(response)
       const statusCounts = data.reduce((acc, reservation) => {
@@ -107,11 +108,11 @@ const Reservation = () => {
       }
     };
      if (selectedRes){
-      const response=await axios.put(`http://localhost:2020/locationvoiture/v1/reservation/update/${selectedRes.id}`,resData)
+      const response=await axios.put(BASE_URL+`reservation/update/${selectedRes.id}`,resData)
       console.log(resData)
      setReservations(prevRes => prevRes.map(Reservation => Reservation.id === selectedRes.id ? response.data : Reservation));
     }else{
-      const response = await axios.post("http://localhost:2020/locationvoiture/v1/reservation/ajouter", resData);
+      const response = await axios.post(BASE_URL+"reservation/ajouter", resData);
       setReservations(prevReservations=>[...prevReservations,response.data])
     }
       toast.success(`Les donnes de Reservation ${formMode} avec success.`, {
@@ -140,7 +141,7 @@ const Reservation = () => {
   //handeling the search
   const handleSearchRes = async () => {
     try {
-      const response = await axios.get(`http://localhost:2020/locationvoiture/v1/reservation/${searchTerm}`);
+      const response = await axios.get(BASE_URL+`reservation/${searchTerm}`);
       const data = response.data;
       setReservations([data]);
       setSearchTerm('')
@@ -212,7 +213,7 @@ const Reservation = () => {
   const handleOperation = async (id, newStatus) => {
     try {
       let res=window.confirm(`Chnager la Status du Reservation avec ID ${id}???`)
-      if (res){const response = await axios.patch(`http://localhost:2020/locationvoiture/v1/reservation/status/${id}`, { status: newStatus });
+      if (res){const response = await axios.patch(BASE_URL+`reservation/status/${id}`, { status: newStatus });
       if (response.status === 200) {
         loadReservations(); // Reload reservations to reflect changes
         toast.success(`La status du reservation ${id} est changer a ${newStatus}`, {
@@ -262,7 +263,7 @@ const Reservation = () => {
     try {
       const answer = window.confirm(`Voulais-Vous supprimer la Reservation avec l'id ${id}`);
       if (answer) {
-          await axios.delete(`http://localhost:2020/locationvoiture/v1/reservation/${id}`);
+          await axios.delete(BASE_URL+`reservation/${id}`);
           setReservations(prevRes => prevRes.filter(res => res.id !== id));
           toast.success("Reservation supprimé avec succès", {
               style: {
@@ -292,7 +293,7 @@ const Reservation = () => {
 const HandleContrat = async (reservationId) => {
   try {
     // Fetch reservation details from the API
-    const reservationResponse = await axios.get(`http://localhost:2020/locationvoiture/v1/reservation/${reservationId}`);
+    const reservationResponse = await axios.get(BASE_URL+`reservation/${reservationId}`);
     const reservation = reservationResponse.data;
 
     // Load the DOCX file as binary content

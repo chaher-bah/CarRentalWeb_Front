@@ -5,6 +5,8 @@ import Card from "../components/Card";
 import "../dist/DashboardModule.css";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import{BASE_URL} from '../Const/API_url.json'
+
 
 const Dashboard = () => {
   const [data, setData] = useState({
@@ -24,7 +26,7 @@ const Dashboard = () => {
 
   const loadStat = async () => {
     try {
-      const result = await axios.get('http://localhost:2020/locationvoiture/v1/dash');
+      const result = await axios.get(BASE_URL+'dash');
       setData(result.data);
     } catch (error) {
       console.error('Error loading dashboard data:', error);
@@ -33,7 +35,7 @@ const Dashboard = () => {
 
   const loadCars = async () => {
     try {
-      const response = await axios.get("http://localhost:2020/locationvoiture/v1/admin/cars");
+      const response = await axios.get(BASE_URL+"admin/cars");
       const cars = response.data;
 
       const assuranceExp = [];

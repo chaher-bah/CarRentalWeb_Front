@@ -6,6 +6,8 @@ import "../dist/ClientsModule.css";
 import InfoTable from './InfoTable';
 import toast, { Toaster } from 'react-hot-toast';
 import ClientsBg from '../components/ClientsBg';
+import{BASE_URL} from '../Const/API_url.json'
+
 const Form=lazy(()=>import('../components/Form'));
 
 const Clients = () => {
@@ -21,14 +23,14 @@ const Clients = () => {
     // Fetch clients from the API wuth Reservations
     const loadClients = async() => {
         try {
-            const response = await axios.get("http://localhost:2020/locationvoiture/v1/client");
+            const response = await axios.get(BASE_URL+"client");
             const clientsData = response.data;
             setClients(clientsData);
             console.log(response)
 
             // Fetch reservations for each client
             const clientsWithReservations = await Promise.all(clientsData.map(async client => {
-                const reservationsResponse = await axios.get(`http://localhost:2020/locationvoiture/v1/client/${client.id}/reservation`);
+                const reservationsResponse = await axios.get(BASE_URL+`client/${client.id}/reservation`);
                 return { ...client, reservations: reservationsResponse.data };
             }));
 
@@ -73,11 +75,11 @@ const Clients = () => {
     const searchClients = async () => {
         let url;
         if (fieldSearchedBy === 'Num de CIN') {
-            url = `http://localhost:2020/locationvoiture/v1/client/cin/${searchTerm}`;
+            url = BASE_URL+`client/cin/${searchTerm}`;
         } else if (fieldSearchedBy === 'Email') {
-            url = `http://localhost:2020/locationvoiture/v1/client/email/${searchTerm}`;
+            url = BASE_URL+`client/email/${searchTerm}`;
         } else if (fieldSearchedBy === 'Nom et/ou Prénom') {
-            url = `http://localhost:2020/locationvoiture/v1/client/nom_prenom?nom=${searchTerm}&prenom=${searchTerm}`;
+            url = BASE_URL+`client/nom_prenom?nom=${searchTerm}&prenom=${searchTerm}`;
         }
         try {
             const response = await axios.get(url);
@@ -143,7 +145,7 @@ const Clients = () => {
         try {
             const answer = window.confirm(`Voulais-Vous supprimer le Client avec l'id ${id}`);
             if (answer) {
-                await axios.delete(`http://localhost:2020/locationvoiture/v1/client/${id}`);
+                await axios.delete(BASE_URL+`client/${id}`);
                 setClients(prevClients => prevClients.filter(client => client.id !== id));
                 toast.success("Client supprimé avec succès", {
                     style: {
@@ -213,12 +215,12 @@ const Clients = () => {
     }
     let response;
       if (selectedClient){
-        response=await axios.put(`http://localhost:2020/locationvoiture/v1/client/update/${selectedClient.id}`,formDataApi,{
+        response=await axios.put(BASE_URL+`client/update/${selectedClient.id}`,formDataApi,{
             headers:{
               'Content-Type':'multipart/form-data'}});
       setClients(prevClient => prevClient.map(client => client.id === selectedClient.id ? response.data : client));
      }else{
-        const response = await axios.post("http://localhost:2020/locationvoiture/v1/client/ajouter", formDataApi,{
+        const response = await axios.post(BASE_URL+"client/ajouter", formDataApi,{
         headers:{
             'Content-Type':'multipart/form-data'}});
        setClients(prevClient=>[...prevClient,response.data])

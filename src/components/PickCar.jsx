@@ -3,6 +3,8 @@ import axios from "axios";
 import { IconSparkles } from "@tabler/icons-react";
 import Page404 from "../Pages/Page404";
 import "../dist/PickCarModule.css";
+import{BASE_URL} from '../Const/API_url.json'
+
 import { Link } from "react-router-dom";
 const CarBox = lazy(() => import("./CarBox"));
 
@@ -15,7 +17,7 @@ function PickCar() {
   useEffect(() => {
     const fetchCarData = async () => {
       try {
-        const response = await axios.get("http://localhost:2020/locationvoiture/v1/cars");
+        const response = await axios.get(BASE_URL+"cars");
         const carsData = response.data;
         setCarData(carsData);
         setLoading(false);

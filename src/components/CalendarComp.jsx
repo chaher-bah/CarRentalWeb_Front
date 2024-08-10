@@ -4,6 +4,7 @@ import multiMonthPlugin from '@fullcalendar/multimonth';
 import dayGridPlugin from '@fullcalendar/daygrid'
 import axios from 'axios';
 import '../dist/CalendarModule.css';
+import{BASE_URL} from '../Const/API_url.json'
 
 const CalendarComp = () => {
   const [events, setEvents] = useState([]);
@@ -11,7 +12,7 @@ const CalendarComp = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        const response = await axios.get('http://localhost:2020/locationvoiture/v1/reservation');
+        const response = await axios.get(BASE_URL+'reservation');
         const reservations = response.data;
 
         // Filter and format reservations

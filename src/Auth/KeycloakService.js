@@ -1,6 +1,6 @@
 import Keycloak from 'keycloak-js';
 import axios from 'axios';
-
+import {BASE_URL}from '../Const/API_url.json'
 const keycloak = new Keycloak({
     url: 'http://localhost:8080',
     realm: 'LocationVoitures',
@@ -37,12 +37,12 @@ const sendUserDataToBackend = async () => {
         };
 
         // Check if client already exists in the database
-        const response = await axios.get(`http://localhost:2020/locationvoiture/v1/client/check?email=${clientData.email}`);
+        const response = await axios.get(BASE_URL+`client/check?email=${clientData.email}`);
         if (!response.data.exists) {
             // Client does not exist, save new client data
             const formDataApi = new FormData();
             formDataApi.append('client', JSON.stringify(clientData));
-            await axios.post('http://localhost:2020/locationvoiture/v1/client/ajouter', formDataApi, {
+            await axios.post(BASE_URL+'client/ajouter', formDataApi, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

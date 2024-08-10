@@ -5,6 +5,7 @@ import { IconCar, IconX } from "@tabler/icons-react";
 import { IconCalendarEvent } from "@tabler/icons-react";
 import "../dist/PreBookingModule.css"
 import { Toaster, toast } from "react-hot-toast";
+import{BASE_URL} from '../Const/API_url.json'
 const ReservationModal = lazy(() => import('./ReservationModal'));
 
 function BookCar() {
@@ -30,7 +31,7 @@ function BookCar() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const response = await axios.get("http://localhost:2020/locationvoiture/v1/cars/disponibilite=true");
+        const response = await axios.get(BASE_URL+"cars/disponibilite=true");
         setCarOptions(response.data);
       } catch (error) {
         toast.error(`Erreur lors de la recherche`, {
@@ -103,7 +104,7 @@ function BookCar() {
       car: { id: selectedCar.id }
     };
     try {
-      const response = await axios.post("http://localhost:2020/locationvoiture/v1/reservation/ajouter", reservationData);
+      const response = await axios.post(BASE_URL+"reservation/ajouter", reservationData);
       toast.success("Réservation réussie!", {
         style: {
           fontSize: '2rem',

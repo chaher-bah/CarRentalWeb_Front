@@ -5,6 +5,8 @@ import CarsBg from '../components/CarsBg'
 import axios from "axios";
 import toast,{Toaster} from 'react-hot-toast';
 import {IconAlertTriangle,IconInfoCircleFilled} from '@tabler/icons-react';
+import{BASE_URL} from '../Const/API_url.json'
+
 export const getDaysDiff=(date)=>{
   const today = new Date();
   const dueDate = new Date(date);
@@ -27,7 +29,7 @@ const Cars = () => {
   //loading cars from  the backend
   const loadCars = async () => {
     try {
-      const response = await axios.get("http://localhost:2020/locationvoiture/v1/admin/cars");
+      const response = await axios.get(BASE_URL+"admin/cars");
       const carsWithTotalCharges = response.data.map(car => ({
         ...car,
         totalCharges: car.charges.reduce((sum, charge) => sum + charge.charge, 0)
@@ -111,14 +113,14 @@ const Cars = () => {
     //adding the modifying logic
     let response;
     if(selectedCar){
-      response=await axios.put(`http://localhost:2020/locationvoiture/v1/cars/update/${selectedCar.id}`,formDataApi,{
+      response=await axios.put(BASE_URL+`cars/update/${selectedCar.id}`,formDataApi,{
         headers:{
           'Content-Type':'multipart/form-data'
         }
       });
       setCars(prevCars => prevCars.map(car => car.id === selectedCar.id ? response.data : car));
     }else{
-      const response = await axios.post('http://localhost:2020/locationvoiture/v1/cars/ajouter', formDataApi, {
+      const response = await axios.post(BASE_URL+'cars/ajouter', formDataApi, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -169,7 +171,7 @@ const Cars = () => {
     try {
         const answer= window.confirm(`Voulais-Vous supprimer la Voiture avec l'id ${id}`)
         if(answer){
-        await axios.delete(`http://localhost:2020/locationvoiture/v1/cars/${id}`);
+        await axios.delete(BASE_URL+`cars/${id}`);
         setCars(prevCars => prevCars.filter(car => car.id !== id));
         toast.success("Voiture supprimé avec succès", {
             style: {
@@ -214,7 +216,7 @@ const Cars = () => {
       label: formData.labelle,
       charge: parseFloat(formData.montant),
     };
-    await axios.patch(`http://localhost:2020/locationvoiture/v1/cars/${selectedCar.id}/charge`, [newCharge]);
+    await axios.patch(BASE_URL+`cars/${selectedCar.id}/charge`, [newCharge]);
 
     setCharges(prevCharges => [...prevCharges, newCharge]);
     setShowChargeForm(false);
@@ -254,7 +256,7 @@ const Cars = () => {
     try {
       let res=window.confirm("Voulais-Vous supprimer Cette Charge")
       if (res){
-      await axios.delete(`http://localhost:2020/locationvoiture/v1/cars/${selectedCar.id}/charge/${chargeId}`);
+      await axios.delete(BASE_URL+`cars/${selectedCar.id}/charge/${chargeId}`);
 
       // Remove charge from local state
       setCharges(prevCharges => prevCharges.filter(charge => charge.id !== chargeId));

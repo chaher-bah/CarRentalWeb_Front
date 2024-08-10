@@ -12,6 +12,8 @@ import Footer from "../components/Footer";
 import ReservationModal from '../components/ReservationModal';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import{BASE_URL} from '../Const/API_url.json'
+
 const Models = () => {
   const [cars, setCars] = useState([]);
   const [modal, setModal] = useState(false);
@@ -27,7 +29,7 @@ const Models = () => {
 
   const loadCars = async () => {
     try {
-      const response = await axios.get("http://localhost:2020/locationvoiture/v1/cars");
+      const response = await axios.get(BASE_URL+"cars");
       const carsData = Array.isArray(response.data) ? response.data : [];
 
       setCars(carsData);
@@ -73,7 +75,7 @@ const Models = () => {
     };
 
     try {
-      await axios.post('http://localhost:2020/locationvoiture/v1/reservation/ajouter', reservationData);
+      await axios.post(BASE_URL+'reservation/ajouter', reservationData);
       toast.success("Réservation réussie!", {
         style: {
           fontSize: '2rem',

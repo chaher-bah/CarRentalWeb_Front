@@ -3,6 +3,8 @@ import { Carousel } from 'react-responsive-carousel';
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import{BASE_URL} from '../Const/API_url.json'
+
 const ReservationModal = lazy(() => import('./ReservationModal'));
 
 function CarBox({ car }) {
@@ -42,7 +44,7 @@ function CarBox({ car }) {
       car: { id: car.id }
     };
     try {
-      const response = await axios.post("http://localhost:2020/locationvoiture/v1/reservation/ajouter", reservationData);
+      const response = await axios.post(BASE_URL+"reservation/ajouter", reservationData);
       toast.success("Réservation réussie!", {
         style: {
           fontSize: '2rem',

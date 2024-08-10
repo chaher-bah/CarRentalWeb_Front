@@ -6,6 +6,7 @@ import PhonBanner from "../components/PhoneBanner";
 import TemplatePage from "../components/TemplatePage";
 import axios from 'axios';
 import "../dist/ContactModule.css";
+import{BASE_URL} from '../Const/API_url.json'
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:2020/locationvoiture/v1/contact', formData);
+      await axios.post(BASE_URL+'contact', formData);
       alert('Votre message a été envoyé avec succès!');
     } catch (error) {
       console.error('Error sending message:', error);
