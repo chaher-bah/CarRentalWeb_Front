@@ -12,7 +12,7 @@ import Footer from "../components/Footer";
 import ReservationModal from '../components/ReservationModal';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import{BASE_URL} from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 
 const Models = () => {
   const [cars, setCars] = useState([]);

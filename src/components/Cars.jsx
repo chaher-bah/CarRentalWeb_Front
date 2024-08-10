@@ -5,7 +5,7 @@ import CarsBg from '../components/CarsBg'
 import axios from "axios";
 import toast,{Toaster} from 'react-hot-toast';
 import {IconAlertTriangle,IconInfoCircleFilled} from '@tabler/icons-react';
-import{BASE_URL} from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 
 export const getDaysDiff=(date)=>{
   const today = new Date();

@@ -1,6 +1,6 @@
 import Keycloak from 'keycloak-js';
 import axios from 'axios';
-import {BASE_URL}from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 const keycloak = new Keycloak({
     url: 'http://localhost:8080',
     realm: 'LocationVoitures',

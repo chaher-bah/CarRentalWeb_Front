@@ -3,7 +3,7 @@ import axios from "axios";
 import { IconSparkles } from "@tabler/icons-react";
 import Page404 from "../Pages/Page404";
 import "../dist/PickCarModule.css";
-import{BASE_URL} from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 
 import { Link } from "react-router-dom";
 const CarBox = lazy(() => import("./CarBox"));

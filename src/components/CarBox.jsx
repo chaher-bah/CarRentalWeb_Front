@@ -3,7 +3,7 @@ import { Carousel } from 'react-responsive-carousel';
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import{BASE_URL} from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 
 const ReservationModal = lazy(() => import('./ReservationModal'));
 

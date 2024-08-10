@@ -5,7 +5,7 @@ import { IconCar, IconX } from "@tabler/icons-react";
 import { IconCalendarEvent } from "@tabler/icons-react";
 import "../dist/PreBookingModule.css"
 import { Toaster, toast } from "react-hot-toast";
-import{BASE_URL} from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 const ReservationModal = lazy(() => import('./ReservationModal'));
 
 function BookCar() {

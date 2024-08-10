@@ -6,7 +6,7 @@ import "../dist/ClientsModule.css";
 import InfoTable from './InfoTable';
 import toast, { Toaster } from 'react-hot-toast';
 import ClientsBg from '../components/ClientsBg';
-import{BASE_URL} from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 
 const Form=lazy(()=>import('../components/Form'));
 

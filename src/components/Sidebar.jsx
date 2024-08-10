@@ -6,7 +6,7 @@ import { keycloak } from '../Auth/KeycloakService';
 import toast from 'react-hot-toast';
 export const handleAccountManagement = () => {
     if (keycloak && keycloak.authenticated) {
-      window.location.href = keycloak.createAccountUrl();
+        window.open(keycloak.createAccountUrl(), '_blank');
     } else {
       console.error('User is not authenticated or Keycloak is not initialized');
       toast.error("Erreur lors de l'accees au compte ", {
@@ -74,8 +74,8 @@ const Sidebar = () => {
                 <li className={`item ${activeLink === '/admin/cars' ? 'active' : ''}`} onClick={()=>handleNavigation("/admin/cars")}>
                     <Link className='cars-link' to="/admin/cars"><IconCar className='icon'/></Link>
                 </li>
-                <li className={`item ${activeLink === '/' ? 'active' : ''}`} onClick={()=>handleNavigation("/")}>
-                    <Link className='manage-link' to="/"/*to change to keycloak account mangment*/ ><IconSettingsCog/></Link>
+                <li className={`item ${activeLink === '/' ? 'active' : ''}`} onClick={handleAccountManagement}>
+                    <span className='manage-link' /*to change to keycloak account mangment*/ ><IconSettingsCog/>Manage-Account</span>
                 </li>
             </ul>
         </div>

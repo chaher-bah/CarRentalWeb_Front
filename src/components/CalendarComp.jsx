@@ -4,7 +4,7 @@ import multiMonthPlugin from '@fullcalendar/multimonth';
 import dayGridPlugin from '@fullcalendar/daygrid'
 import axios from 'axios';
 import '../dist/CalendarModule.css';
-import{BASE_URL} from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 
 const CalendarComp = () => {
   const [events, setEvents] = useState([]);

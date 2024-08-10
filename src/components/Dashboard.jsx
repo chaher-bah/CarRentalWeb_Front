@@ -5,7 +5,7 @@ import Card from "../components/Card";
 import "../dist/DashboardModule.css";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import{BASE_URL} from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 
 
 const Dashboard = () => {

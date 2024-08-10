@@ -6,7 +6,7 @@ import PhonBanner from "../components/PhoneBanner";
 import TemplatePage from "../components/TemplatePage";
 import axios from 'axios';
 import "../dist/ContactModule.css";
-import{BASE_URL} from '../Const/API_url.json'
+import{BASE_URL} from '../Const/API_url.js'
 
 function Contact() {
   const [formData, setFormData] = useState({
